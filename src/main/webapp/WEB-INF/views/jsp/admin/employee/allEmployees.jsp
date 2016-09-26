@@ -51,7 +51,7 @@
             <th><input type="text" id="inputPhone" onkeyup="myFunction('inputPhone', 4)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputSalary" onkeyup="myFunction('inputSalary', 5)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputPosition" onkeyup="myFunction('inputPosition', 6)" placeholder="Search.." title="Type in a name"></th>
-            <th colspan="2"><button id="newEmployee"class="btn btn-success" onclick="location.href='/addEmployee'">Add new employee</button></th>
+            <th colspan="2"><button id="newEmployee"class="btn btn-success" onclick="location.href='/admin/addEmployee'">Add new employee</button></th>
         </tr>
         </thead>
         <tbody>
@@ -65,11 +65,11 @@
                 <td>${employee.salary}</td>
                 <td>${employee.position.name}</td>
                 <td>
-                    <spring:url value="/employee/${employee.id}/update" var="updateUrl" />
+                    <spring:url value="/admin/employee/${employee.id}/update" var="updateUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
                 </td>
                 <td>
-                    <spring:url value="/employee/${employee.id}/delete" var="deleteUrl" />
+                    <spring:url value="/admin/employee/${employee.id}/delete" var="deleteUrl" />
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>
             </tr>

@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/warehouseStructure"
+        window.location = "/admin/warehouseStructure"
     }
 </script>
 <div class="container">
@@ -30,7 +30,7 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/saveOrUpdateWarehouse" modelAttribute="warehouse" method="POST" class="form-horizontal">
+    <form:form action="/admin/saveOrUpdateWarehouse" modelAttribute="warehouse" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 

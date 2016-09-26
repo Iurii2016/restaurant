@@ -61,12 +61,12 @@ public class OrderController {
         binder.registerCustomEditor(Date.class, "date", new CustomDateEditor(sdf, true));
     }
 
-    @RequestMapping(value = "/ordersStructure", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/ordersStructure", method = RequestMethod.GET)
     public String ordersStructure() {
         return "redirect:getAllOrders";
     }
 
-    @RequestMapping(value = "/getAllOrders", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/getAllOrders", method = RequestMethod.GET)
     public String getAllOrders(Model model) {
         model.addAttribute("ListOfOrders", ordersDaoService.getAllOrders());
         return "admin/order/allOrders";

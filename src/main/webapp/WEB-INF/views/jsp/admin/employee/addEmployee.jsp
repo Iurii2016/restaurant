@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/employeeStructure"
+        window.location = "/admin/employeeStructure"
     }
 </script>
 <div class="container">
@@ -28,7 +28,7 @@
             <h2>Update Employee</h2>
         </c:otherwise>
     </c:choose>
-    <form:form action="/addOrUpdateEmployee" modelAttribute="employee" method="POST" class="form-horizontal">
+    <form:form action="/admin/addOrUpdateEmployee" modelAttribute="employee" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -88,7 +88,6 @@
                 <label class="col-sm-2 control-label">Position:</label>
                 <div class="col-sm-10">
                     <form:select  path="position">
-                        <%--<form:option value="NONE"> --SELECT--</form:option>--%>
                         <form:options items="${ListOfEmployee}" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
                     <form:errors path="position" cssClass="error" />

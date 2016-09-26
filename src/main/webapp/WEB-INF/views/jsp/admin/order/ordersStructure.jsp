@@ -8,17 +8,17 @@
 <body>
 <div class="container">
     <h2>Select operation:</h2>
-    <p><a href="/addOrder">Add new order</a></p>
-    <p><a href="/getAllOrders">All orders</a></p>
-    <p><a href="/getOpenedOrders">Get opened orders</a></p>
-    <p><a href="/getClosedOrders">Get closed orders</a></p>
-    <form action="/setClosedStatus/" method="get">
+    <p><a href="/admin/addOrder">Add new order</a></p>
+    <p><a href="/admin/getAllOrders">All orders</a></p>
+    <p><a href="/admin/getOpenedOrders">Get opened orders</a></p>
+    <p><a href="/admin/getClosedOrders">Get closed orders</a></p>
+    <form action="/admin/setClosedStatus/" method="get">
         <p>
             Enter order ID: <input name="setClosedStatus" type="text" size="40">
             <input type="submit" class="btn btn-info" value="Set closed status">
         </p>
     </form>
-    <form action="/deleteOpenedOrder/" method="get">
+    <form action="/admin/deleteOpenedOrder/" method="get">
         <p>
             Enter order ID: <input name="deleteOpenedOrder" type="text" size="40">
             <input type="submit" class="btn btn-danger" value="Delete opened order">

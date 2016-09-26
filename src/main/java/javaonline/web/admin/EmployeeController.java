@@ -52,21 +52,21 @@ public class EmployeeController {
         this.IPositionDao = IPositionDao;
     }
 
-    @RequestMapping(value = "/allEmployees", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/allEmployees", method = RequestMethod.GET)
     public String allEmployees(Model model) {
         model.addAttribute("ListOfEmployee", employeeService.getAllEmployees());
         model.addAttribute("position", "all");
         return "admin/employee/allEmployees";
     }
 
-    @RequestMapping(value = "/addEmployee", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addEmployee", method = RequestMethod.GET)
     public String addEmployee(Model model) {
         model.addAttribute("employee", new Employee());
         model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
         return "admin/employee/addEmployee";
     }
 
-    @RequestMapping(value = "/addOrUpdateEmployee", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addOrUpdateEmployee", method = RequestMethod.POST)
     public String saveOrUpdateEmployee(@ModelAttribute("employee") Employee employee,
                                     BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 
@@ -134,10 +134,10 @@ public class EmployeeController {
             }else {employeeService.updateEmployee(employee);}
             model.addAttribute("message", "Employee " + employee.getName() + " was added");
         }
-        return "redirect:/allEmployees";
+        return "redirect:/admin/allEmployees";
     }
 
-    @RequestMapping(value = "/employee/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/employee/{id}/update", method = RequestMethod.GET)
     public String showUpdateUserForm(@PathVariable("id") int id, Model model) {
         Employee employee = employeeService.getEmployeeById(id);
         model.addAttribute("employee", employee);
@@ -145,12 +145,12 @@ public class EmployeeController {
         return "admin/employee/addEmployee";
     }
 
-    @RequestMapping(value = "/employee/{id}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/employee/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
         Employee employee = employeeService.getEmployeeById(id);
         employeeService.deleteEmployee(employee);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Employee is deleted!");
-        return "redirect:/allEmployees";
+        return "redirect:/admin/allEmployees";
     }
 }

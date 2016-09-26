@@ -15,7 +15,7 @@
 </script>
 <div class="container">
     <h2>Add new order</h2>
-    <form:form action="/addNewOrder" commandName="newOrder" method="POST" class="form-horizontal">
+    <form:form action="/admin/addNewOrder" commandName="newOrder" method="POST" class="form-horizontal">
 
         <spring:bind path="employeeId">
             <div class="form-group">

@@ -55,8 +55,8 @@
                 <td>${warehouse.quantity}</td>
                 <td>${warehouse.unit}</td>
                 <td>
-                    <spring:url value="/warehouse/${warehouse.id}/update" var="updateUrl" />
-                    <spring:url value="/warehouse/${warehouse.ingredientId.ingredient}/delete" var="deleteUrl" />
+                    <spring:url value="/admin/warehouse/${warehouse.id}/update" var="updateUrl" />
+                    <spring:url value="/admin/warehouse/${warehouse.ingredientId.ingredient}/delete" var="deleteUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>

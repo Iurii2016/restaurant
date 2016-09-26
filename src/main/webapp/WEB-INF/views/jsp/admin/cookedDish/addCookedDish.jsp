@@ -10,12 +10,12 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/cookedDishStructure"
+        window.location = "/admin/cookedDishStructure"
     }
 </script>
 <div class="container">
     <h2>Add new cooked dish</h2>
-    <form:form action="/addNewCookedDish" commandName="newCookedDish" method="POST" class="form-horizontal">
+    <form:form action="/admin/addNewCookedDish" commandName="newCookedDish" method="POST" class="form-horizontal">
 
         <spring:bind path="dishId">
             <div class="form-group">

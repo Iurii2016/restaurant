@@ -52,27 +52,20 @@ public class WarehouseController {
                 setValue(IIngredientDao.getIngredientByName(text));
             }
         });
-//        binder.registerCustomEditor(Unit.class, "Unit", new PropertyEditorSupport() {
-//            @Override
-//            public void setAsText(String text) {
-//                setValue(null);
-//            }
-//        });
-
     }
 
-    @RequestMapping(value = "/warehouseStructure", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/warehouseStructure", method = RequestMethod.GET)
     public String warehouseStructure() {
         return "admin/warehouse/warehouseStructure";
     }
 
-    @RequestMapping(value = "/getWarehouseBalance", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/getWarehouseBalance", method = RequestMethod.GET)
     public String getWarehouseBalance(Model model) {
         model.addAttribute("warehouseBalance", warehouseService.getWarehouseBalance());
         return "admin/warehouse/warehouseBalance";
     }
 
-    @RequestMapping(value = "/addWarehouse", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addWarehouse", method = RequestMethod.GET)
     public String saveOrUpdateWarehouse(Model model) {
         model.addAttribute("warehouse", new Warehouse());
         model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
@@ -80,7 +73,7 @@ public class WarehouseController {
         return "admin/warehouse/saveOrUpdateWarehouse";
     }
 
-    @RequestMapping(value = "/saveOrUpdateWarehouse", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/saveOrUpdateWarehouse", method = RequestMethod.POST)
     public String newIngredientsIntoWarehouse(@ModelAttribute("warehouse") Warehouse warehouse, BindingResult result,
                                               Model model, final RedirectAttributes redirectAttributes) {
 
@@ -114,10 +107,10 @@ public class WarehouseController {
         }else {
             warehouseService.updateWarehouseBalance(warehouse);
         }
-        return "redirect:/getWarehouseBalance";
+        return "redirect:/admin/getWarehouseBalance";
     }
 
-    @RequestMapping(value = "/warehouse/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/warehouse/{id}/update", method = RequestMethod.GET)
     public String showUpdateUserForm(@PathVariable int id, Model model) {
         Warehouse warehouse = warehouseService.getBalanceByID(id);
         model.addAttribute("warehouse", warehouse);
@@ -126,12 +119,12 @@ public class WarehouseController {
         return "admin/warehouse/saveOrUpdateWarehouse";
     }
 
-    @RequestMapping(value = "/warehouse/{ingredientName}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/warehouse/{ingredientName}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("ingredientName") String ingredientName, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
         warehouseService.deleteIngredientFromWarehouse(ingredientName);
-        return "redirect:/getWarehouseBalance";
+        return "redirect:/admin/getWarehouseBalance";
     }
 
 //    @RequestMapping(value = "/getIngredients", method = RequestMethod.GET)

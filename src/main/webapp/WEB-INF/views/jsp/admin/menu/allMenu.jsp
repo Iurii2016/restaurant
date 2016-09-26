@@ -41,7 +41,7 @@
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputName" onkeyup="myFunction('inputName', 1)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputDish" onkeyup="myFunction('inputDish', 2)" placeholder="Search.." title="Type in a name"></th>
-            <th colspan="2"><button id="newMenu"class="btn btn-success" onclick="location.href='/addMenu'">Add new menu</button></th>
+            <th colspan="2"><button id="newMenu"class="btn btn-success" onclick="location.href='/admin/addMenu'">Add new menu</button></th>
         </tr>
         </thead>
         <tbody>
@@ -51,8 +51,8 @@
                 <td>${menu.menuNameId.name}</td>
                 <td>${menu.dishId.name}</td>
                 <td>
-                    <spring:url value="/menu/${menu.id}/update" var="updateUrl" />
-                    <spring:url value="/menu/${menu.menuNameId.name}/delete" var="deleteUrl" />
+                    <spring:url value="/admin/menu/${menu.id}/update" var="updateUrl" />
+                    <spring:url value="/admin/menu/${menu.menuNameId.name}/delete" var="deleteUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>

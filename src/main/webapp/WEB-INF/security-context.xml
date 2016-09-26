@@ -11,7 +11,7 @@
         <access-denied-handler error-page="/error403"/>
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
-        <intercept-url pattern="/accessdenied" access="permitAll" />
+        <intercept-url pattern="/accessDenied" access="permitAll" />
         <intercept-url pattern="/client/*" access="permitAll" />
         <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
         <form-login
@@ -20,7 +20,7 @@
                 password-parameter="j_password"
                 login-page="/login"
                 default-target-url="/admin/index"
-                authentication-failure-url="/accessdenied"/>
+                authentication-failure-url="/accessDenied"/>
     </http>
 
     <authentication-manager alias="authenticationManager">

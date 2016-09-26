@@ -70,35 +70,35 @@ public class DishController {
         });
     }
 
-    @RequestMapping(value = "/getAllDishes", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/getAllDishes", method = RequestMethod.GET)
     public String dishes(Map<String, Object> model) {
         model.put("ListOfDishes", dishService.getAllDishes());
         return "admin/dish/allDishes";
     }
 
-    @RequestMapping(value = "/addDish", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addDish", method = RequestMethod.GET)
     public String addDish(Model model) {
         model.addAttribute("dish", new Dish());
         model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
         return "admin/dish/addOrUpdateDish";
     }
 
-    @RequestMapping(value = "/dish/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/dish/{id}/update", method = RequestMethod.GET)
     public String updateDish(@PathVariable int id, Model model) {
         model.addAttribute("dish", dishService.getDishById(id));
         model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
         return "admin/dish/addOrUpdateDish";
     }
 
-    @RequestMapping(value = "/dish/{name}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/dish/{name}/delete", method = RequestMethod.GET)
     public String deleteDish(@PathVariable String name, Model model, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Dish is deleted!");
         dishService.deleteDishByName(name);
-        return "redirect:/getAllDishes";
+        return "redirect:/admin/getAllDishes";
     }
 
-    @RequestMapping(value = "/addOrUpdateDish", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addOrUpdateDish", method = RequestMethod.POST)
     public String saveOrUpdateDish(@ModelAttribute("dish") Dish dish, Model model, BindingResult result,
                                    final RedirectAttributes redirectAttributes) {
 
@@ -142,6 +142,6 @@ public class DishController {
         } else {
             dishService.updateDish(dish);
         }
-        return "redirect:getAllDishes";
+        return "redirect:/admin/getAllDishes";
     }
 }

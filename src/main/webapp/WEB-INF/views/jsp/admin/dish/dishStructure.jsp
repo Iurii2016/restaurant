@@ -8,8 +8,8 @@
 <body>
 <div class="container">
     <h2>Select operation:</h2>
-    <p><a href="/addDish">Add dish</a></p>
-    <p><a href="/getAllDishes">Get all dish</a></p>
+    <p><a href="/admin/addDish">Add dish</a></p>
+    <p><a href="/admin/getAllDishes">Get all dish</a></p>
     <%--<p><a href="/addDishIngredient">Add dish ingredients</a></p>--%>
     <%--<p><a href="/getAllDishIngredients">Get all dish ingredients</a></p>--%>
     <%--<form action="/getDishByName/" method="get">--%>

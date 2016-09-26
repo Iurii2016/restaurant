@@ -8,8 +8,8 @@
 <body>
 <div class="container">
     <h2>Select operation:</h2>
-    <p><a href="/addCookedDish">Add cooked dish</a></p>
-    <p><a href="/getCookedDishes">Get all cooked dish</a></p>
+    <p><a href="/admin/addCookedDish">Add cooked dish</a></p>
+    <p><a href="/admin/getCookedDishes">Get all cooked dish</a></p>
 </div>
 </body>
 </html>

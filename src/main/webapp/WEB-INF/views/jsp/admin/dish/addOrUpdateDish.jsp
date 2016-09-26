@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/dishStructure"
+        window.location = "/admin/dishStructure"
     }
 </script>
 <div class="container">
@@ -28,7 +28,7 @@
             <h2>Update dish</h2>
         </c:otherwise>
     </c:choose>
-    <form:form action="/addOrUpdateDish" modelAttribute="dish" method="POST" class="form-horizontal">
+    <form:form action="/admin/addOrUpdateDish" modelAttribute="dish" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 

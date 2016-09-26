@@ -11,12 +11,12 @@
     <br>
     <p>Select table:</p>
 
-    <p><a href="/allEmployees">Employees</a></p>
-    <p><a href="/getAllDishes">Dishes</a></p>
-    <p><a href="/menuStructure">Menu</a></p>
-    <p><a href="/ordersStructure">Orders</a></p>
-    <p><a href="/getCookedDishes">Kitchen</a></p>
-    <p><a href="/warehouseStructure">Warehouse</a></p>
+    <p><a href="/admin/allEmployees">Employees</a></p>
+    <p><a href="/admin/getAllDishes">Dishes</a></p>
+    <p><a href="/admin/menuStructure">Menu</a></p>
+    <p><a href="/admin/ordersStructure">Orders</a></p>
+    <p><a href="/admin/getCookedDishes">Kitchen</a></p>
+    <p><a href="/admin/warehouseStructure">Warehouse</a></p>
 </div>
 </body>
 </html>

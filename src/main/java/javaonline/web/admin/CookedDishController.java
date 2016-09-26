@@ -88,47 +88,47 @@ public class CookedDishController {
         binder.registerCustomEditor(Date.class, "date", new CustomDateEditor(sdf, true));
     }
 
-    @RequestMapping(value = "/cookedDishStructure", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/cookedDishStructure", method = RequestMethod.GET)
     public String cookedDishStructure() {
         return "admin/cookedDish/cookedDishStructure";
     }
 
-    @RequestMapping(value = "/getCookedDishes", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/getCookedDishes", method = RequestMethod.GET)
     public String getCookedDishes(Model model) {
         model.addAttribute("ListOfCookedDishes", cookedDishService.getCookedDishes());
         return "admin/cookedDish/allCookedDishes";
     }
 
-    @RequestMapping(value = "/addCookedDish", method = RequestMethod.GET)
-    public String addCookedDish(Model model) {
-        model.addAttribute("newCookedDish", new CookedDish());
-        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
-        model.addAttribute("listOfEmployees", IEmployeeDao.getAllEmployees());
-        model.addAttribute("listOfOrders", IOrderDao.getOpenedOrders());
-        return "admin/cookedDish/addCookedDish";
-    }
-
-    @RequestMapping(value = "/addNewCookedDish", method = RequestMethod.POST)
-    public String addNewCookedDish(@ModelAttribute("addNewCookedDish") CookedDish addNewCookedDish, Model model) {
-        model.addAttribute("message", addNewCookedDish.getDishId().getName() + " was cooked");
-        model.addAttribute("error", "Not enough ingredients to cook " + addNewCookedDish.getDishId().getName());
-        List<DishIngredient> dishIngredients = IDishDao.getDishByName(addNewCookedDish.getDishId().getName())
-                .getDishIngredients();
-        for (DishIngredient dishIngredient : dishIngredients) {
-
-            float warehouseBalance = IWarehouseDao.getBalanceByName(dishIngredient.getIngredientId().getIngredient()).getQuantity();
-            if (warehouseBalance - dishIngredient.getQuantity() < 0) {
-                return "admin/incorrectOperation";
-            }
-        }
-
-        for (DishIngredient dishIngredient : dishIngredients) {
-            float currentBalance = IWarehouseDao.getBalanceByName(dishIngredient.getIngredientId().getIngredient()).getQuantity();
-            float newBalance = currentBalance - dishIngredient.getQuantity();
-            IWarehouseDao.changeIngredientQuantity(dishIngredient.getIngredientId().getIngredient(), newBalance);
-        }
-
-        cookedDishService.addCookedDish(addNewCookedDish);
-        return "admin/successfulOperation";
-    }
+//    @RequestMapping(value = "/admin/addCookedDish", method = RequestMethod.GET)
+//    public String addCookedDish(Model model) {
+//        model.addAttribute("newCookedDish", new CookedDish());
+//        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+//        model.addAttribute("listOfEmployees", IEmployeeDao.getAllEmployees());
+//        model.addAttribute("listOfOrders", IOrderDao.getOpenedOrders());
+//        return "admin/cookedDish/addCookedDish";
+//    }
+//
+//    @RequestMapping(value = "/admin/addNewCookedDish", method = RequestMethod.POST)
+//    public String addNewCookedDish(@ModelAttribute("addNewCookedDish") CookedDish addNewCookedDish, Model model) {
+//        model.addAttribute("message", addNewCookedDish.getDishId().getName() + " was cooked");
+//        model.addAttribute("error", "Not enough ingredients to cook " + addNewCookedDish.getDishId().getName());
+//        List<DishIngredient> dishIngredients = IDishDao.getDishByName(addNewCookedDish.getDishId().getName())
+//                .getDishIngredients();
+//        for (DishIngredient dishIngredient : dishIngredients) {
+//
+//            float warehouseBalance = IWarehouseDao.getBalanceByName(dishIngredient.getIngredientId().getIngredient()).getQuantity();
+//            if (warehouseBalance - dishIngredient.getQuantity() < 0) {
+//                return "admin/incorrectOperation";
+//            }
+//        }
+//
+//        for (DishIngredient dishIngredient : dishIngredients) {
+//            float currentBalance = IWarehouseDao.getBalanceByName(dishIngredient.getIngredientId().getIngredient()).getQuantity();
+//            float newBalance = currentBalance - dishIngredient.getQuantity();
+//            IWarehouseDao.changeIngredientQuantity(dishIngredient.getIngredientId().getIngredient(), newBalance);
+//        }
+//
+//        cookedDishService.addCookedDish(addNewCookedDish);
+//        return "admin/successfulOperation";
+//    }
 }

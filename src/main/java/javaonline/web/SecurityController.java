@@ -14,19 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class SecurityController {
 
-    @RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
-    public String loginerror(ModelMap model) {
+    @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+    public String accessDenied(ModelMap model) {
         model.addAttribute("error", "true");
         return "/denied";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String signin() {
+    public String login(){
         return "/login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logout (HttpServletRequest request, HttpServletResponse response) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null){
         new SecurityContextLogoutHandler().logout(request, response, auth);

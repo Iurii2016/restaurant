@@ -10,7 +10,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/menuStructure"
+        window.location = "/admin/menuStructure"
     }
 </script>
 <div class="container">
@@ -23,7 +23,7 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/addOrUpdateMenu" commandName="menu" method="POST" class="form-horizontal">
+    <form:form action="/admin/addOrUpdateMenu" commandName="menu" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 

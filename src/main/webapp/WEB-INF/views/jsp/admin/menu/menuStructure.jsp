@@ -8,8 +8,8 @@
 <body>
 <div class="container">
     <h2>Select operation:</h2>
-    <p><a href="/addMenu">Add menu</a></p>
-    <p><a href="/getAllMenu">Get all menu</a></p>
+    <p><a href="/admin/addMenu">Add menu</a></p>
+    <p><a href="/admin/getAllMenu">Get all menu</a></p>
     <%--<form action="/getMenuByName/" method="get">--%>
         <%--<p>--%>
             <%--Enter menu name: <input name="getMenuByName" type="text" size="40">--%>

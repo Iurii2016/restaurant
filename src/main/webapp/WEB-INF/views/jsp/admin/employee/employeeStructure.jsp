@@ -9,10 +9,10 @@
 <body>
 <div class="container">
     <h2>Select operation:</h2>
-    <p><a href="/addEmployee">Add employee</a></p>
-    <p><a href="/allEmployees">Get all employee</a></p>
+    <p><a href="/admin/addEmployee">Add employee</a></p>
+    <p><a href="/admin/allEmployees">Get all employee</a></p>
 
-    <form action="/getEmployeeByPosition/" method="get">
+    <form action="/admin/getEmployeeByPosition/" method="get">
         <p>
             Get employees by position:
             <select name="getEmployeeByPosition">
@@ -24,19 +24,18 @@
         </p>
     </form>
 
-    <form action="/getEmployeeByName/" method="get">
+    <form action="/admin/getEmployeeByName/" method="get">
         <p>
             Enter name: <input name="getEmployeeByName" type="text" size="40">
             <input type="submit" class="btn btn-info" value="Get employee by name">
         </p>
     </form>
-    <form action="/deleteEmployeeByName/" method="get">
+    <form action="/admin/deleteEmployeeByName/" method="get">
         <p>
             Enter name: <input name="deleteEmployeeByName" type="text" size="40">
             <input type="submit" class="btn btn-danger" value="Delete employee by name">
         </p>
     </form>
 </div>
-<%--<img src='<c:url value="/img/html.png"/>' height="150" width="150"/>--%>
 </body>
 </html>

@@ -56,18 +56,18 @@ public class MenuController {
         });
     }
 
-    @RequestMapping(value = "/menuStructure", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/menuStructure", method = RequestMethod.GET)
     public String menuStructure() {
         return "admin/menu/menuStructure";
     }
 
-    @RequestMapping(value = "/getAllMenu", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/getAllMenu", method = RequestMethod.GET)
     public String getAllMenu(Model model) {
         model.addAttribute("ListOfMenu", menuService.getAllMenu());
         return "admin/menu/allMenu";
     }
 
-    @RequestMapping(value = "/addMenu", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addMenu", method = RequestMethod.GET)
     public String addDish(Model model) {
         model.addAttribute("menu", new Menu());
         model.addAttribute("listOfDishes", IDishDao.getAllDishes());
@@ -75,7 +75,7 @@ public class MenuController {
         return "admin/menu/addOrUpdateMenu";
     }
 
-    @RequestMapping(value = "/menu/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/menu/{id}/update", method = RequestMethod.GET)
     public String addDish(@PathVariable int id, Model model) {
         model.addAttribute("menu", menuService.getMenuById(id));
         model.addAttribute("listOfDishes", IDishDao.getAllDishes());
@@ -83,7 +83,7 @@ public class MenuController {
         return "admin/menu/addOrUpdateMenu";
     }
 
-    @RequestMapping(value = "/addOrUpdateMenu", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addOrUpdateMenu", method = RequestMethod.POST)
     public String addNewDish(@ModelAttribute Menu menu) {
         if  (menuService.getMenuById(menu.getId())==null){
             menuService.addDishInMenu(menu);
@@ -94,13 +94,13 @@ public class MenuController {
         return "admin/successfulOperation";
     }
 
-    @RequestMapping(value = "/deleteDishesByMenuName", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/deleteDishesByMenuName", method = RequestMethod.GET)
     public String deleteDishesByMenuName(@RequestParam("deleteDishesByMenuName") String deleteDishesByMenuName, Model model) {
         menuService.deleteDishesByMenuName(deleteDishesByMenuName);
         return "admin/successfulOperation";
     }
 
-    @RequestMapping(value = "/menu/{name}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/menu/{name}/delete", method = RequestMethod.GET)
     public String deleteMenu(@PathVariable String name) {
         menuService.deleteDishesByMenuName(name);
         return "admin/successfulOperation";
