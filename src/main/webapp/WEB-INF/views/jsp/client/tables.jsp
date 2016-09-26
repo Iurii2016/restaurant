@@ -22,7 +22,7 @@
                 </p>
             </td>
             <td>
-                <img src='<c:url value="/img/shema1.png"/>' height="450" width="650"/>
+                <img src='<c:url value="/img/shema.png"/>' height="450" width="650"/>
             </td>
         </tr>
     </table>

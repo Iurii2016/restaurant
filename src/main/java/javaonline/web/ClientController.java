@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Map;
 
 @Controller
-public class MainController {
+public class ClientController {
 
     private IDishDao dishService;
     private IDishIngredientDao IDishIngredientDao;
