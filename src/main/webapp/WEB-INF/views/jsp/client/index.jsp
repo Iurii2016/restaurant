@@ -4,6 +4,22 @@
 <head>
     <jsp:include page="header.jsp"/>
     <title>Restaurant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #inputName {
+            background-image: url('/img/search-icon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -20,16 +36,11 @@
                     <a href="https://uk-ua.facebook.com/"><img src='<c:url value="/img/fb.png"/>' height="20" width="20"/></a>
                     <a href="https://www.instagram.com/"><img src='<c:url value="/img/instagram.png"/>' height="25" width="25"/></a>
                 </p>
-                <form action="/getDishByName/" method="get">
-                    <p>
-                        Enter dish name: <input name="getDishByName" type="text" size="25">
-                        <input type="submit" class="btn btn-info" value="Find dish">
-                    </p>
-                </form>
             </td>
             <td>
                 <h3>Menu</h3>
-                <table class="table table-striped" style="align-items: center">
+                <input type="text" id="inputName" onkeyup="myFunction('inputName', 0)" placeholder="Search for name.." title="Type in a name">
+                <table id="myTable" class="table table-striped" style="align-items: center">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -40,7 +51,7 @@
                     <tbody>
                     <c:forEach items="${ListOfDishes}" var="dish">
                         <tr>
-                            <td><a href="/dishInfo?dish=${dish.name}"/> ${dish.name}</td>
+                            <td><a href="/client/dishInfo?dish=${dish.name}"/> ${dish.name}</td>
                             <td>${dish.price}</td>
                             <td>${dish.weight}</td>
                         </tr>

@@ -20,6 +20,14 @@
 </head>
 <body>
 <div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-${css} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>${msg}</strong>
+        </div>
+    </c:if>
     <div>
     <h2>Staff information</h2>
     </div>
@@ -34,9 +42,6 @@
             <th>Salary</th>
             <th>Position</th>
             <th colspan="2">Action</th>
-            <%--<c:if test="${position=='waiter'}">--%>
-                <%--<th>Action</th>--%>
-            <%--</c:if>--%>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in an ID"></th>
@@ -59,30 +64,14 @@
                 <td>${employee.phoneNumber}</td>
                 <td>${employee.salary}</td>
                 <td>${employee.position.name}</td>
-                <c:choose>
-                    <c:when test="${position=='waiter'}">
-                        <td>
-                            <spring:url value="/orderOfWaiter/${employee.id}" var="userUrl" />
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">Get orders information</button>
-                        <td>
-                    </c:when>
-                    <c:when test="${position=='cook'}">
-                        <td>
-                            <spring:url value="/dishesOfCook/${employee.id}" var="userUrl" />
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">Get cooked dish information</button>
-                        <td>
-                    </c:when>
-                    <c:otherwise>
-                        <td>
-                            <spring:url value="/employee/${employee.id}/update" var="updateUrl" />
-                            <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
-                        </td>
-                        <td>
-                            <spring:url value="/employee/${employee.id}/delete" var="deleteUrl" />
-                            <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
-                        </td>
-                    </c:otherwise>
-                </c:choose>
+                <td>
+                    <spring:url value="/employee/${employee.id}/update" var="updateUrl" />
+                    <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
+                </td>
+                <td>
+                    <spring:url value="/employee/${employee.id}/delete" var="deleteUrl" />
+                    <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

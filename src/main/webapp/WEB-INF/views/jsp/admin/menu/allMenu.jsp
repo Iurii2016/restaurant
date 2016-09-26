@@ -19,7 +19,7 @@
             border: 1px solid #ddd;
             margin-bottom: 12px;
         }
-        #newDish {
+        #newMenu {
             width: 100%;
             border: 1px solid #ddd;
             margin-bottom: 12px;

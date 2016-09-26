@@ -30,14 +30,14 @@
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-		<a href="/" class="navbar-brand"><i class="fa fa-home"></i></a>
+			<a href="/" class="navbar-brand"><i class="fa fa-home"></i></a>
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/allEmployees">Employees</a></li>
-			<li><a href="/dishStructure">Dishes</a></li>
+			<li><a href="/getAllDishes">Dishes</a></li>
 			<li><a href="/getAllMenu">Menu</a></li>
 			<li><a href="/ordersStructure">Orders</a></li>
-			<li><a href="/cookedDishStructure">Kitchen</a></li>
+			<li><a href="/getCookedDishes">Kitchen</a></li>
 			<li><a href="/warehouseStructure">Warehouse</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

@@ -6,6 +6,12 @@
 <head>
     <jsp:include page="../fragments/header.jsp"/>
     <title>Add new Ingredient to warehouse</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -16,7 +22,7 @@
 <div class="container">
 
     <c:choose>
-        <c:when test="${ingredient['new']}">
+        <c:when test="${warehouse['new']}">
             <h2>Add new ingredient to warehouse</h2>
         </c:when>
         <c:otherwise>
@@ -24,8 +30,7 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/addOrUpdateIngredientInWarehouse" commandName="ingredient" method="POST"
-               class="form-horizontal">
+    <form:form action="/saveOrUpdateWarehouse" modelAttribute="warehouse" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -37,6 +42,7 @@
                             <form:option value="NONE">--SELECT--</form:option>
                             <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient" itemValue="ingredient"></form:options>
                         </form:select>
+                        <form:errors path="ingredientId" cssClass="error" />
                     </div>
             </div>
         </spring:bind>
@@ -46,6 +52,7 @@
                 <label class="col-sm-2 control-label">Quantity:</label>
                 <div class="col-sm-10">
                     <form:input path="quantity" type="text" class="form-control " id="quantity"/>
+                    <form:errors path="quantity" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -55,7 +62,6 @@
                 <label class="col-sm-2 control-label">Unit:</label>
                 <div class="col-sm-5">
                     <form:select  path="unit" multiple="false">
-                        <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfUnits}"></form:options>
                     </form:select>
                 </div>
@@ -66,7 +72,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${ingredient['new']}">
+                    <c:when test="${warehouse['new']}">
                         <input type="submit" class="btn btn-success" value="Submit">
                         <input type="reset" class="btn btn-warning" value="Reset"/>
                     </c:when>

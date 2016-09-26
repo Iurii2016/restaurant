@@ -6,6 +6,12 @@
 <head>
     <jsp:include page="../fragments/header.jsp"/>
     <title>Add Dish</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -22,7 +28,7 @@
             <h2>Update dish</h2>
         </c:otherwise>
     </c:choose>
-    <form:form action="/addOrUpdateDish" commandName="dish" method="POST" class="form-horizontal">
+    <form:form action="/addOrUpdateDish" modelAttribute="dish" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -30,8 +36,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Dish name:</label>
                 <div class="col-sm-10">
-                    <form:input path="name" type="text" class="form-control " id="name"
-                                placeholder="Name"/>
+                    <form:input path="name" type="text" class="form-control " id="name" placeholder="Name"/>
+                    <form:errors path="name" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -44,6 +50,7 @@
                         <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfCategories}" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
+                    <form:errors path="categoryId" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -53,6 +60,7 @@
                 <label class="col-sm-2 control-label">Price:</label>
                 <div class="col-sm-10">
                     <form:input path="price" type="text" class="form-control " id="price"/>
+                    <form:errors path="price" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -62,6 +70,7 @@
                 <label class="col-sm-2 control-label">Weight:</label>
                 <div class="col-sm-10">
                     <form:input path="weight" type="text" class="form-control " id="weight"/>
+                    <form:errors path="weight" cssClass="error" />
                     <br>
                 </div>
             </div>

@@ -70,7 +70,6 @@ public class DishIngredient {
         DishIngredient that = (DishIngredient) o;
 
         if (Float.compare(that.quantity, quantity) != 0) return false;
-        if (dishId != null ? !dishId.equals(that.dishId) : that.dishId != null) return false;
         if (ingredientId != null ? !ingredientId.equals(that.ingredientId) : that.ingredientId != null) return false;
         return unit == that.unit;
 
@@ -78,20 +77,9 @@ public class DishIngredient {
 
     @Override
     public int hashCode() {
-        int result = dishId != null ? dishId.hashCode() : 0;
-        result = 31 * result + (ingredientId != null ? ingredientId.hashCode() : 0);
+        int result = ingredientId != null ? ingredientId.hashCode() : 0;
         result = 31 * result + (quantity != +0.0f ? Float.floatToIntBits(quantity) : 0);
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "DishIngredient{" +
-                "dishId=" + dishId +
-                ", ingredientId=" + ingredientId +
-                ", quantity=" + quantity +
-                ", unit=" + unit +
-                '}';
     }
 }

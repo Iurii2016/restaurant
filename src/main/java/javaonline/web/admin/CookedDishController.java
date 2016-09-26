@@ -5,6 +5,7 @@ import javaonline.dao.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -93,35 +94,31 @@ public class CookedDishController {
     }
 
     @RequestMapping(value = "/getCookedDishes", method = RequestMethod.GET)
-    public String getCookedDishes(Map<String, Object> model) {
-        model.put("ListOfCookedDishes", cookedDishService.getCookedDishes());
+    public String getCookedDishes(Model model) {
+        model.addAttribute("ListOfCookedDishes", cookedDishService.getCookedDishes());
         return "admin/cookedDish/allCookedDishes";
     }
 
     @RequestMapping(value = "/addCookedDish", method = RequestMethod.GET)
-    public ModelAndView addCookedDish() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/cookedDish/addCookedDish");
-        modelAndView.addObject("newCookedDish", new CookedDish());
-        modelAndView.addObject("listOfDishes", IDishDao.getAllDishes());
-        modelAndView.addObject("listOfEmployees", IEmployeeDao.getAllEmployees());
-        modelAndView.addObject("listOfOrders", IOrderDao.getOpenedOrders());
-        return modelAndView;
+    public String addCookedDish(Model model) {
+        model.addAttribute("newCookedDish", new CookedDish());
+        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+        model.addAttribute("listOfEmployees", IEmployeeDao.getAllEmployees());
+        model.addAttribute("listOfOrders", IOrderDao.getOpenedOrders());
+        return "admin/cookedDish/addCookedDish";
     }
 
     @RequestMapping(value = "/addNewCookedDish", method = RequestMethod.POST)
-    public ModelAndView addNewCookedDish(@ModelAttribute("addNewCookedDish") CookedDish addNewCookedDish) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("message", addNewCookedDish.getDishId().getName() + " was cooked");
-        modelAndView.addObject("error", "Not enough ingredients to cook " + addNewCookedDish.getDishId().getName());
+    public String addNewCookedDish(@ModelAttribute("addNewCookedDish") CookedDish addNewCookedDish, Model model) {
+        model.addAttribute("message", addNewCookedDish.getDishId().getName() + " was cooked");
+        model.addAttribute("error", "Not enough ingredients to cook " + addNewCookedDish.getDishId().getName());
         List<DishIngredient> dishIngredients = IDishDao.getDishByName(addNewCookedDish.getDishId().getName())
                 .getDishIngredients();
         for (DishIngredient dishIngredient : dishIngredients) {
 
             float warehouseBalance = IWarehouseDao.getBalanceByName(dishIngredient.getIngredientId().getIngredient()).getQuantity();
             if (warehouseBalance - dishIngredient.getQuantity() < 0) {
-                modelAndView.setViewName("admin/incorrectOperation");
-                return modelAndView;
+                return "admin/incorrectOperation";
             }
         }
 
@@ -132,7 +129,6 @@ public class CookedDishController {
         }
 
         cookedDishService.addCookedDish(addNewCookedDish);
-        modelAndView.setViewName("admin/successfulOperation");
-        return modelAndView;
+        return "admin/successfulOperation";
     }
 }

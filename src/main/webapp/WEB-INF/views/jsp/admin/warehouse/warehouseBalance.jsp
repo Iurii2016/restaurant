@@ -24,6 +24,14 @@
 </head>
 <body>
 <div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-${css} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>${msg}</strong>
+        </div>
+    </c:if>
     <div>
         <h2>Warehouse balance</h2>
     </div>
@@ -47,7 +55,7 @@
                 <td>${warehouse.quantity}</td>
                 <td>${warehouse.unit}</td>
                 <td>
-                    <spring:url value="/warehouse/${warehouse.ingredientId.ingredient}/update" var="updateUrl" />
+                    <spring:url value="/warehouse/${warehouse.id}/update" var="updateUrl" />
                     <spring:url value="/warehouse/${warehouse.ingredientId.ingredient}/delete" var="deleteUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>

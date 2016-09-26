@@ -7,9 +7,12 @@ import javaonline.dao.IIngredientDao;
 import javaonline.dao.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
@@ -67,101 +70,78 @@ public class DishController {
         });
     }
 
-    @RequestMapping(value = "/dishStructure", method = RequestMethod.GET)
-    public String dishStructure() {
-        return "admin/dish/dishStructure";
-    }
-
-    @RequestMapping(value = "/addDish", method = RequestMethod.GET)
-    public ModelAndView addDish() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/dish/addOrUpdateDish");
-        modelAndView.addObject("dish", new Dish());
-        List<Category> categories = ICategoryDao.getAllCategories();
-        modelAndView.addObject("listOfCategories", categories);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/dish/{id}/update", method = RequestMethod.GET)
-    public ModelAndView updateDish(@PathVariable int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/dish/addOrUpdateDish");
-        modelAndView.addObject("dish", dishService.getDishById(id));
-        List<Category> categories = ICategoryDao.getAllCategories();
-        modelAndView.addObject("listOfCategories", categories);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/addOrUpdateDish", method = RequestMethod.POST)
-    public ModelAndView addNewDish(@ModelAttribute Dish dish) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (dishService.getDishById(dish.getId()) == null) {
-            dishService.addDish(dish);
-        } else {
-            dishService.updateDish(dish);
-        }
-        modelAndView.addObject("message", dish.getName() + " was added");
-        modelAndView.setViewName("admin/successfulOperation");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/addDishIngredient", method = RequestMethod.GET)
-    public ModelAndView addDishIngredient() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/dish/addDishIngredient");
-        modelAndView.addObject("newDishIngredient", new DishIngredient());
-        modelAndView.addObject("listOfDishes", dishService.getAllDishes());
-        modelAndView.addObject("listOfIngredients", IIngredientDao.getAllIngredients());
-        modelAndView.addObject("listOfUnits", Arrays.asList(Unit.values()));
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/addNewDishIngredient", method = RequestMethod.POST)
-    public ModelAndView addNewDishIngredient(@ModelAttribute("newDishIngredient") DishIngredient newDishIngredient) {
-        ModelAndView modelAndView = new ModelAndView();
-        IDishIngredientDao.addIngredientToDish(newDishIngredient);
-        modelAndView.addObject("message", newDishIngredient.getIngredientId().getIngredient() + " was added to dish " +
-                newDishIngredient.getDishId().getName());
-        modelAndView.setViewName("admin/successfulOperation");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/getDishByNameAdmin", method = RequestMethod.GET)
-    public ModelAndView getDishByNameAdmin(@RequestParam("getDishByName") String getDishByName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("ListOfDishes", Arrays.asList(dishService.getDishByName(getDishByName)));
-        modelAndView.setViewName("admin/dish/allDishes");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/deleteDishByName", method = RequestMethod.GET)
-    public ModelAndView deleteDishByName(@RequestParam("deleteDishByName") String deleteDishByName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("message", deleteDishByName + " was deleted");
-        dishService.deleteDishByName(deleteDishByName);
-        modelAndView.setViewName("admin/successfulOperation");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/dish/{name}/delete", method = RequestMethod.GET)
-    public ModelAndView deleteDish(@PathVariable String name) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("message", name + " was deleted");
-        modelAndView.setViewName("admin/successfulOperation");
-        dishService.deleteDishByName(name);
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/getAllDishes", method = RequestMethod.GET)
     public String dishes(Map<String, Object> model) {
         model.put("ListOfDishes", dishService.getAllDishes());
         return "admin/dish/allDishes";
     }
 
+    @RequestMapping(value = "/addDish", method = RequestMethod.GET)
+    public String addDish(Model model) {
+        model.addAttribute("dish", new Dish());
+        model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+        return "admin/dish/addOrUpdateDish";
+    }
 
-    @RequestMapping(value = "/getAllDishIngredients", method = RequestMethod.GET)
-    public String getAllDishIngredients(Map<String, Object> model) {
-        model.put("ListOfDishIngredients", IDishIngredientDao.getAllDishIngredients());
-        return "admin/dish/allDishIngredients";
+    @RequestMapping(value = "/dish/{id}/update", method = RequestMethod.GET)
+    public String updateDish(@PathVariable int id, Model model) {
+        model.addAttribute("dish", dishService.getDishById(id));
+        model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+        return "admin/dish/addOrUpdateDish";
+    }
+
+    @RequestMapping(value = "/dish/{name}/delete", method = RequestMethod.GET)
+    public String deleteDish(@PathVariable String name, Model model, final RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Dish is deleted!");
+        dishService.deleteDishByName(name);
+        return "redirect:/getAllDishes";
+    }
+
+    @RequestMapping(value = "/addOrUpdateDish", method = RequestMethod.POST)
+    public String saveOrUpdateDish(@ModelAttribute("dish") Dish dish, Model model, BindingResult result,
+                                   final RedirectAttributes redirectAttributes) {
+
+        boolean error = false;
+
+        if (dish.getName().isEmpty()){
+            result.rejectValue("name", "error.Name");
+            error = true;
+        }
+
+        if (dish.getPrice()==0){
+            result.rejectValue("price", "error.Price");
+            error = true;
+        }
+
+        if (dish.getWeight() == 0){
+            result.rejectValue("weight", "error.Weight");
+            error = true;
+        }
+
+        if(error) {
+            model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+            return "admin/dish/addOrUpdateDish";
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if(dish.isNew()){
+            redirectAttributes.addFlashAttribute("msg", "Employee added successfully!");
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Employee updated successfully!");
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if(dish.isNew()){
+            redirectAttributes.addFlashAttribute("msg", "Dish added successfully!");
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Dish updated successfully!");
+        }
+        if (dishService.getDishById(dish.getId()) == null) {
+            dishService.addDish(dish);
+        } else {
+            dishService.updateDish(dish);
+        }
+        return "redirect:getAllDishes";
     }
 }

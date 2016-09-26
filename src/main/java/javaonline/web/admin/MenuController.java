@@ -8,6 +8,7 @@ import javaonline.dao.entity.Menu;
 import javaonline.dao.entity.MenuName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,82 +62,59 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/getAllMenu", method = RequestMethod.GET)
-    public String getAllMenu(Map<String, Object> model) {
-        model.put("ListOfMenu", menuService.getAllMenu());
+    public String getAllMenu(Model model) {
+        model.addAttribute("ListOfMenu", menuService.getAllMenu());
         return "admin/menu/allMenu";
     }
 
     @RequestMapping(value = "/addMenu", method = RequestMethod.GET)
-    public ModelAndView addDish() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/menu/addOrUpdateMenu");
-        modelAndView.addObject("menu", new Menu());
-        List<Dish> dishes = IDishDao.getAllDishes();
-        modelAndView.addObject("listOfDishes", dishes);
-        List<MenuName> menuNames = IMenuNameDao.getAllMenuName();
-        modelAndView.addObject("listOfMenuNames", menuNames);
-        return modelAndView;
+    public String addDish(Model model) {
+        model.addAttribute("menu", new Menu());
+        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+        model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
+        return "admin/menu/addOrUpdateMenu";
     }
 
     @RequestMapping(value = "/menu/{id}/update", method = RequestMethod.GET)
-    public ModelAndView addDish(@PathVariable int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/menu/addOrUpdateMenu");
-        modelAndView.addObject("menu", menuService.getMenuById(id));
-        List<Dish> dishes = IDishDao.getAllDishes();
-        modelAndView.addObject("listOfDishes", dishes);
-        List<MenuName> menuNames = IMenuNameDao.getAllMenuName();
-        modelAndView.addObject("listOfMenuNames", menuNames);
-        return modelAndView;
+    public String addDish(@PathVariable int id, Model model) {
+        model.addAttribute("menu", menuService.getMenuById(id));
+        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+        model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
+        return "admin/menu/addOrUpdateMenu";
     }
 
     @RequestMapping(value = "/addOrUpdateMenu", method = RequestMethod.POST)
-    public ModelAndView addNewDish(@ModelAttribute Menu menu) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
+    public String addNewDish(@ModelAttribute Menu menu) {
         if  (menuService.getMenuById(menu.getId())==null){
             menuService.addDishInMenu(menu);
 
         } else{
             menuService.updateMenu(menu);
         }
-        modelAndView.addObject("message", menu.getDishId().getName() + " was added to menu " + menu.getMenuNameId().getName());
-        return modelAndView;
+        return "admin/successfulOperation";
     }
 
     @RequestMapping(value = "/deleteDishesByMenuName", method = RequestMethod.GET)
-    public ModelAndView deleteDishesByMenuName(@RequestParam("deleteDishesByMenuName") String deleteDishesByMenuName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
+    public String deleteDishesByMenuName(@RequestParam("deleteDishesByMenuName") String deleteDishesByMenuName, Model model) {
         menuService.deleteDishesByMenuName(deleteDishesByMenuName);
-        modelAndView.addObject("message", deleteDishesByMenuName + " was deleted");
-        return modelAndView;
+        return "admin/successfulOperation";
     }
 
     @RequestMapping(value = "/menu/{name}/delete", method = RequestMethod.GET)
-    public ModelAndView deleteMenu(@PathVariable String name) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", name + " was deleted");
+    public String deleteMenu(@PathVariable String name) {
         menuService.deleteDishesByMenuName(name);
-        return modelAndView;
+        return "admin/successfulOperation";
     }
 
 //    @RequestMapping(value = "/deleteDishFromMenuByName", method = RequestMethod.GET)
-//    public ModelAndView deleteDishFromMenuByName(@RequestParam("deleteDishFromMenuByName") String deleteDishFromMenuByName) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/successfulOperation");
+//    public String deleteDishFromMenuByName(@RequestParam("deleteDishFromMenuByName") String deleteDishFromMenuByName) {
 //        menuService.deleteDishFromMenu(deleteDishFromMenuByName);
-//        modelAndView.addObject("message", deleteDishFromMenuByName + " was deleted from all menu");
-//        return modelAndView;
+//        return "admin/successfulOperation";
 //    }
 //
 //    @RequestMapping(value = "/getMenuByName", method = RequestMethod.GET)
-//    public ModelAndView getDishByName(@RequestParam("getMenuByName") String getMenuByName) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("ListOfMenu", menuService.getMenuByName(getMenuByName));
-//        modelAndView.setViewName("admin/menu/allMenu");
-//        return modelAndView;
+//    public String getDishByName(@RequestParam("getMenuByName") String getMenuByName, Model model) {
+//        model.addAttribute("ListOfMenu", menuService.getMenuByName(getMenuByName));
+//        return "admin/menu/allMenu";
 //    }
-
 }

@@ -6,15 +6,15 @@ import javaonline.dao.IWarehouseDao;
 import javaonline.dao.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class WarehouseController {
@@ -52,6 +52,13 @@ public class WarehouseController {
                 setValue(IIngredientDao.getIngredientByName(text));
             }
         });
+//        binder.registerCustomEditor(Unit.class, "Unit", new PropertyEditorSupport() {
+//            @Override
+//            public void setAsText(String text) {
+//                setValue(null);
+//            }
+//        });
+
     }
 
     @RequestMapping(value = "/warehouseStructure", method = RequestMethod.GET)
@@ -60,114 +67,112 @@ public class WarehouseController {
     }
 
     @RequestMapping(value = "/getWarehouseBalance", method = RequestMethod.GET)
-    public String getWarehouseBalance(Map<String, Object> model) {
-        model.put("warehouseBalance", warehouseService.getWarehouseBalance());
+    public String getWarehouseBalance(Model model) {
+        model.addAttribute("warehouseBalance", warehouseService.getWarehouseBalance());
         return "admin/warehouse/warehouseBalance";
     }
 
-    @RequestMapping(value = "/getIngredients", method = RequestMethod.GET)
-    public String getIngredients(Map<String, Object> model) {
-        model.put("listOfIngredients", IIngredientDao.getAllIngredients());
-        return "admin/warehouse/allIngredients";
+    @RequestMapping(value = "/addWarehouse", method = RequestMethod.GET)
+    public String saveOrUpdateWarehouse(Model model) {
+        model.addAttribute("warehouse", new Warehouse());
+        model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
+        model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
+        return "admin/warehouse/saveOrUpdateWarehouse";
     }
 
-    @RequestMapping(value = "/getEndingIngredients", method = RequestMethod.GET)
-    public ModelAndView getEndingIngredients(@RequestParam("getEndingIngredients") float getEndingIngredients) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("warehouseBalance", warehouseService.getEndingIngredients(getEndingIngredients));
-        modelAndView.setViewName("admin/warehouse/warehouseBalance");
-        return modelAndView;
-    }
+    @RequestMapping(value = "/saveOrUpdateWarehouse", method = RequestMethod.POST)
+    public String newIngredientsIntoWarehouse(@ModelAttribute("warehouse") Warehouse warehouse, BindingResult result,
+                                              Model model, final RedirectAttributes redirectAttributes) {
 
-    @RequestMapping(value = "/getBalanceByName", method = RequestMethod.GET)
-    public ModelAndView getBalanceByName(@RequestParam("getBalanceByName") String getBalanceByName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("warehouseBalance", Arrays.asList(warehouseService.getBalanceByName(getBalanceByName)));
-        modelAndView.setViewName("admin/warehouse/warehouseBalance");
-        return modelAndView;
-    }
+        boolean error = false;
 
-    @RequestMapping(value = "/addIntoWarehouse", method = RequestMethod.GET)
-    public ModelAndView addIntoWarehouse() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/warehouse/addIngredientIntoWarehouse");
-        modelAndView.addObject("ingredient", new Warehouse());
-        modelAndView.addObject("listOfUnits", Arrays.asList(Unit.values()));
-        List<Ingredient> ingredients = IIngredientDao.getAllIngredients();
-        modelAndView.addObject("listOfIngredients", ingredients);
-        return modelAndView;
-    }
+        if (warehouse.getIngredientId()==null){
+            result.rejectValue("ingredientId", "error.IngredientId");
+            error = true;
+        }
 
-    @RequestMapping(value = "/addIngredient", method = RequestMethod.GET)
-    public ModelAndView addIngredient() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/warehouse/addIngredient");
-        modelAndView.addObject("newIngredient", new Ingredient());
-        return modelAndView;
-    }
+        if ((warehouse.getQuantity()==0) || (warehouse.getQuantity()<0)){
+            result.rejectValue("quantity", "error.Quantity");
+            error = true;
+        }
 
-    @RequestMapping(value = "/addOrUpdateIngredientInWarehouse", method = RequestMethod.POST)
-    public ModelAndView newIngredientsIntoWarehouse(
-            @ModelAttribute("ingredient") Warehouse warehouse) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", "Ingredient " + warehouse.getIngredientId().getIngredient() +
-                " was added into warehouse");
-        if (warehouseService.getBalanceByName(warehouse.getIngredientId().getIngredient()) == null){
+        if(error) {
+            model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
+            model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
+            return "admin/warehouse/saveOrUpdateWarehouse";
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if(warehouse.isNew()){
+            redirectAttributes.addFlashAttribute("msg", "Ingredient added successfully!");
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Ingredient updated successfully!");
+        }
+
+        if (warehouseService.getBalanceByID(warehouse.getId())==null){
             warehouseService.addIngredientIntoWarehouse(warehouse);
         }else {
-            warehouseService.changeIngredientQuantity(warehouse.getIngredientId().getIngredient(), warehouse.getQuantity());
+            warehouseService.updateWarehouseBalance(warehouse);
         }
-        return modelAndView;
+        return "redirect:/getWarehouseBalance";
     }
 
-    @RequestMapping(value = "/newIngredient", method = RequestMethod.POST)
-    public ModelAndView newIngredientsIntoReference(
-            @ModelAttribute("newIngredient") Ingredient newIngredient) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", "Ingredient " + newIngredient.getIngredient() + " was created");
-        IIngredientDao.addIngredient(newIngredient);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/changeIngredientQuantity", method = RequestMethod.GET)
-    public ModelAndView getDishByName(@RequestParam("ingredientName") String ingredientName, @RequestParam("newQuantity") int newQuantity) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", "Quantity of " + ingredientName + " was changed");
-        warehouseService.changeIngredientQuantity(ingredientName, newQuantity);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/warehouse/{ingredientName}/update", method = RequestMethod.GET)
-    public ModelAndView showUpdateUserForm(@PathVariable("ingredientName") String ingredientName) {
-        ModelAndView modelAndView = new ModelAndView();
-        Warehouse warehouse = warehouseService.getBalanceByName(ingredientName);
-        modelAndView.setViewName("admin/warehouse/addIngredientIntoWarehouse");
-        modelAndView.addObject("ingredient", warehouse);
-        modelAndView.addObject("listOfUnits", Arrays.asList(Unit.values()));
-        List<Ingredient> ingredients = IIngredientDao.getAllIngredients();
-        modelAndView.addObject("listOfIngredients", ingredients);
-        return modelAndView;
-
-    }
-
-    @RequestMapping(value = "/deleteIngredientFromWarehouse", method = RequestMethod.GET)
-    public ModelAndView deleteDishByName(@RequestParam("deleteIngredient") String deleteIngredient) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", "Ingredient " + deleteIngredient + " was deleted from the warehouse");
-        warehouseService.deleteIngredientFromWarehouse(deleteIngredient);
-        return modelAndView;
+    @RequestMapping(value = "/warehouse/{id}/update", method = RequestMethod.GET)
+    public String showUpdateUserForm(@PathVariable int id, Model model) {
+        Warehouse warehouse = warehouseService.getBalanceByID(id);
+        model.addAttribute("warehouse", warehouse);
+        model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
+        model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
+        return "admin/warehouse/saveOrUpdateWarehouse";
     }
 
     @RequestMapping(value = "/warehouse/{ingredientName}/delete", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable("ingredientName") String ingredientName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        modelAndView.addObject("message", "Ingredient " + ingredientName + " was deleted from the warehouse");
+    public String delete(@PathVariable("ingredientName") String ingredientName, final RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
         warehouseService.deleteIngredientFromWarehouse(ingredientName);
-        return modelAndView;
+        return "redirect:/getWarehouseBalance";
     }
+
+//    @RequestMapping(value = "/getIngredients", method = RequestMethod.GET)
+//    public String getIngredients(Model model) {
+//        model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
+//        return "admin/warehouse/allIngredients";
+//    }
+//
+//    @RequestMapping(value = "/getEndingIngredients", method = RequestMethod.GET)
+//    public String getEndingIngredients(@RequestParam("getEndingIngredients") float getEndingIngredients, Model model) {
+//        model.addAttribute("warehouseBalance", warehouseService.getEndingIngredients(getEndingIngredients));
+//        return "admin/warehouse/warehouseBalance";
+//    }
+//
+//    @RequestMapping(value = "/getBalanceByName", method = RequestMethod.GET)
+//    public String getBalanceByName(@RequestParam("getBalanceByName") String getBalanceByName, Model model) {
+//        model.addAttribute("warehouseBalance", Arrays.asList(warehouseService.getBalanceByName(getBalanceByName)));
+//        return "admin/warehouse/warehouseBalance";
+//    }
+//
+//    @RequestMapping(value = "/addIngredient", method = RequestMethod.GET)
+//    public String addIngredient(Model model) {
+//        model.addAttribute("newIngredient", new Ingredient());
+//        return "admin/warehouse/addIngredient";
+//    }
+//
+//    @RequestMapping(value = "/changeIngredientQuantity", method = RequestMethod.GET)
+//    public String getDishByName(@RequestParam("ingredientName") String ingredientName, @RequestParam("newQuantity") int newQuantity) {
+//        warehouseService.changeIngredientQuantity(ingredientName, newQuantity);
+//        return "admin/successfulOperation";
+//    }
+//
+//    @RequestMapping(value = "/deleteIngredientFromWarehouse", method = RequestMethod.GET)
+//    public String deleteDishByName(@RequestParam("deleteIngredient") String deleteIngredient) {
+//        warehouseService.deleteIngredientFromWarehouse(deleteIngredient);
+//        return "redirect:/getWarehouseBalance";
+//    }
+//
+//    @RequestMapping(value = "/newIngredient", method = RequestMethod.POST)
+//    public String newIngredientsIntoReference(@ModelAttribute("newIngredient") Ingredient newIngredient, Model model) {
+//        IIngredientDao.addIngredient(newIngredient);
+//        return "admin/successfulOperation";
+//    }
 }

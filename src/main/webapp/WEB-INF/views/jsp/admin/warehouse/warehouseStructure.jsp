@@ -12,7 +12,7 @@
     <h2>Select operation:</h2>
     <%--<p><a href="/addIngredient">Add new ingredient into the reference book</a></p>--%>
     <%--<p><a href="/getIngredients">Get all ingredients</a></p>--%>
-    <p><a href="/addIntoWarehouse">Add ingredient</a></p>
+    <p><a href="/addWarehouse">Add ingredient into warehouse</a></p>
     <p><a href="/getWarehouseBalance">Warehouse balance</a></p>
 
     <%--<form action="/getEndingIngredients/" method="get">--%>

@@ -9,6 +9,7 @@ import javaonline.dao.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,8 +67,8 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/getAllOrders", method = RequestMethod.GET)
-    public String getAllOrders(Map<String, Object> model) {
-        model.put("ListOfOrders", ordersDaoService.getAllOrders());
+    public String getAllOrders(Model model) {
+        model.addAttribute("ListOfOrders", ordersDaoService.getAllOrders());
         return "admin/order/allOrders";
     }
 

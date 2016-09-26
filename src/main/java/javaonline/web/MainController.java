@@ -6,6 +6,7 @@ import javaonline.dao.IEmployeeDao;
 import javaonline.dao.IPositionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,64 +44,50 @@ public class MainController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/admin/index");
-        modelAndView.addObject("ListOfDishes", dishService.getAllDishes());
-        return modelAndView;
+    public String index(Model model) {
+        model.addAttribute("ListOfDishes", dishService.getAllDishes());
+        return "/client/index";
     }
 
     @RequestMapping(value = "/client/index", method = RequestMethod.GET)
-    public ModelAndView clientIndex() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/client/index");
-        modelAndView.addObject("ListOfDishes", dishService.getAllDishes());
-        return modelAndView;
+    public String clientIndex(Model model) {
+        model.addAttribute("ListOfDishes", dishService.getAllDishes());
+        return "/client/index";
     }
 
-    @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
-    public ModelAndView adminIndex() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/admin/index");
-        return modelAndView;
+    @RequestMapping(value = "/client/dishInfo", method = RequestMethod.GET)
+    public String dishInfo(@RequestParam String dish, Model model) {
+        model.addAttribute("dish", dishService.getDishByName(dish));
+        model.addAttribute("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(dish));
+        return "/client/dishes";
     }
 
-    @RequestMapping(value = "/getDishByName", method = RequestMethod.GET)
-    public ModelAndView getDishByName(@RequestParam("getDishByName") String getDishByName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("dish", dishService.getDishByName(getDishByName));
-        modelAndView.addObject("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(getDishByName));
-        modelAndView.setViewName("/client/dishes");
-        return modelAndView;
+    @RequestMapping(value = "/client/employees", method = RequestMethod.GET)
+    public String employees(Model model) {
+        model.addAttribute("ListOfEmployee", employeeService.getAllEmployees());
+        model.addAttribute("position", IPositionDao.getAllPosition());
+        return "/client/employees";
     }
 
-    @RequestMapping(value = "/dishInfo", method = RequestMethod.GET)
-    public ModelAndView dishInfo(@RequestParam String dish) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/client/dishes");
-        modelAndView.addObject("dish", dishService.getDishByName(dish));
-        modelAndView.addObject("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(dish));
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/employees", method = RequestMethod.GET)
-    public ModelAndView employees(Map<String, Object> model) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/client/employees");
-        modelAndView.addObject("ListOfEmployee", employeeService.getAllEmployees());
-        model.put("position", IPositionDao.getAllPosition());
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/tables", method = RequestMethod.GET)
+    @RequestMapping(value = "/client/tables", method = RequestMethod.GET)
     public String tables() {
         return "client/tables";
     }
 
-    @RequestMapping(value = "/contact", method = RequestMethod.GET)
+    @RequestMapping(value = "/client/contact", method = RequestMethod.GET)
     public String contact() {
         return "/client/contact";
     }
 
-
+//    @RequestMapping(value = "/getDishByName", method = RequestMethod.GET)
+//    public String getDishByName(@RequestParam("getDishByName") String getDishByName, Model model) {
+//        model.addAttribute("dish", dishService.getDishByName(getDishByName));
+//        model.addAttribute("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(getDishByName));
+//        return "/client/dishes";
+//    }
+//
+//    @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
+//    public String adminIndex() {
+//        return "/admin/index";
+//    }
 }

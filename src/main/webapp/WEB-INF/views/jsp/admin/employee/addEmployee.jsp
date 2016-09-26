@@ -6,6 +6,12 @@
 <head>
     <jsp:include page="../fragments/header.jsp"/>
     <title>Add new Employee</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -22,7 +28,7 @@
             <h2>Update Employee</h2>
         </c:otherwise>
     </c:choose>
-    <form:form action="/addOrUpdateEmployee" commandName="employee" method="POST" class="form-horizontal">
+    <form:form action="/addOrUpdateEmployee" modelAttribute="employee" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -30,8 +36,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Surname:</label>
                 <div class="col-sm-10">
-                    <form:input path="surname" type="text" class="form-control " id="surname"
-                                placeholder="Surname"/>
+                    <form:input path="surname" type="text" class="form-control " id="surname" placeholder="Surname"/>
+                    <form:errors path="surname" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -40,8 +46,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">
-                    <form:input path="name" type="text" class="form-control " id="name"
-                                placeholder="Name"/>
+                    <form:input path="name" type="text" class="form-control " id="name" placeholder="Name"/>
+                    <form:errors path="name" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -50,8 +56,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Birthday:</label>
                 <div class="col-sm-10">
-                    <form:input path="birthday" type="text" class="form-control " id="birthday"
-                                placeholder="Birthday"/>
+                    <form:input path="birthday" type="text" class="form-control " id="birthday" placeholder="Birthday"/>
+                    <form:errors path="birthday" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -62,6 +68,7 @@
                 <div class="col-sm-10">
                     <form:input path="phoneNumber" type="text" class="form-control " id="phoneNumber"
                                 placeholder="Phone number"/>
+                    <form:errors path="phoneNumber" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -71,6 +78,7 @@
                 <label class="col-sm-2 control-label">Salary:</label>
                 <div class="col-sm-10">
                     <form:input path="salary" class="form-control " id="salary"/>
+                    <form:errors path="salary" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -78,11 +86,12 @@
         <spring:bind path="position">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Position:</label>
-                <div class="col-sm-5">
+                <div class="col-sm-10">
                     <form:select  path="position">
-                        <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfPositions}" itemLabel="name" itemValue="name"></form:options>
+                        <%--<form:option value="NONE"> --SELECT--</form:option>--%>
+                        <form:options items="${ListOfEmployee}" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
+                    <form:errors path="position" cssClass="error" />
                     <br>
                 </div>
             </div>

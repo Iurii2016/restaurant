@@ -10,15 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -50,44 +52,53 @@ public class EmployeeController {
         this.IPositionDao = IPositionDao;
     }
 
-    @RequestMapping(value = "/employeeStructure", method = RequestMethod.GET)
-    public String employeeStructure(Map<String, Object> model) {
-        model.put("ListOfPositions", IPositionDao.getAllPosition());
-        return "admin/employee/employeeStructure";
-    }
-
     @RequestMapping(value = "/allEmployees", method = RequestMethod.GET)
-    public String allEmployees(Map<String, Object> model) {
-        model.put("ListOfEmployee", employeeService.getAllEmployees());
-        model.put("position", "all");
+    public String allEmployees(Model model) {
+        model.addAttribute("ListOfEmployee", employeeService.getAllEmployees());
+        model.addAttribute("position", "all");
         return "admin/employee/allEmployees";
     }
 
-
     @RequestMapping(value = "/addEmployee", method = RequestMethod.GET)
-    public ModelAndView addEmployee() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/employee/addEmployee");
-        modelAndView.addObject("employee", new Employee());
-        List<Position> positions = IPositionDao.getAllPosition();
-        modelAndView.addObject("listOfPositions", positions);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/employee/{id}/update", method = RequestMethod.GET)
-    public ModelAndView showUpdateUserForm(@PathVariable("id") int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        Employee employee = employeeService.getEmployeeById(id);
-        modelAndView.addObject("employee", employee);
-        modelAndView.setViewName("admin/employee/addEmployee");
-        List<Position> positions = IPositionDao.getAllPosition();
-        modelAndView.addObject("listOfPositions", positions);
-        return modelAndView;
+    public String addEmployee(Model model) {
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+        return "admin/employee/addEmployee";
     }
 
     @RequestMapping(value = "/addOrUpdateEmployee", method = RequestMethod.POST)
-    public ModelAndView newEmployee(@ModelAttribute("employee") Employee employee) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String saveOrUpdateEmployee(@ModelAttribute("employee") Employee employee,
+                                    BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+
+        boolean error = false;
+
+        if (employee.getSurname().isEmpty()){
+            result.rejectValue("surname", "error.Surname");
+            error = true;
+        }
+
+        if (employee.getName().isEmpty()){
+            result.rejectValue("name", "error.Name");
+            error = true;
+        }
+
+        if (employee.getPosition() == null){
+            result.rejectValue("position", "error.Position");
+            error = true;
+        }
+
+        if(error) {
+            model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+            return "admin/employee/addEmployee";
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if(employee.isNew()){
+            redirectAttributes.addFlashAttribute("msg", "Employee added successfully!");
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Employee updated successfully!");
+        }
+
         if (employee.getPosition().getName().equals("cook")) {
             Cook cook = new Cook();
             cook.setSurname(employee.getSurname());
@@ -101,7 +112,7 @@ public class EmployeeController {
             }else {
                 cook.setId(employee.getId());
                 employeeService.updateEmployee(cook);}
-            modelAndView.addObject("message", "Cook " + employee.getName() + " was added");
+            model.addAttribute("message", "Cook " + employee.getName() + " was added");
         } else if (employee.getPosition().getName().equals("waiter")) {
             Waiter waiter = new Waiter();
             waiter.setSurname(employee.getSurname());
@@ -116,71 +127,30 @@ public class EmployeeController {
                 waiter.setId(employee.getId());
                 employeeService.updateEmployee(waiter);
             }
-            modelAndView.addObject("message", "Waiter " + employee.getName() + " was added");
+            model.addAttribute("message", "Waiter " + employee.getName() + " was added");
         } else {
             if (employeeService.getEmployeeById(employee.getId()) == null){
                 employeeService.addEmployee(employee);
             }else {employeeService.updateEmployee(employee);}
-            modelAndView.addObject("message", "Employee " + employee.getName() + " was added");
+            model.addAttribute("message", "Employee " + employee.getName() + " was added");
         }
-        modelAndView.setViewName("admin/successfulOperation");
-        return modelAndView;
+        return "redirect:/allEmployees";
+    }
+
+    @RequestMapping(value = "/employee/{id}/update", method = RequestMethod.GET)
+    public String showUpdateUserForm(@PathVariable("id") int id, Model model) {
+        Employee employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employee", employee);
+        model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+        return "admin/employee/addEmployee";
     }
 
     @RequestMapping(value = "/employee/{id}/delete", method = RequestMethod.GET)
-    public ModelAndView deleteEmployee(@PathVariable("id") int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/successfulOperation");
-        Employee employee = employeeService.getEmployeeById(Integer.valueOf(id));
+    public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
+        Employee employee = employeeService.getEmployeeById(id);
         employeeService.deleteEmployee(employee);
-        modelAndView.addObject("message", "Employee " + employee + " was deleted");
-        return modelAndView;
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Employee is deleted!");
+        return "redirect:/allEmployees";
     }
-
-//    @RequestMapping(value = "/dishesOfCook/{id}", method = RequestMethod.GET)
-//    public ModelAndView dishesOfCook(@PathVariable("id") String id) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/employee/allCookedDishes");
-//        modelAndView.addObject("position", "cook");
-//        modelAndView.addObject("cook", employeeService.getEmployeeById(Integer.valueOf(id)));
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/getEmployeeByName", method = RequestMethod.GET)
-//    public ModelAndView getEmployeeByName(@RequestParam("getEmployeeByName") String getEmployeeByName) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("ListOfEmployee", employeeService.getEmployeeByName(getEmployeeByName));
-//        modelAndView.setViewName("admin/employee/allEmployees");
-//        modelAndView.addObject("position", "all");
-//        return modelAndView;
-//    }
-//
-//
-//    @RequestMapping(value = "/getEmployeeByPosition", method = RequestMethod.GET)
-//    public ModelAndView getEmployeeByPosition(@RequestParam("getEmployeeByPosition") String getEmployeeByPosition) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("ListOfEmployee", employeeService.getEmployeesByPosition(
-//                IPositionDao.getPositionByName(getEmployeeByPosition)));
-//        modelAndView.addObject("position", getEmployeeByPosition);
-//        modelAndView.setViewName("admin/employee/allEmployees");
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/deleteEmployeeByName", method = RequestMethod.GET)
-//    public ModelAndView deleteEmployeeByName(@RequestParam("deleteEmployeeByName") String deleteEmployeeByName) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/successfulOperation");
-//        employeeService.deleteEmployeeByName(deleteEmployeeByName);
-//        modelAndView.addObject("message", "Employee " + deleteEmployeeByName + " was deleted");
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/orderOfWaiter/{id}", method = RequestMethod.GET)
-//    public ModelAndView orderOfWaiter(@PathVariable("id") String id) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/employee/allOrders");
-//        modelAndView.addObject("position", "waiter");
-//        modelAndView.addObject("waiter", employeeService.getEmployeeById(Integer.valueOf(id)));
-//        return modelAndView;
-//    }
 }

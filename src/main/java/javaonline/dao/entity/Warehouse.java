@@ -85,14 +85,4 @@ public class Warehouse {
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "Warehouse{" +
-                "id=" + id +
-                ", ingredientId=" + ingredientId +
-                ", quantity=" + quantity +
-                ", unit=" + unit +
-                '}';
-    }
 }

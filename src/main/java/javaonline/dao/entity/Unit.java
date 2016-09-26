@@ -1,8 +1,8 @@
 package javaonline.dao.entity;
 
 public enum Unit {
-    kg,
     g,
+    kg,
     mg,
     l,
     ml,

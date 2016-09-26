@@ -4,7 +4,7 @@
 <html>
 <head>
     <jsp:include page="../fragments/header.jsp"/>
-    <title>All dish</title>
+    <title>Dishes</title>
     <style>
         * {
             box-sizing: border-box;
@@ -21,6 +21,7 @@
         }
         #newDish {
             width: 100%;
+            padding: 8px 0px 8px 0px;
             border: 1px solid #ddd;
             margin-bottom: 12px;
         }
@@ -28,8 +29,16 @@
 </head>
 <body>
 <div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-${css} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>${msg}</strong>
+        </div>
+    </c:if>
     <h2>Dishes information</h2>
-    <table class="table table-striped" style="align-items: center">
+    <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
             <th>ID</th>
@@ -46,7 +55,7 @@
             <th><input type="text" id="inputCategory" onkeyup="myFunction('inputCategory', 2)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputPrice" onkeyup="myFunction('inputPrice', 3)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputWeight" onkeyup="myFunction('inputWeight', 4)" placeholder="Search.." title="Type in a name"></th>
-            <th colspan="2"><button id="newDish" class="btn btn-success" onclick="location.href='/addMenu'">Add new menu</button></th>
+            <th colspan="2"><button id="newDish" class="btn btn-success" onclick="location.href='/addDish'">Add new menu</button></th>
         </tr>
         </thead>
         <tbody>
