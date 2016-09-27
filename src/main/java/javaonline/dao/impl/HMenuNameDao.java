@@ -34,14 +34,14 @@ public class HMenuNameDao implements IMenuNameDao {
     @Override
     @Transactional
     public List<MenuName> getAllMenuName() {
-        return sessionFactory.getCurrentSession().createQuery("select m from MenuName m").list();
+        return sessionFactory.getCurrentSession().createQuery("from MenuName").list();
     }
 
     @Override
     @Transactional
     public MenuName getMenuNameByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select m from MenuName m where m.name = :name");
+        Query query = session.createQuery("from MenuName m where m.name = :name");
         return (MenuName) query.setParameter("name", name).uniqueResult();
     }
 
@@ -49,7 +49,7 @@ public class HMenuNameDao implements IMenuNameDao {
     @Transactional
     public MenuName getMenuNameById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select m from MenuName m where m.id = :id");
+        Query query = session.createQuery("from MenuName m where m.id = :id");
         return (MenuName) query.setParameter("id", id).uniqueResult();
     }
 }

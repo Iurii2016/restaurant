@@ -38,7 +38,7 @@ public class HOrderDao implements IOrderDao {
     @Transactional
     public void setClosedStatus(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select o from Order o where o.id = :id");
+        Query query = session.createQuery("from Order o where o.id = :id");
         query.setParameter("id", id);
         Order order = (Order) query.uniqueResult();
         order.setStatus(OrderStatus.closed);
@@ -48,14 +48,14 @@ public class HOrderDao implements IOrderDao {
     @Override
     @Transactional
     public List<Order> getAllOrders() {
-        return sessionFactory.getCurrentSession().createQuery("select o from Order o").list();
+        return sessionFactory.getCurrentSession().createQuery("from Order").list();
     }
 
     @Override
     @Transactional
     public List<Order> getOpenedOrders() {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select o from Order o where o.status = javaonline.model.OrderStatus.opened");
+        Query query = session.createQuery("from Order o where o.status = javaonline.model.OrderStatus.opened");
         return query.getResultList();
     }
 
@@ -63,7 +63,7 @@ public class HOrderDao implements IOrderDao {
     @Transactional
     public List<Order> getClosedOrders() {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select o from Order o where o.status = javaonline.model.OrderStatus.closed");
+        Query query = session.createQuery("from Order o where o.status = javaonline.model.OrderStatus.closed");
         return query.getResultList();
     }
 
@@ -71,7 +71,7 @@ public class HOrderDao implements IOrderDao {
     @Transactional
     public Order getOrderById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select o from Order o where o.id = :id");
+        Query query = session.createQuery("from Order o where o.id = :id");
         query.setParameter("id", id);
         return (Order) query.uniqueResult();
     }

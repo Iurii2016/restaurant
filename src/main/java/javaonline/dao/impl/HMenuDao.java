@@ -60,7 +60,7 @@ public class HMenuDao implements IMenuDao {
     @Transactional
     public List<Menu> getMenuByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select m from Menu m where m.menuNameId = (select mn from MenuName mn where mn.name = :name)");
+        Query query = session.createQuery("from Menu m where m.menuNameId = (select mn from MenuName mn where mn.name = :name)");
         query.setParameter("name", name);
         return query.getResultList();
     }
@@ -69,7 +69,7 @@ public class HMenuDao implements IMenuDao {
     @Transactional
     public Menu getMenuById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select m from Menu m where m.id = :id");
+        Query query = session.createQuery("from Menu m where m.id = :id");
         query.setParameter("id", id);
         return (Menu) query.uniqueResult();
     }
@@ -77,7 +77,7 @@ public class HMenuDao implements IMenuDao {
     @Override
     @Transactional
     public List<Menu> getAllMenu() {
-        return sessionFactory.getCurrentSession().createQuery("select m from Menu m").list();
+        return sessionFactory.getCurrentSession().createQuery("from Menu").list();
     }
 
 }

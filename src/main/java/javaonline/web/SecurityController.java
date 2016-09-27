@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class SecurityController {
 
+    @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
+    public String admin() {
+        return "/admin/index";
+    }
+
     @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
     public String accessDenied(ModelMap model) {
         model.addAttribute("error", "true");

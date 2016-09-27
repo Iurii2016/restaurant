@@ -46,8 +46,7 @@
             <th>Category</th>
             <th>Price</th>
             <th>Weight</th>
-            <th></th>
-            <th></th>
+            <th colspan="2">Action</th>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>

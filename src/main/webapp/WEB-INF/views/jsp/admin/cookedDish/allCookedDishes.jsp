@@ -4,7 +4,7 @@
 <html>
 <head>
     <jsp:include page="../fragments/header.jsp"/>
-    <title>All cooked dish</title>
+    <title>Kitchen</title>
     <style>
         * {
             box-sizing: border-box;

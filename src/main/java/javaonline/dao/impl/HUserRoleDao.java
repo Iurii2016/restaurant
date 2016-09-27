@@ -20,7 +20,7 @@ public class HUserRoleDao implements IUserRoleDao{
     @Override
     public List<UserRole> getUserRole(String userName) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("SELECT r from UserRole r where r.user =:userName");
+        Query query = session.createQuery("from UserRole r where r.user =:userName");
         query.setParameter("userName", userName);
         return query.list();
     }

@@ -6,6 +6,12 @@
 <head>
     <jsp:include page="../fragments/header.jsp"/>
     <title>Add new menu</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -35,6 +41,7 @@
                         <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfMenuNames}" multiple="false" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
+                    <form:errors path="menuNameId" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -47,6 +54,7 @@
                         <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfDishes}" multiple="false" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
+                    <form:errors path="dishId" cssClass="error" />
                     <br>
                 </div>
             </div>

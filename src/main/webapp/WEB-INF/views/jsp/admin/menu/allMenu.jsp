@@ -4,7 +4,7 @@
 <html>
 <head>
     <jsp:include page="../fragments/header.jsp"/>
-    <title>All menu</title>
+    <title>Menu</title>
     <style>
         * {
             box-sizing: border-box;
@@ -21,6 +21,7 @@
         }
         #newMenu {
             width: 100%;
+            padding: 8px 0px 8px 0px;
             border: 1px solid #ddd;
             margin-bottom: 12px;
         }
@@ -28,6 +29,14 @@
 </head>
 <body>
 <div class="container">
+    <c:if test="${not empty msg}">
+        <div class="alert alert-${css} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>${msg}</strong>
+        </div>
+    </c:if>
     <h2>Menu information</h2>
     <table class="table table-striped" style="align-items: center">
         <thead>
@@ -52,8 +61,10 @@
                 <td>${menu.dishId.name}</td>
                 <td>
                     <spring:url value="/admin/menu/${menu.id}/update" var="updateUrl" />
-                    <spring:url value="/admin/menu/${menu.menuNameId.name}/delete" var="deleteUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
+                </td>
+                <td>
+                    <spring:url value="/admin/menu/${menu.id}/delete" var="deleteUrl" />
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>
             </tr>

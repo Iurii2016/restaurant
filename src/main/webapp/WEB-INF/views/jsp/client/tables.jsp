@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <h3>Our outline</h3>
+    <h3>Booking</h3>
     <table class="table table-striped" style="align-items: center">
         <tr>
             <td>

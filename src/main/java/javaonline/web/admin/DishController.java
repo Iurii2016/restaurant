@@ -93,7 +93,7 @@ public class DishController {
     @RequestMapping(value = "/admin/dish/{name}/delete", method = RequestMethod.GET)
     public String deleteDish(@PathVariable String name, Model model, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Dish is deleted!");
+        redirectAttributes.addFlashAttribute("msg", "Dish was deleted!");
         dishService.deleteDishByName(name);
         return "redirect:/admin/getAllDishes";
     }
@@ -106,6 +106,11 @@ public class DishController {
 
         if (dish.getName().isEmpty()){
             result.rejectValue("name", "error.Name");
+            error = true;
+        }
+
+        if (dish.getCategoryId()==null){
+            result.rejectValue("categoryId", "error.CategoryId");
             error = true;
         }
 
@@ -126,17 +131,12 @@ public class DishController {
 
         redirectAttributes.addFlashAttribute("css", "success");
         if(dish.isNew()){
-            redirectAttributes.addFlashAttribute("msg", "Employee added successfully!");
-        }else{
-            redirectAttributes.addFlashAttribute("msg", "Employee updated successfully!");
-        }
-
-        redirectAttributes.addFlashAttribute("css", "success");
-        if(dish.isNew()){
             redirectAttributes.addFlashAttribute("msg", "Dish added successfully!");
         }else{
             redirectAttributes.addFlashAttribute("msg", "Dish updated successfully!");
         }
+
+
         if (dishService.getDishById(dish.getId()) == null) {
             dishService.addDish(dish);
         } else {

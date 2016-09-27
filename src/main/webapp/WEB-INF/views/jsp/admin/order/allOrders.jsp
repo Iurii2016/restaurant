@@ -4,7 +4,7 @@
 <html>
 <head>
     <jsp:include page="../fragments/header.jsp"/>
-    <title>All order</title>
+    <title>Orders</title>
     <style>
         * {
             box-sizing: border-box;

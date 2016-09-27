@@ -4,7 +4,7 @@
 <html>
 <head>
     <jsp:include page="header.jsp"/>
-    <title>Staff</title>
+    <title>Our team</title>
 </head>
 <body>
 <div class="container">

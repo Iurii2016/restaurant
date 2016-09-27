@@ -34,14 +34,14 @@ public class HIngredientDao implements IIngredientDao {
     @Override
     @Transactional
     public List<Ingredient> getAllIngredients() {
-        return sessionFactory.getCurrentSession().createQuery("select i from Ingredient i").list();
+        return sessionFactory.getCurrentSession().createQuery("from Ingredient").list();
     }
 
     @Override
     @Transactional
     public Ingredient getIngredientByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select i from Ingredient i where i.ingredient = :name");
+        Query query = session.createQuery("from Ingredient i where i.ingredient = :name");
         query.setParameter("name", name);
         return (Ingredient) query.uniqueResult();
     }

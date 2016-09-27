@@ -122,7 +122,7 @@ public class WarehouseController {
     @RequestMapping(value = "/admin/warehouse/{ingredientName}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("ingredientName") String ingredientName, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
+        redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted!");
         warehouseService.deleteIngredientFromWarehouse(ingredientName);
         return "redirect:/admin/getWarehouseBalance";
     }

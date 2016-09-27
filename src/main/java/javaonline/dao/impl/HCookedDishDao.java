@@ -24,6 +24,6 @@ public class HCookedDishDao implements ICookedDishDao {
     @Override
     @Transactional
     public List<CookedDish> getCookedDishes() {
-        return sessionFactory.getCurrentSession().createQuery("select c from CookedDish c").list();
+        return sessionFactory.getCurrentSession().createQuery("from CookedDish").list();
     }
 }

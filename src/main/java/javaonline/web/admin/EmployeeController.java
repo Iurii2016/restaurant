@@ -67,8 +67,8 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/admin/addOrUpdateEmployee", method = RequestMethod.POST)
-    public String saveOrUpdateEmployee(@ModelAttribute("employee") Employee employee,
-                                    BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+    public String saveOrUpdateEmployee(@ModelAttribute("employee") Employee employee, BindingResult result,
+                                       Model model, final RedirectAttributes redirectAttributes) {
 
         boolean error = false;
 
@@ -112,7 +112,6 @@ public class EmployeeController {
             }else {
                 cook.setId(employee.getId());
                 employeeService.updateEmployee(cook);}
-            model.addAttribute("message", "Cook " + employee.getName() + " was added");
         } else if (employee.getPosition().getName().equals("waiter")) {
             Waiter waiter = new Waiter();
             waiter.setSurname(employee.getSurname());
@@ -127,12 +126,10 @@ public class EmployeeController {
                 waiter.setId(employee.getId());
                 employeeService.updateEmployee(waiter);
             }
-            model.addAttribute("message", "Waiter " + employee.getName() + " was added");
         } else {
             if (employeeService.getEmployeeById(employee.getId()) == null){
                 employeeService.addEmployee(employee);
             }else {employeeService.updateEmployee(employee);}
-            model.addAttribute("message", "Employee " + employee.getName() + " was added");
         }
         return "redirect:/admin/allEmployees";
     }
@@ -150,7 +147,7 @@ public class EmployeeController {
         Employee employee = employeeService.getEmployeeById(id);
         employeeService.deleteEmployee(employee);
         redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Employee is deleted!");
+        redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
         return "redirect:/admin/allEmployees";
     }
 }

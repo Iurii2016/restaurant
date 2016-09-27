@@ -30,7 +30,7 @@
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a href="/" class="navbar-brand"><i class="fa fa-home"></i></a>
+			<a href="/admin/index" class="navbar-brand"><i class="fa fa-home"></i></a>
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/admin/allEmployees">Employees</a></li>
@@ -38,7 +38,7 @@
 			<li><a href="/admin/getAllMenu">Menu</a></li>
 			<li><a href="/admin/ordersStructure">Orders</a></li>
 			<li><a href="/admin/getCookedDishes">Kitchen</a></li>
-			<li><a href="/admin/warehouseStructure">Warehouse</a></li>
+			<li><a href="/admin/getWarehouseBalance">Warehouse</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='/logout'">Sign out</button>

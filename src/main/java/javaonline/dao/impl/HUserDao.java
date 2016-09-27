@@ -19,7 +19,7 @@ public class HUserDao implements IUserDao {
         List<User> users;
 
         users = sessionFactory.getCurrentSession()
-                .createQuery("select u from User u where u.username= :username")
+                .createQuery("from User u where u.username= :username")
                 .setParameter("username", username)
                 .list();
 

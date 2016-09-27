@@ -8,13 +8,18 @@
             box-sizing: border-box;
         }
 
-        #myInput {
+        #inputID, #inputIngredient, #inputQuantity, #inputUnit {
             background-image: url('/img/search-icon.png');
             background-position: 10px 10px;
             background-repeat: no-repeat;
             width: 100%;
-            font-size: 16px;
-            padding: 12px 20px 12px 40px;
+            padding: 8px 0px 8px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+        #newIngredient {
+            width: 100%;
+            padding: 8px 0px 8px 0px;
             border: 1px solid #ddd;
             margin-bottom: 12px;
         }
@@ -35,8 +40,6 @@
     <div>
         <h2>Warehouse balance</h2>
     </div>
-    <input type="text" id="myInput" onkeyup="myFunction('myInput', 1)" placeholder="Search for ingredient.." title="Type in a name">
-
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
@@ -45,6 +48,13 @@
             <th>Quantity</th>
             <th>Unit</th>
             <th>Action</th>
+        </tr>
+        <tr>
+            <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>
+            <th><input type="text" id="inputIngredient" onkeyup="myFunction('inputIngredient', 1)" placeholder="Search.." title="Type in a name"></th>
+            <th><input type="text" id="inputQuantity" onkeyup="myFunction('inputQuantity', 2)" placeholder="Search.." title="Type in a name"></th>
+            <th><input type="text" id="inputUnit" onkeyup="myFunction('inputUnit', 2)" placeholder="Search.." title="Type in a name"></th>
+            <th colspan="2"><button id="newIngredient"class="btn btn-success" onclick="location.href='/admin/addWarehouse'">Add new menu</button></th>
         </tr>
         </thead>
         <tbody>
@@ -56,8 +66,10 @@
                 <td>${warehouse.unit}</td>
                 <td>
                     <spring:url value="/admin/warehouse/${warehouse.id}/update" var="updateUrl" />
-                    <spring:url value="/admin/warehouse/${warehouse.ingredientId.ingredient}/delete" var="deleteUrl" />
                     <button class="btn btn-info" onclick="location.href='${updateUrl}'">Update</button>
+                </td>
+                <td>
+                    <spring:url value="/admin/warehouse/${warehouse.ingredientId.ingredient}/delete" var="deleteUrl" />
                     <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
                 </td>
             </tr>

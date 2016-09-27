@@ -88,6 +88,7 @@
                 <label class="col-sm-2 control-label">Position:</label>
                 <div class="col-sm-10">
                     <form:select  path="position">
+                        <form:option value="NONE">--SELECT--</form:option>
                         <form:options items="${ListOfEmployee}" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
                     <form:errors path="position" cssClass="error" />

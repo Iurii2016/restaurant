@@ -3,7 +3,7 @@
 <html>
 <head>
     <jsp:include page="header.jsp"/>
-    <title>Restaurant</title>
+    <title>Grill'age</title>
     <style>
         * {
             box-sizing: border-box;

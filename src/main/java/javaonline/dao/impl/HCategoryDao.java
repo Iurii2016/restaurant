@@ -35,14 +35,14 @@ public class HCategoryDao implements ICategoryDao {
     @Override
     @Transactional
     public List<Category> getAllCategories() {
-        return sessionFactory.getCurrentSession().createQuery("select c from Category c").list();
+        return sessionFactory.getCurrentSession().createQuery("from Category c").list();
     }
 
     @Override
     @Transactional
     public Category getCategoryByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select c from Category c where c.name = :name");
+        Query query = session.createQuery("from Category c where c.name = :name");
         return (Category) query.setParameter("name", name).uniqueResult();
     }
 
@@ -50,7 +50,7 @@ public class HCategoryDao implements ICategoryDao {
     @Transactional
     public Category getCategoryById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select c from Category c where c.id = :id");
+        Query query = session.createQuery("from Category c where c.id = :id");
         return (Category) query.setParameter("id", id).uniqueResult();
     }
 }

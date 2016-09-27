@@ -9,9 +9,11 @@ import javaonline.dao.entity.MenuName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
@@ -75,23 +77,43 @@ public class MenuController {
         return "admin/menu/addOrUpdateMenu";
     }
 
-    @RequestMapping(value = "/admin/menu/{id}/update", method = RequestMethod.GET)
-    public String addDish(@PathVariable int id, Model model) {
-        model.addAttribute("menu", menuService.getMenuById(id));
-        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
-        model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
-        return "admin/menu/addOrUpdateMenu";
-    }
-
     @RequestMapping(value = "/admin/addOrUpdateMenu", method = RequestMethod.POST)
-    public String addNewDish(@ModelAttribute Menu menu) {
+    public String addNewDish(@ModelAttribute Menu menu, BindingResult result,
+                             Model model, final RedirectAttributes redirectAttributes) {
+
+        boolean error = false;
+
+        if (menu.getMenuNameId() == null){
+            result.rejectValue("menuNameId", "error.MenuName");
+            error = true;
+        }
+
+        if (menu.getDishId() == null){
+            result.rejectValue("dishId", "error.DishName");
+            error = true;
+        }
+
+        if(error) {
+            model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+            model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
+            return "admin/menu/addOrUpdateMenu";
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if(menu.isNew()){
+            redirectAttributes.addFlashAttribute("msg", "Menu added successfully!");
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Menu updated successfully!");
+        }
+
+
         if  (menuService.getMenuById(menu.getId())==null){
             menuService.addDishInMenu(menu);
 
         } else{
             menuService.updateMenu(menu);
         }
-        return "admin/successfulOperation";
+        return "redirect:/admin/getAllMenu";
     }
 
     @RequestMapping(value = "/admin/deleteDishesByMenuName", method = RequestMethod.GET)
@@ -100,10 +122,20 @@ public class MenuController {
         return "admin/successfulOperation";
     }
 
-    @RequestMapping(value = "/admin/menu/{name}/delete", method = RequestMethod.GET)
-    public String deleteMenu(@PathVariable String name) {
-        menuService.deleteDishesByMenuName(name);
-        return "admin/successfulOperation";
+    @RequestMapping(value = "/admin/menu/{id}/update", method = RequestMethod.GET)
+    public String addDish(@PathVariable int id, Model model) {
+        model.addAttribute("menu", menuService.getMenuById(id));
+        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+        model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
+        return "admin/menu/addOrUpdateMenu";
+    }
+
+    @RequestMapping(value = "/admin/menu/{id}/delete", method = RequestMethod.GET)
+    public String deleteMenu(@PathVariable int id, final RedirectAttributes redirectAttributes) {
+        menuService.deleteMenuByID(id);
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Menu was deleted!");
+        return "redirect:/admin/getAllMenu";
     }
 
 //    @RequestMapping(value = "/deleteDishFromMenuByName", method = RequestMethod.GET)

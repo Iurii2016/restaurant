@@ -39,14 +39,14 @@ public class HDishIngredientDao implements IDishIngredientDao {
     @Override
     @Transactional
     public List<DishIngredient> getAllDishIngredients() {
-        return sessionFactory.getCurrentSession().createQuery("select i from DishIngredient i").list();
+        return sessionFactory.getCurrentSession().createQuery("from DishIngredient").list();
     }
 
     @Override
     @Transactional
     public List<Ingredient> getIngredientsByDishName(String dishName) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select i from DishIngredient i where i.dishId = " +
+        Query query = session.createQuery("from DishIngredient i where i.dishId = " +
                 "(select d.id from Dish d where d.name = :dishName)");
         query.setParameter("dishName", dishName);
         return query.list();

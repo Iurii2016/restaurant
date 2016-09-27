@@ -35,14 +35,14 @@ public class HPositionDao implements IPositionDao {
     @Override
     @Transactional
     public List<Position> getAllPosition() {
-        return sessionFactory.getCurrentSession().createQuery("select p from Position p").list();
+        return sessionFactory.getCurrentSession().createQuery("from Position").list();
     }
 
     @Override
     @Transactional
     public Position getPositionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select p from Position p where p.name = :name");
+        Query query = session.createQuery("from Position p where p.name = :name");
         return (Position) query.setParameter("name", name).uniqueResult();
     }
 
@@ -50,7 +50,7 @@ public class HPositionDao implements IPositionDao {
     @Transactional
     public Position gerPositionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select p from Position p where p.id = :id");
+        Query query = session.createQuery("from Position p where p.id = :id");
         return (Position) query.setParameter("id", id).uniqueResult();
     }
 }

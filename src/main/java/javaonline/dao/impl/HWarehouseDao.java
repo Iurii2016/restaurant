@@ -33,7 +33,7 @@ public class HWarehouseDao implements IWarehouseDao {
     @Transactional
     public void changeIngredientQuantity(String ingredient, float quantity) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select w from Warehouse w where w.ingredientId = " +
+        Query query = session.createQuery("from Warehouse w where w.ingredientId = " +
                 "(select i.id from Ingredient i where i.ingredient = :name)");
         query.setParameter("name", ingredient);
         Warehouse warehouse = (Warehouse) query.uniqueResult();
@@ -46,7 +46,7 @@ public class HWarehouseDao implements IWarehouseDao {
     @Transactional
     public List<Warehouse> getEndingIngredients(float quantity) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select w from Warehouse w where w.quantity <= :quantity");
+        Query query = session.createQuery("from Warehouse w where w.quantity <= :quantity");
         query.setParameter("quantity", quantity);
         return query.getResultList();
     }
@@ -55,14 +55,14 @@ public class HWarehouseDao implements IWarehouseDao {
     @Transactional
     public List<Warehouse> getWarehouseBalance() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select w from Warehouse w").list();
+        return session.createQuery("from Warehouse").list();
     }
 
     @Override
     @Transactional
     public Warehouse getBalanceByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select w from Warehouse w where w.ingredientId = " +
+        Query query = session.createQuery("from Warehouse w where w.ingredientId = " +
                 "(select i.id from Ingredient i where i.ingredient = :name)");
         query.setParameter("name", name);
         return (Warehouse) query.uniqueResult();
@@ -72,7 +72,7 @@ public class HWarehouseDao implements IWarehouseDao {
     @Transactional
     public Warehouse getBalanceByID(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select w from Warehouse w where w.id = :id");
+        Query query = session.createQuery("from Warehouse w where w.id = :id");
         query.setParameter("id", id);
         return (Warehouse) query.uniqueResult();
     }
