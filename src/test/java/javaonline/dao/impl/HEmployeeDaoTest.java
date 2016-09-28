@@ -1,11 +1,13 @@
 package javaonline.dao.impl;
 
 import javaonline.dao.IEmployeeDao;
+import javaonline.dao.IMenuNameDao;
 import javaonline.dao.IPositionDao;
 import javaonline.dao.entity.Employee;
 import javaonline.dao.entity.Position;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,20 +18,21 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@ContextConfiguration(locations = "classpath:hibernate-context-test.xml")
+@ContextConfiguration(locations = {"classpath:H-application-context-test.xml", "classpath:hibernate-context-test.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HEmployeeDaoTest {
 
-    private IPositionDao positionDao;
+    private IEmployeeDao employeeService;
+    private IPositionDao IPositionDao;
 
-    private IEmployeeDao employeeDao;
-
-    public void setPositionDao(IPositionDao positionDao) {
-        this.positionDao = positionDao;
+    @Autowired
+    public void setEmployeeService(IEmployeeDao employeeService) {
+        this.employeeService = employeeService;
     }
 
-    public void setEmployeeDao(IEmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    @Autowired
+    public void setIPositionDao(IPositionDao IPositionDao) {
+        this.IPositionDao = IPositionDao;
     }
 
     @Test
@@ -38,8 +41,8 @@ public class HEmployeeDaoTest {
     public void testAddPosition() throws Exception {
         Position position = new Position();
         position.setName("test position");
-        positionDao.addPosition(position);
-        List<Position> positions = positionDao.getAllPosition();
+        IPositionDao.addPosition(position);
+        List<Position> positions = IPositionDao.getAllPosition();
         assertEquals(position.getName(), positions.get(0).getName());
     }
 
@@ -49,7 +52,7 @@ public class HEmployeeDaoTest {
     public void testAddEmployee() throws Exception {
         Position position = new Position();
         position.setName("test position");
-        positionDao.addPosition(position);
+        IPositionDao.addPosition(position);
 
         Employee employee = new Employee();
         employee.setSurname("testSurname");
@@ -59,10 +62,10 @@ public class HEmployeeDaoTest {
         employee.setPhoneNumber("+380670002233");
         employee.setPosition(position);
 
-        employeeDao.addEmployee(employee);
+        employeeService.addEmployee(employee);
 
-        List<Position> positions = positionDao.getAllPosition();
-        List<Employee> employees = employeeDao.getAllEmployees();
+        List<Position> positions = IPositionDao.getAllPosition();
+        List<Employee> employees = employeeService.getAllEmployees();
 
         assertEquals(1, positions.size());
         assertEquals(1, employees.size());
@@ -74,8 +77,19 @@ public class HEmployeeDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void deleteEmployee() throws Exception {
+    public void deletePosition() throws Exception {
+        Position position = new Position();
+        position.setName("test position");
+        IPositionDao.addPosition(position);
 
+        List<Position> positions = IPositionDao.getAllPosition();
+
+        assertEquals(position.getName(), positions.get(0).getName());
+
+        IPositionDao.deletePosition(position.getName());
+        List<Position> positionAfterDelete = IPositionDao.getAllPosition();
+
+        assertEquals(0, positionAfterDelete.size());
     }
 
 }

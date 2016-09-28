@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+                           default-autowire="byName">
+
+    <context:component-scan base-package="javaonline"/>
+
+    <bean class="javaonline.dao.impl.HCategoryDao" id="categoryDao"/>
+
+    <bean class="javaonline.dao.impl.HCookedDishDao" id="cookedDish"/>
+
+    <bean class="javaonline.dao.impl.HDishDao" id="dishDao"/>
+
+    <bean class="javaonline.dao.impl.HEmployeeDao" id="employeeDao"/>
+
+    <bean class="javaonline.dao.impl.HIngredientDao" id="ingredientDao"/>
+
+    <bean class="javaonline.dao.impl.HDishIngredientDao" id="dishIngredientDao"/>
+
+    <bean class="javaonline.dao.impl.HMenuDao" id="menuDao"/>
+
+    <bean class="javaonline.dao.impl.HMenuNameDao" id="menuNameDao"/>
+
+    <bean class="javaonline.dao.impl.HOrderDao" id="orderDao"/>
+
+    <bean class="javaonline.dao.impl.HPositionDao" id="positionDao"/>
+
+    <bean class="javaonline.dao.impl.HWarehouseDao" id="warehouseDao"/>
+
+    <bean class="javaonline.dao.impl.HUserDao" id="userDao"/>
+
+    <bean class="javaonline.dao.impl.HUserRoleDao" id="userRoleDao"/>
+
+
+</beans>
