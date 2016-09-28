@@ -47,11 +47,10 @@ public class HEmployeeDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testGetPosition() throws Exception {
+    public void testGetPositionByName() throws Exception {
         Position position = createPosition("getPosition");
         Position getPosition = IPositionDao.getPositionByName(position.getName());
         assertEquals(position.getName(), getPosition.getName());
-
     }
 
     @Test
@@ -60,12 +59,9 @@ public class HEmployeeDaoTest {
     public void testDeletePosition() throws Exception {
         Position position = createPosition("deletePosition");
         List<Position> positions = IPositionDao.getAllPosition();
-
-        assertEquals(position.getName(), positions.get(0).getName());
-
+        assertEquals(1, positions.size());
         IPositionDao.deletePosition(position.getName());
         List<Position> positionAfterDelete = IPositionDao.getAllPosition();
-
         assertEquals(0, positionAfterDelete.size());
     }
 
@@ -75,18 +71,13 @@ public class HEmployeeDaoTest {
     public void testAddEmployee() throws Exception {
         Position position = createPosition("addPosition");
         Employee employee = createEmployee(position);
-
         List<Position> positions = IPositionDao.getAllPosition();
         List<Employee> employees = employeeService.getAllEmployees();
-
         assertEquals(1, positions.size());
         assertEquals(1, employees.size());
-
         assertEquals(position.getName(), positions.get(0).getName());
         assertEquals(employee.getSurname(), employees.get(0).getSurname());
     }
-
-
 
     @Test
     @Transactional
@@ -94,12 +85,9 @@ public class HEmployeeDaoTest {
     public void testDeleteEmployee() throws Exception {
         Position position = createPosition("addPosition");
         Employee employee = createEmployee(position);
-
         List<Employee> employees = employeeService.getAllEmployees();
-        assertEquals(employee.getSurname(), employees.get(0).getSurname());
-
+        assertEquals(1, employees.size());
         employeeService.deleteEmployee(employee);
-
         List<Employee> afterDeleteEmployees = employeeService.getAllEmployees();
         assertEquals(0, afterDeleteEmployees.size());
     }
@@ -111,13 +99,9 @@ public class HEmployeeDaoTest {
     public void testGetEmployeeById() throws Exception {
         Position position = createPosition("addPosition");
         Employee employee = createEmployee(position);
-
-        List<Employee> employees = employeeService.getAllEmployees();
-        assertEquals(employee.getSurname(), employees.get(0).getSurname());
-
-        employeeService.getEmployeeById(employee.getId());
+        Employee employeeById = employeeService.getEmployeeById(employee.getId());
+        assertEquals(employee.getSurname(), employeeById.getSurname());
     }
-
 
     @Test
     @Transactional
@@ -125,18 +109,13 @@ public class HEmployeeDaoTest {
     public void testUpdateEmployee() throws Exception {
         Position position = createPosition("addPosition");
         Employee employee = createEmployee(position);
-
         List<Employee> employees = employeeService.getAllEmployees();
-        assertEquals(employee.getSurname(), employees.get(0).getSurname());
-
+        assertEquals(1, employees.size());
         employee.setName("updateName");
-
         employeeService.updateEmployee(employee);
-
         List<Employee> afterUpdateEmployees = employeeService.getAllEmployees();
         assertEquals(employee.getName(), afterUpdateEmployees.get(0).getName());
     }
-
 
     private Employee createEmployee(Position position) {
         Employee employee = new Employee();
@@ -146,7 +125,6 @@ public class HEmployeeDaoTest {
         employee.setSalary(10000.0F);
         employee.setPhoneNumber("+380670002233");
         employee.setPosition(position);
-
         employeeService.addEmployee(employee);
         return employee;
     }
@@ -157,5 +135,4 @@ public class HEmployeeDaoTest {
         IPositionDao.addPosition(position);
         return position;
     }
-
 }

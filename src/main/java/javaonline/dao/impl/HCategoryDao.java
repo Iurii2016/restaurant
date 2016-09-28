@@ -27,7 +27,7 @@ public class HCategoryDao implements ICategoryDao {
     @Transactional
     public void deleteCategoryByName(String category) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete Category c where c.category = :category");
+        Query query = session.createQuery("delete Category c where c.name = :category");
         query.setParameter("category", category).executeUpdate();
 
     }
