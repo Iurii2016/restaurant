@@ -3,7 +3,6 @@ package javaonline.dao.impl;
 import javaonline.dao.IIngredientDao;
 import javaonline.dao.IWarehouseDao;
 import javaonline.dao.entity.Ingredient;
-import javaonline.dao.entity.Unit;
 import javaonline.dao.entity.Warehouse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +22,12 @@ public class HWarehouseDaoTest {
 
     private IIngredientDao ingredientDao;
     private IWarehouseDao warehouseDao;
+    private CreateEntity createEntity;
+
+    @Autowired
+    public void setCreateEntity(CreateEntity createEntity) {
+        this.createEntity = createEntity;
+    }
 
     @Autowired
     public void setIngredientDao(IIngredientDao ingredientDao) {
@@ -37,8 +42,8 @@ public class HWarehouseDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testGetAllIngredient() throws Exception {
-        Ingredient ingredient = createIngredient();
+    public void testAddAndGetAllIngredient() throws Exception {
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
         List<Ingredient> ingredients = ingredientDao.getAllIngredients();
         assertEquals(ingredient.getIngredient(), ingredients.get(0).getIngredient());
@@ -46,7 +51,7 @@ public class HWarehouseDaoTest {
     }
 
     public void testGetIngredientByName() throws Exception {
-        Ingredient ingredient = createIngredient();
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
         Ingredient ingredientFromDB = ingredientDao.getIngredientByName(ingredient.getIngredient());
         assertEquals(ingredient.getIngredient(), ingredientFromDB.getIngredient());
@@ -56,7 +61,7 @@ public class HWarehouseDaoTest {
     @Transactional
     @Rollback
     public void testDeleteIngredient() throws Exception {
-        Ingredient ingredient = createIngredient();
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
         List<Ingredient> ingredients = ingredientDao.getAllIngredients();
         assertEquals(1, ingredients.size());
@@ -68,10 +73,10 @@ public class HWarehouseDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testGetWarehouseBalance() throws Exception {
-        Ingredient ingredient = createIngredient();
+    public void testAddAndGetWarehouseBalance() throws Exception {
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
-        Warehouse warehouse = createWarehouse(ingredient);
+        Warehouse warehouse = createEntity.createWarehouse(ingredient);
         warehouseDao.addIngredientIntoWarehouse(warehouse);
         List<Warehouse> warehouses = warehouseDao.getWarehouseBalance();
         assertEquals(warehouse.getIngredientId(), warehouses.get(0).getIngredientId());
@@ -81,9 +86,9 @@ public class HWarehouseDaoTest {
     @Transactional
     @Rollback
     public void testGetBalanceById() throws Exception {
-        Ingredient ingredient = createIngredient();
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
-        Warehouse warehouse = createWarehouse(ingredient);
+        Warehouse warehouse = createEntity.createWarehouse(ingredient);
         warehouseDao.addIngredientIntoWarehouse(warehouse);
         Warehouse warehouseFromDB = warehouseDao.getBalanceByID(warehouse.getId());
         assertEquals(warehouse.getIngredientId(), warehouseFromDB.getIngredientId());
@@ -93,12 +98,12 @@ public class HWarehouseDaoTest {
     @Transactional
     @Rollback
     public void testDeleteIngredientFromWarehouse() throws Exception {
-        Ingredient ingredient = createIngredient();
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
-        Warehouse warehouse = createWarehouse(ingredient);
+        Warehouse warehouse = createEntity.createWarehouse(ingredient);
         warehouseDao.addIngredientIntoWarehouse(warehouse);
         List<Warehouse> warehouses = warehouseDao.getWarehouseBalance();
-        assertEquals(1,warehouses.size());
+        assertEquals(1, warehouses.size());
         warehouseDao.deleteIngredientFromWarehouse(warehouse.getIngredientId().getIngredient());
         List<Warehouse> afterDeleteWarehouses = warehouseDao.getWarehouseBalance();
         assertEquals(0, afterDeleteWarehouses.size());
@@ -108,30 +113,16 @@ public class HWarehouseDaoTest {
     @Transactional
     @Rollback
     public void testUpdateWarehouseBalance() throws Exception {
-        Ingredient ingredient = createIngredient();
+        Ingredient ingredient = createEntity.createIngredient();
         ingredientDao.addIngredient(ingredient);
-        Warehouse warehouse = createWarehouse(ingredient);
+        Warehouse warehouse = createEntity.createWarehouse(ingredient);
         warehouseDao.addIngredientIntoWarehouse(warehouse);
         List<Warehouse> warehouses = warehouseDao.getWarehouseBalance();
-        assertEquals(1,warehouses.size());
+        assertEquals(1, warehouses.size());
         warehouse.setQuantity(20.0F);
         warehouseDao.updateWarehouseBalance(warehouse);
         List<Warehouse> afterDeleteWarehouses = warehouseDao.getWarehouseBalance();
-        assertEquals(warehouse.getQuantity(), afterDeleteWarehouses.get(0).getQuantity(),0);
-    }
-
-    private Ingredient createIngredient() {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setIngredient("testIngredient");
-        return ingredient;
-    }
-
-    private Warehouse createWarehouse(Ingredient ingredient) {
-        Warehouse warehouse = new Warehouse();
-        warehouse.setIngredientId(ingredient);
-        warehouse.setQuantity(10.0F);
-        warehouse.setUnit(Unit.kg);
-        return warehouse;
+        assertEquals(warehouse.getQuantity(), afterDeleteWarehouses.get(0).getQuantity(), 0);
     }
 
 }

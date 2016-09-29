@@ -1,12 +1,7 @@
 package javaonline.dao.impl;
 
-import javaonline.dao.IEmployeeDao;
-import javaonline.dao.IOrderDao;
-import javaonline.dao.IPositionDao;
-import javaonline.dao.entity.Employee;
-import javaonline.dao.entity.Order;
-import javaonline.dao.entity.OrderStatus;
-import javaonline.dao.entity.Position;
+import javaonline.dao.*;
+import javaonline.dao.entity.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @ContextConfiguration(locations = {"classpath:H-application-context-test.xml", "classpath:hibernate-context-test.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class HOrderDaoTest {
+public class HCookedDishDaoTest {
 
     private IOrderDao orderDao;
     private IEmployeeDao employeeDao;
     private IPositionDao positionDao;
+    private ICategoryDao categoryDao;
+    private IDishDao dishDao;
+    private ICookedDishDao cookedDishDao;
     private CreateEntity createEntity;
+
+    @Autowired
+    public void setCategoryDao(ICategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
+    @Autowired
+    public void setCookedDishDao(ICookedDishDao cookedDishDao) {
+        this.cookedDishDao = cookedDishDao;
+    }
 
     @Autowired
     public void setOrderDao(IOrderDao orderDao) {
@@ -48,48 +56,29 @@ public class HOrderDaoTest {
         this.createEntity = createEntity;
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void testAddAndGetAllOrders() throws Exception {
-        Order order = addOrder();
-        List<Order> orders = orderDao.getAllOrders();
-        assertEquals(order.getId(), orders.get(0).getId());
+    @Autowired
+    public void setDishDao(IDishDao dishDao) {
+        this.dishDao = dishDao;
     }
 
     @Test
     @Transactional
     @Rollback
-    public void testDeleteOpenedOrder() throws Exception {
-        Order order = addOrder();
-        List<Order> orders = orderDao.getAllOrders();
-        assertEquals(1, orders.size());
-        orderDao.deleteOpenedOrder(order.getId());
-        List<Order> afterDeleteOrders = orderDao.getAllOrders();
-        assertEquals(0, afterDeleteOrders.size());
-    }
-
-    @Test
-    @Transactional
-    @Rollback
-    public void testSetClosedStatus() throws Exception {
-        Order order = addOrder();
-        List<Order> orders = orderDao.getAllOrders();
-        assertEquals(OrderStatus.opened, orders.get(0).getStatus());
-        orderDao.setClosedStatus(order.getId());
-        List<Order> afterSetClosedStatusOrders = orderDao.getAllOrders();
-        assertEquals(OrderStatus.closed, afterSetClosedStatusOrders.get(0).getStatus());
-    }
-
-
-    private Order addOrder() {
+    public void testAddAndGetCookedDishes() throws Exception {
         Position position = createEntity.createPosition();
         positionDao.addPosition(position);
         Employee employee = createEntity.createEmployee(position);
         employeeDao.addEmployee(employee);
         Order order = createEntity.createOrder(employee);
         orderDao.addOrder(order);
-        return order;
+        Category category = createEntity.createCategory();
+        categoryDao.addCategory(category);
+        Dish dish = createEntity.createDish(category);
+        dishDao.addDish(dish);
+        CookedDish cookedDish = createEntity.createCookedDish(dish, employee, order);
+        cookedDishDao.addCookedDish(cookedDish);
+        List<CookedDish> cookedDishes = cookedDishDao.getCookedDishes();
+        assertEquals(cookedDish.getDishId(), cookedDishes.get(0).getDishId());
     }
 
 }

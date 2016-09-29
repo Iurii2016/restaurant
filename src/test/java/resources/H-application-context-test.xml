@@ -35,5 +35,6 @@
 
     <bean class="javaonline.dao.impl.HUserRoleDao" id="userRoleDao"/>
 
+    <bean class="javaonline.dao.impl.CreateEntity" id="createEntity"/>
 
 </beans>

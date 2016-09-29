@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @ContextConfiguration(locations = {"classpath:H-application-context-test.xml", "classpath:hibernate-context-test.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +28,12 @@ public class HMenuDaoTest {
     private IMenuDao menuDao;
     private ICategoryDao categoryDao;
     private IDishDao dishDao;
+    private CreateEntity createEntity;
+
+    @Autowired
+    public void setCreateEntity(CreateEntity createEntity) {
+        this.createEntity = createEntity;
+    }
 
     @Autowired
     public void setMenuNameDao(IMenuNameDao menuNameDao) {
@@ -52,9 +58,8 @@ public class HMenuDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testGetAllMenuName() throws Exception {
-        MenuName menuName = createMenuName();
-        menuNameDao.addMenuName(menuName);
+    public void testAddAndGetAllMenuName() throws Exception {
+        MenuName menuName = addMenuNameToDB();
         List<MenuName> menuNames = menuNameDao.getAllMenuName();
         assertEquals(menuName.getName(), menuNames.get(0).getName());
     }
@@ -63,8 +68,7 @@ public class HMenuDaoTest {
     @Transactional
     @Rollback
     public void testDeleteMenuNameByName() throws Exception {
-        MenuName menuName = createMenuName();
-        menuNameDao.addMenuName(menuName);
+        MenuName menuName = addMenuNameToDB();
         List<MenuName> menuNames = menuNameDao.getAllMenuName();
         assertEquals(1, menuNames.size());
         menuNameDao.deleteMenuNameByName(menuName.getName());
@@ -75,15 +79,9 @@ public class HMenuDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testGetAllMenu() throws Exception {
-        MenuName menuName = createMenuName();
-        menuNameDao.addMenuName(menuName);
-        Category category = createCategory();
-        categoryDao.addCategory(category);
-        Dish dish = createDish(category);
-        dishDao.addDish(dish);
-        Menu menu = createMenu(menuName, dish);
-        menuDao.addDishInMenu(menu);
+    public void testAddAndGetAllMenu() throws Exception {
+        MenuName menuName = addMenuNameToDB();
+        Menu menu = addMenuToDB(menuName);
         List<Menu> menus = menuDao.getAllMenu();
         assertEquals(menuName.getName(), menus.get(0).getMenuNameId().getName());
     }
@@ -92,14 +90,8 @@ public class HMenuDaoTest {
     @Transactional
     @Rollback
     public void testUpdateMenu() throws Exception {
-        MenuName menuName = createMenuName();
-        menuNameDao.addMenuName(menuName);
-        Category category = createCategory();
-        categoryDao.addCategory(category);
-        Dish dish = createDish(category);
-        dishDao.addDish(dish);
-        Menu menu = createMenu(menuName, dish);
-        menuDao.addDishInMenu(menu);
+        MenuName menuName = addMenuNameToDB();
+        Menu menu = addMenuToDB(menuName);
         List<Menu> menus = menuDao.getAllMenu();
         assertEquals(menuName.getName(), menus.get(0).getMenuNameId().getName());
         menuName.setName("newMenuName");
@@ -109,18 +101,13 @@ public class HMenuDaoTest {
         assertEquals("newMenuName", afterUpdateMenus.get(0).getMenuNameId().getName());
     }
 
+
     @Test
     @Transactional
     @Rollback
     public void testDeleteDishFromMenu() throws Exception {
-        MenuName menuName = createMenuName();
-        menuNameDao.addMenuName(menuName);
-        Category category = createCategory();
-        categoryDao.addCategory(category);
-        Dish dish = createDish(category);
-        dishDao.addDish(dish);
-        Menu menu = createMenu(menuName, dish);
-        menuDao.addDishInMenu(menu);
+        MenuName menuName = addMenuNameToDB();
+        Menu menu = addMenuToDB(menuName);
         List<Menu> menus = menuDao.getAllMenu();
         assertEquals(menuName.getName(), menus.get(0).getMenuNameId().getName());
         menuDao.deleteMenuByID(menu.getId());
@@ -128,31 +115,19 @@ public class HMenuDaoTest {
         assertEquals(0, afterDeleteMenus.size());
     }
 
-    private Category createCategory() {
-        Category category = new Category();
-        category.setName("shashlik");
-        return category;
-    }
-
-    private Dish createDish(Category category) {
-        Dish dish = new Dish();
-        dish.setName("Chicken shashlik");
-        dish.setCategoryId(category);
-        dish.setPrice(70.0F);
-        dish.setWeight(100);
-        return dish;
-    }
-
-    private MenuName createMenuName() {
-        MenuName menuName = new MenuName();
-        menuName.setName("grill");
+    private MenuName addMenuNameToDB() {
+        MenuName menuName = createEntity.createMenuName();
+        menuNameDao.addMenuName(menuName);
         return menuName;
     }
 
-    private Menu createMenu(MenuName menuName, Dish dish) {
-        Menu menu = new Menu();
-        menu.setDishId(dish);
-        menu.setMenuNameId(menuName);
+    private Menu addMenuToDB(MenuName menuName) {
+        Category category = createEntity.createCategory();
+        categoryDao.addCategory(category);
+        Dish dish = createEntity.createDish(category);
+        dishDao.addDish(dish);
+        Menu menu = createEntity.createMenu(menuName, dish);
+        menuDao.addDishInMenu(menu);
         return menu;
     }
 
