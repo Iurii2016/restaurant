@@ -1,6 +1,5 @@
 package javaonline.dao;
 
-
 import javaonline.dao.entity.Dish;
 
 import java.util.List;
@@ -17,4 +16,6 @@ public interface IDishDao {
     Dish getDishById(int id);
 
     List<Dish> getAllDishes();
+
+    public List<Dish> orderBy(String orderBy);
 }

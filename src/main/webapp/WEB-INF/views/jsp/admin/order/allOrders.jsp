@@ -20,6 +20,14 @@
             margin-bottom: 12px;
         }
     </style>
+    <%--<script>--%>
+        <%--function sort(id) {--%>
+            <%--var element = document.getElementById(id);--%>
+            <%--if (element.className=="fa fa-caret-down"){--%>
+                <%--element.className="fa fa-caret-up";--%>
+            <%--}else {element.className="fa fa-caret-down"}--%>
+        <%--}--%>
+    <%--</script>--%>
 </head>
 <body>
 <div class="container">
@@ -27,6 +35,7 @@
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
+            <%--<th>ID <button onclick="sort('idPicture')"><i id="idPicture" class="fa fa-caret-down"/></th>--%>
             <th>ID <button onclick="location.href='/admin/order/orderBy/${"id"}'"><i class="fa fa-caret-down"/></th>
             <th>Waiter <button onclick="location.href='/admin/order/orderBy/${"employeeId"}'"><i class="fa fa-caret-down"/></th>
             <th>Table number <button onclick="location.href='/admin/order/orderBy/${"tableNumber"}'"><i class="fa fa-caret-down"/></th>

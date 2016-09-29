@@ -4,21 +4,19 @@ import javaonline.dao.ICategoryDao;
 import javaonline.dao.IDishDao;
 import javaonline.dao.IDishIngredientDao;
 import javaonline.dao.IIngredientDao;
-import javaonline.dao.entity.*;
+import javaonline.dao.entity.Category;
+import javaonline.dao.entity.Dish;
+import javaonline.dao.entity.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class DishController {
@@ -71,8 +69,8 @@ public class DishController {
     }
 
     @RequestMapping(value = "/admin/getAllDishes", method = RequestMethod.GET)
-    public String dishes(Map<String, Object> model) {
-        model.put("ListOfDishes", dishService.getAllDishes());
+    public String dishes(Model model) {
+        model.addAttribute("ListOfDishes", dishService.getAllDishes());
         return "admin/dish/allDishes";
     }
 
@@ -104,35 +102,35 @@ public class DishController {
 
         boolean error = false;
 
-        if (dish.getName().isEmpty()){
+        if (dish.getName().isEmpty()) {
             result.rejectValue("name", "error.Name");
             error = true;
         }
 
-        if (dish.getCategoryId()==null){
+        if (dish.getCategoryId() == null) {
             result.rejectValue("categoryId", "error.CategoryId");
             error = true;
         }
 
-        if (dish.getPrice()==0){
+        if (dish.getPrice() == 0) {
             result.rejectValue("price", "error.Price");
             error = true;
         }
 
-        if (dish.getWeight() == 0){
+        if (dish.getWeight() == 0) {
             result.rejectValue("weight", "error.Weight");
             error = true;
         }
 
-        if(error) {
+        if (error) {
             model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
             return "admin/dish/addOrUpdateDish";
         }
 
         redirectAttributes.addFlashAttribute("css", "success");
-        if(dish.isNew()){
+        if (dish.isNew()) {
             redirectAttributes.addFlashAttribute("msg", "Dish added successfully!");
-        }else{
+        } else {
             redirectAttributes.addFlashAttribute("msg", "Dish updated successfully!");
         }
 
@@ -144,4 +142,11 @@ public class DishController {
         }
         return "redirect:/admin/getAllDishes";
     }
+
+    @RequestMapping(value = "/admin/dish/orderBy/{field}", method = RequestMethod.GET)
+    public String orderBy(@PathVariable String field, Model model) {
+        model.addAttribute("ListOfDishes", dishService.orderBy(field));
+        return "admin/dish/allDishes";
+    }
+
 }

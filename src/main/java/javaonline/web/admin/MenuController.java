@@ -12,13 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MenuController {
@@ -83,34 +80,34 @@ public class MenuController {
 
         boolean error = false;
 
-        if (menu.getMenuNameId() == null){
+        if (menu.getMenuNameId() == null) {
             result.rejectValue("menuNameId", "error.MenuName");
             error = true;
         }
 
-        if (menu.getDishId() == null){
+        if (menu.getDishId() == null) {
             result.rejectValue("dishId", "error.DishName");
             error = true;
         }
 
-        if(error) {
+        if (error) {
             model.addAttribute("listOfDishes", IDishDao.getAllDishes());
             model.addAttribute("listOfMenuNames", IMenuNameDao.getAllMenuName());
             return "admin/menu/addOrUpdateMenu";
         }
 
         redirectAttributes.addFlashAttribute("css", "success");
-        if(menu.isNew()){
+        if (menu.isNew()) {
             redirectAttributes.addFlashAttribute("msg", "Menu added successfully!");
-        }else{
+        } else {
             redirectAttributes.addFlashAttribute("msg", "Menu updated successfully!");
         }
 
 
-        if  (menuService.getMenuById(menu.getId())==null){
+        if (menuService.getMenuById(menu.getId()) == null) {
             menuService.addDishInMenu(menu);
 
-        } else{
+        } else {
             menuService.updateMenu(menu);
         }
         return "redirect:/admin/getAllMenu";
@@ -136,6 +133,12 @@ public class MenuController {
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Menu was deleted!");
         return "redirect:/admin/getAllMenu";
+    }
+
+    @RequestMapping(value = "/admin/menu/orderBy/{field}", method = RequestMethod.GET)
+    public String orderBy(@PathVariable String field, Model model) {
+        model.addAttribute("ListOfMenu", menuService.orderBy(field));
+        return "admin/menu/allMenu";
     }
 
 //    @RequestMapping(value = "/deleteDishFromMenuByName", method = RequestMethod.GET)

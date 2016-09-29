@@ -7,6 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class HMenuDao implements IMenuDao {
@@ -80,4 +83,20 @@ public class HMenuDao implements IMenuDao {
         return sessionFactory.getCurrentSession().createQuery("from Menu").list();
     }
 
+    @Override
+    @Transactional
+    public List<Menu> orderBy(String orderBy) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Menu> criteriaQuery = criteriaBuilder.createQuery(Menu.class);
+        Root<Menu> root = criteriaQuery.from(Menu.class);
+        criteriaQuery.select(root);
+        if (orderBy.equals("menuNameId") || orderBy.equals("dishId")) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("name")));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+        }
+        session.createQuery(criteriaQuery).getResultList();
+        return session.createQuery(criteriaQuery).getResultList();
+    }
 }

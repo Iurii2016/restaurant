@@ -41,11 +41,11 @@
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Weight</th>
+            <th>ID <button onclick="location.href='/admin/dish/orderBy/${"id"}'"><i class="fa fa-caret-down"/></th>
+            <th>Name <button onclick="location.href='/admin/dish/orderBy/${"name"}'"><i class="fa fa-caret-down"/></th>
+            <th>Category <button onclick="location.href='/admin/dish/orderBy/${"categoryId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Price <button onclick="location.href='/admin/dish/orderBy/${"price"}'"><i class="fa fa-caret-down"/></th>
+            <th>Weight <button onclick="location.href='/admin/dish/orderBy/${"weight"}'"><i class="fa fa-caret-down"/></th>
             <th colspan="2">Action</th>
         </tr>
         <tr>

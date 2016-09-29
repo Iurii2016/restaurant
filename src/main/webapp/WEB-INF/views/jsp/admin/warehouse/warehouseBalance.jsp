@@ -53,7 +53,7 @@
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputIngredient" onkeyup="myFunction('inputIngredient', 1)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputQuantity" onkeyup="myFunction('inputQuantity', 2)" placeholder="Search.." title="Type in a name"></th>
-            <th><input type="text" id="inputUnit" onkeyup="myFunction('inputUnit', 2)" placeholder="Search.." title="Type in a name"></th>
+            <th><input type="text" id="inputUnit" onkeyup="myFunction('inputUnit', 3)" placeholder="Search.." title="Type in a name"></th>
             <th colspan="2"><button id="newIngredient"class="btn btn-success" onclick="location.href='/admin/addWarehouse'">Add new menu</button></th>
         </tr>
         </thead>

@@ -38,13 +38,13 @@
         </div>
     </c:if>
     <h2>Menu information</h2>
-    <table class="table table-striped" style="align-items: center">
+    <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Menu name</th>
-            <th>Dish</th>
-            <th>Action</th>
+            <th>ID <button onclick="location.href='/admin/menu/orderBy/${"id"}'"><i class="fa fa-caret-down"/></th>
+            <th>Menu name <button onclick="location.href='/admin/menu/orderBy/${"menuNameId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Dish <button onclick="location.href='/admin/menu/orderBy/${"dishId"}'"><i class="fa fa-caret-down"/></th>
+            <th colspan="2">Action</th>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>

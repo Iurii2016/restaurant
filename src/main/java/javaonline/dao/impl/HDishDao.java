@@ -7,6 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class HDishDao implements IDishDao {
@@ -61,5 +64,22 @@ public class HDishDao implements IDishDao {
     public List<Dish> getAllDishes() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Dish").list();
+    }
+
+    @Override
+    @Transactional
+    public List<Dish> orderBy(String orderBy) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Dish> criteriaQuery = criteriaBuilder.createQuery(Dish.class);
+        Root<Dish> root = criteriaQuery.from(Dish.class);
+        criteriaQuery.select(root);
+        if (orderBy.equals("categoryId")) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("name")));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+        }
+        session.createQuery(criteriaQuery).getResultList();
+        return session.createQuery(criteriaQuery).getResultList();
     }
 }
