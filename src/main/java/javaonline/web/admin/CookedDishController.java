@@ -7,10 +7,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,6 +93,12 @@ public class CookedDishController {
     @RequestMapping(value = "/admin/getCookedDishes", method = RequestMethod.GET)
     public String getCookedDishes(Model model) {
         model.addAttribute("ListOfCookedDishes", cookedDishService.getCookedDishes());
+        return "admin/cookedDish/allCookedDishes";
+    }
+
+    @RequestMapping(value = "/admin/cookedDish/orderBy/{field}", method = RequestMethod.GET)
+    public String getCookedDishes(@PathVariable String field, Model model) {
+        model.addAttribute("ListOfCookedDishes", cookedDishService.orderBy(field));
         return "admin/cookedDish/allCookedDishes";
     }
 

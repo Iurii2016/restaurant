@@ -72,6 +72,12 @@ public class OrderController {
         return "admin/order/allOrders";
     }
 
+    @RequestMapping(value = "/admin/order/orderBy/{field}", method = RequestMethod.GET)
+    public String getAllOrders(@PathVariable String field, Model model) {
+        model.addAttribute("ListOfOrders", ordersDaoService.orderBy(field));
+        return "admin/order/allOrders";
+    }
+
 //    @RequestMapping(value = "/getOpenedOrders", method = RequestMethod.GET)
 //    public String getOpenedOrders(Map<String, Object> model) {
 //        model.put("ListOfOrders", ordersDaoService.getOpenedOrders());

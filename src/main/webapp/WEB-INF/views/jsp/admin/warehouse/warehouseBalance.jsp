@@ -43,10 +43,10 @@
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Ingredient</th>
-            <th>Quantity</th>
-            <th>Unit</th>
+            <th>ID <button onclick="location.href='/admin/warehouse/orderBy/${"id"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Ingredient <button onclick="location.href='/admin/warehouse/orderBy/${"ingredientId"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Quantity <button onclick="location.href='/admin/warehouse/orderBy/${"quantity"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Unit <button onclick="location.href='/admin/warehouse/orderBy/${"unit"}'"><i class="fa fa-caret-down"/></button></th>
             <th>Action</th>
         </tr>
         <tr>

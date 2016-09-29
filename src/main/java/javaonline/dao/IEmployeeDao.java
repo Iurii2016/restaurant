@@ -21,4 +21,6 @@ public interface IEmployeeDao {
     Employee getEmployeeById(int id);
 
     List<Employee> getEmployeesByPosition(Position position);
+
+    public List<Employee> orderBy(String orderBy);
 }

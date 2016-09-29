@@ -8,4 +8,6 @@ public interface ICookedDishDao {
     void addCookedDish(CookedDish cookedDish);
 
     List<CookedDish> getCookedDishes();
+
+    public List<CookedDish> orderBy(String orderBy);
 }

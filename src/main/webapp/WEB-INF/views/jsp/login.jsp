@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <p align="center"><img class="profile-img" src="/img/logotype/logotype_black.jpg" width="150" height="150"/></p>
-                <h2 class="text-center login-title">Sign in to Grill'age</h2>
+                <h2 class="text-center login-title">Log in to Grill'age</h2>
                 <div class="account-wall">
                     <c:url value="/j_spring_security_check" var="loginUrl" />
                     <form method="post" action="${loginUrl}">

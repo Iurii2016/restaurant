@@ -7,6 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class HWarehouseDao implements IWarehouseDao {
@@ -85,6 +88,23 @@ public class HWarehouseDao implements IWarehouseDao {
                 "(select i.id from Ingredient i where i.ingredient = :name)");
         query.setParameter("name", name);
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public List<Warehouse> orderBy(String orderBy) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Warehouse> criteriaQuery = criteriaBuilder.createQuery(Warehouse.class);
+        Root<Warehouse> root = criteriaQuery.from(Warehouse.class);
+        criteriaQuery.select(root);
+        if(orderBy.equals("ingredientId")){
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("ingredient")));
+        }else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+        }
+        session.createQuery(criteriaQuery).getResultList();
+        return session.createQuery(criteriaQuery).getResultList();
     }
 
 }

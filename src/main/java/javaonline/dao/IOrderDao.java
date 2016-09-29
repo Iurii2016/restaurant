@@ -19,4 +19,6 @@ public interface IOrderDao {
     List<Order> getClosedOrders();
 
     Order getOrderById(int id);
+
+    public List<Order> orderBy(String orderBy);
 }

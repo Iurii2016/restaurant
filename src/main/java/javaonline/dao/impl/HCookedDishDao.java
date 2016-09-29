@@ -2,9 +2,13 @@ package javaonline.dao.impl;
 
 import javaonline.dao.ICookedDishDao;
 import javaonline.dao.entity.CookedDish;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class HCookedDishDao implements ICookedDishDao {
@@ -25,5 +29,24 @@ public class HCookedDishDao implements ICookedDishDao {
     @Transactional
     public List<CookedDish> getCookedDishes() {
         return sessionFactory.getCurrentSession().createQuery("from CookedDish").list();
+    }
+
+    @Override
+    @Transactional
+    public List<CookedDish> orderBy(String orderBy) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<CookedDish> criteriaQuery = criteriaBuilder.createQuery(CookedDish.class);
+        Root<CookedDish> root = criteriaQuery.from(CookedDish.class);
+        criteriaQuery.select(root);
+        if(orderBy.equals("dishId")){
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("name")));
+        }else if(orderBy.equals("employeeId")){
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("name")));
+        }else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+        }
+        session.createQuery(criteriaQuery).getResultList();
+        return session.createQuery(criteriaQuery).getResultList();
     }
 }

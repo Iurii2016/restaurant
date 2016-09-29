@@ -20,4 +20,6 @@ public interface IWarehouseDao {
     public Warehouse getBalanceByID(int id);
 
     void deleteIngredientFromWarehouse(String name);
+
+    public List<Warehouse> orderBy(String orderBy);
 }

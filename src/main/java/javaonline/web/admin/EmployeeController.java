@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -150,4 +151,11 @@ public class EmployeeController {
         redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
         return "redirect:/admin/allEmployees";
     }
+
+    @RequestMapping(value = "/admin/employee/orderBy/{field}", method = RequestMethod.GET)
+    public String orderBy(@PathVariable String field, Model model) {
+        model.addAttribute("ListOfEmployee", employeeService.orderBy(field));
+        return "admin/employee/allEmployees";
+    }
+
 }

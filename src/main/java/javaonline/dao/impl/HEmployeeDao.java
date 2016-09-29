@@ -101,4 +101,21 @@ public class HEmployeeDao implements IEmployeeDao {
         session.createQuery(criteriaQuery).getResultList();
         return session.createQuery(criteriaQuery).getResultList();
     }
+
+    @Override
+    @Transactional
+    public List<Employee> orderBy(String orderBy) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+        Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
+        criteriaQuery.select(employeeRoot);
+        if (orderBy.equals("position")) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(employeeRoot.get(orderBy).get("name")));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(employeeRoot.get(orderBy)));
+        }
+        session.createQuery(criteriaQuery).getResultList();
+        return session.createQuery(criteriaQuery).getResultList();
+    }
 }

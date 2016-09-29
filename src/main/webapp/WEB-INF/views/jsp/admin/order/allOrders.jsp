@@ -27,16 +27,11 @@
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <c:choose>
-                <c:when test="${position=='waiter'}"/>
-                <c:otherwise>
-                    <th>Waiter</th>
-                </c:otherwise>
-            </c:choose>
-            <th>Table number</th>
-            <th>Date</th>
-            <th>Status</th>
+            <th>ID <button onclick="location.href='/admin/order/orderBy/${"id"}'"><i class="fa fa-caret-down"/></th>
+            <th>Waiter <button onclick="location.href='/admin/order/orderBy/${"employeeId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Table number <button onclick="location.href='/admin/order/orderBy/${"tableNumber"}'"><i class="fa fa-caret-down"/></th>
+            <th>Date <button onclick="location.href='/admin/order/orderBy/${"date"}'"><i class="fa fa-caret-down"/></th>
+            <th>Status <button onclick="location.href='/admin/order/orderBy/${"status"}'"><i class="fa fa-caret-down"/></th>
             <th></th>
             <th></th>
         </tr>
@@ -49,29 +44,15 @@
         </tr>
         </thead>
         <tbody>
-        <c:choose>
-            <c:when test="${position=='waiter'}">
-                <c:forEach items="${waiter.orders}" var="order">
-                    <tr>
-                        <td>${order.id}</td>
-                        <td>${order.tableNumber}</td>
-                        <td>${order.date}</td>
-                        <td>${order.status}</td>
-                    </tr>
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <c:forEach items="${ListOfOrders}" var="order">
-                    <tr>
-                        <td>${order.id}</td>
-                        <td>${order.employeeId.name}</td>
-                        <td>${order.tableNumber}</td>
-                        <td>${order.date}</td>
-                        <td>${order.status}</td>
-                    </tr>
-                </c:forEach>
-            </c:otherwise>
-        </c:choose>
+            <c:forEach items="${ListOfOrders}" var="order">
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.employeeId.name}</td>
+                    <td>${order.tableNumber}</td>
+                    <td>${order.date}</td>
+                    <td>${order.status}</td>
+                </tr>
+            </c:forEach>
         </tbody>
     </table>
 </div>

@@ -127,6 +127,12 @@ public class WarehouseController {
         return "redirect:/admin/getWarehouseBalance";
     }
 
+    @RequestMapping(value = "/admin/warehouse/orderBy/{field}", method = RequestMethod.GET)
+    public String orderBy(@PathVariable String field, Model model) {
+        model.addAttribute("warehouseBalance", warehouseService.orderBy(field));
+        return "admin/warehouse/warehouseBalance";
+    }
+
 //    @RequestMapping(value = "/getIngredients", method = RequestMethod.GET)
 //    public String getIngredients(Model model) {
 //        model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());

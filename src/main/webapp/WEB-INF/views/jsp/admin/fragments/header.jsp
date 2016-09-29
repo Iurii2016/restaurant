@@ -41,7 +41,7 @@
 			<li><a href="/admin/getWarehouseBalance">Warehouse</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='/logout'">Sign out</button>
+			<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='/logout'">Log out</button>
 		</ul>
 	</div>
 </nav>

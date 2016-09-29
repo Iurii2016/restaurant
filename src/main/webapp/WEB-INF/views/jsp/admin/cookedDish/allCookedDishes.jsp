@@ -27,11 +27,11 @@
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Dish</th>
-            <th>Cook</th>
-            <th>Order ID</th>
-            <th>Date</th>
+            <th>ID <button onclick="location.href='/admin/cookedDish/orderBy/${"id"}'"><i class="fa fa-caret-down"/></th>
+            <th>Dish <button onclick="location.href='/admin/cookedDish/orderBy/${"dishId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Cook <button onclick="location.href='/admin/cookedDish/orderBy/${"employeeId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Order ID <button onclick="location.href='/admin/cookedDish/orderBy/${"orderId"}'"><i class="fa fa-caret-down"/></th>
+            <th>Date <button onclick="location.href='/admin/cookedDish/orderBy/${"date"}'"><i class="fa fa-caret-down"/></th>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>

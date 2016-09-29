@@ -29,18 +29,18 @@
         </div>
     </c:if>
     <div>
-    <h2>Staff information</h2>
+        <h2>Staff information</h2>
     </div>
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Surname</th>
-            <th>Name</th>
-            <th>Birthday</th>
-            <th>Phone</th>
-            <th>Salary</th>
-            <th>Position</th>
+            <th>ID <button onclick="location.href='/admin/employee/orderBy/${"id"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Surname  <button onclick="location.href='/admin/employee/orderBy/${"surname"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Name <button onclick="location.href='/admin/employee/orderBy/${"name"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Birthday <button onclick="location.href='/admin/employee/orderBy/${"birthday"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Phone <button onclick="location.href='/admin/employee/orderBy/${"phoneNumber"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Salary <button onclick="location.href='/admin/employee/orderBy/${"salary"}'"><i class="fa fa-caret-down"/></button></th>
+            <th>Position <button onclick="location.href='/admin/employee/orderBy/${"position"}'"><i class="fa fa-caret-down"/></th>
             <th colspan="2">Action</th>
         </tr>
         <tr>
