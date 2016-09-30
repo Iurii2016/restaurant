@@ -90,9 +90,15 @@ public class DishController {
 
     @RequestMapping(value = "/admin/dish/{name}/delete", method = RequestMethod.GET)
     public String deleteDish(@PathVariable String name, Model model, final RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Dish was deleted!");
-        dishService.deleteDishByName(name);
+        try {
+            dishService.deleteDishByName(name);
+            redirectAttributes.addFlashAttribute("css", "success");
+            redirectAttributes.addFlashAttribute("msg", "Dish was deleted!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("css", "danger");
+            redirectAttributes.addFlashAttribute("msg", "Exception! Dish " + name + " can not be deleted. There is one or more references on it");
+            return "redirect:/admin/getAllDishes";
+        }
         return "redirect:/admin/getAllDishes";
     }
 

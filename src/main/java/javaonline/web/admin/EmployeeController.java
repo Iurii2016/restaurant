@@ -13,16 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class EmployeeController {
@@ -73,30 +69,30 @@ public class EmployeeController {
 
         boolean error = false;
 
-        if (employee.getSurname().isEmpty()){
+        if (employee.getSurname().isEmpty()) {
             result.rejectValue("surname", "error.Surname");
             error = true;
         }
 
-        if (employee.getName().isEmpty()){
+        if (employee.getName().isEmpty()) {
             result.rejectValue("name", "error.Name");
             error = true;
         }
 
-        if (employee.getPosition() == null){
+        if (employee.getPosition() == null) {
             result.rejectValue("position", "error.Position");
             error = true;
         }
 
-        if(error) {
+        if (error) {
             model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
             return "admin/employee/addEmployee";
         }
 
         redirectAttributes.addFlashAttribute("css", "success");
-        if(employee.isNew()){
+        if (employee.isNew()) {
             redirectAttributes.addFlashAttribute("msg", "Employee added successfully!");
-        }else{
+        } else {
             redirectAttributes.addFlashAttribute("msg", "Employee updated successfully!");
         }
 
@@ -108,11 +104,12 @@ public class EmployeeController {
             cook.setPhoneNumber(employee.getPhoneNumber());
             cook.setSalary(employee.getSalary());
             cook.setPosition(employee.getPosition());
-            if (employeeService.getEmployeeById(employee.getId()) == null){
+            if (employeeService.getEmployeeById(employee.getId()) == null) {
                 employeeService.addEmployee(cook);
-            }else {
+            } else {
                 cook.setId(employee.getId());
-                employeeService.updateEmployee(cook);}
+                employeeService.updateEmployee(cook);
+            }
         } else if (employee.getPosition().getName().equals("waiter")) {
             Waiter waiter = new Waiter();
             waiter.setSurname(employee.getSurname());
@@ -121,16 +118,18 @@ public class EmployeeController {
             waiter.setPhoneNumber(employee.getPhoneNumber());
             waiter.setSalary(employee.getSalary());
             waiter.setPosition(employee.getPosition());
-            if (employeeService.getEmployeeById(employee.getId()) == null){
+            if (employeeService.getEmployeeById(employee.getId()) == null) {
                 employeeService.addEmployee(waiter);
-            }else {
+            } else {
                 waiter.setId(employee.getId());
                 employeeService.updateEmployee(waiter);
             }
         } else {
-            if (employeeService.getEmployeeById(employee.getId()) == null){
+            if (employeeService.getEmployeeById(employee.getId()) == null) {
                 employeeService.addEmployee(employee);
-            }else {employeeService.updateEmployee(employee);}
+            } else {
+                employeeService.updateEmployee(employee);
+            }
         }
         return "redirect:/admin/allEmployees";
     }
@@ -146,9 +145,15 @@ public class EmployeeController {
     @RequestMapping(value = "/admin/employee/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
         Employee employee = employeeService.getEmployeeById(id);
-        employeeService.deleteEmployee(employee);
-        redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
+        try {
+            employeeService.deleteEmployee(employee);
+            redirectAttributes.addFlashAttribute("css", "success");
+            redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("css", "danger");
+            redirectAttributes.addFlashAttribute("msg", "Exception! Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
+            return "redirect:/admin/allEmployees";
+        }
         return "redirect:/admin/allEmployees";
     }
 

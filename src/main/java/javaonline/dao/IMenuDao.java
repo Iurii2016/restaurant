@@ -22,5 +22,5 @@ public interface IMenuDao {
 
     List<Menu> getAllMenu();
 
-    public List<Menu> orderBy(String orderBy);
+    List<Menu> orderBy(String orderBy);
 }

@@ -17,9 +17,9 @@ public interface IWarehouseDao {
 
     Warehouse getBalanceByName(String name);
 
-    public Warehouse getBalanceByID(int id);
+    Warehouse getBalanceByID(int id);
 
     void deleteIngredientFromWarehouse(String name);
 
-    public List<Warehouse> orderBy(String orderBy);
+    List<Warehouse> orderBy(String orderBy);
 }

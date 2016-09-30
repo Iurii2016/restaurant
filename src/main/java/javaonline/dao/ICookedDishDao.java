@@ -9,5 +9,5 @@ public interface ICookedDishDao {
 
     List<CookedDish> getCookedDishes();
 
-    public List<CookedDish> orderBy(String orderBy);
+    List<CookedDish> orderBy(String orderBy);
 }

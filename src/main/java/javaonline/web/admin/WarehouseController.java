@@ -3,7 +3,10 @@ package javaonline.web.admin;
 import javaonline.dao.IDishDao;
 import javaonline.dao.IIngredientDao;
 import javaonline.dao.IWarehouseDao;
-import javaonline.dao.entity.*;
+import javaonline.dao.entity.Dish;
+import javaonline.dao.entity.Ingredient;
+import javaonline.dao.entity.Unit;
+import javaonline.dao.entity.Warehouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,33 +82,42 @@ public class WarehouseController {
 
         boolean error = false;
 
-        if (warehouse.getIngredientId()==null){
+        if (warehouse.getIngredientId() == null) {
             result.rejectValue("ingredientId", "error.IngredientId");
             error = true;
         }
 
-        if ((warehouse.getQuantity()==0) || (warehouse.getQuantity()<0)){
+        if ((warehouse.getQuantity() == 0) || (warehouse.getQuantity() < 0)) {
             result.rejectValue("quantity", "error.Quantity");
             error = true;
         }
 
-        if(error) {
+        if (error) {
             model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
             model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
             return "admin/warehouse/saveOrUpdateWarehouse";
         }
 
         redirectAttributes.addFlashAttribute("css", "success");
-        if(warehouse.isNew()){
-            redirectAttributes.addFlashAttribute("msg", "Ingredient added successfully!");
-        }else{
-            redirectAttributes.addFlashAttribute("msg", "Ingredient updated successfully!");
-        }
 
-        if (warehouseService.getBalanceByID(warehouse.getId())==null){
-            warehouseService.addIngredientIntoWarehouse(warehouse);
-        }else {
-            warehouseService.updateWarehouseBalance(warehouse);
+        if (warehouseService.getBalanceByID(warehouse.getId()) == null) {
+            try {
+                warehouseService.addIngredientIntoWarehouse(warehouse);
+                redirectAttributes.addFlashAttribute("msg", "Ingredient added successfully!");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("css", "danger");
+                redirectAttributes.addFlashAttribute("msg", "Exception! Ingredient wasn't added.");
+                return "redirect:/admin/getWarehouseBalance";
+            }
+        } else {
+            try {
+                redirectAttributes.addFlashAttribute("msg", "Ingredient updated successfully!");
+                warehouseService.updateWarehouseBalance(warehouse);
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("css", "danger");
+                redirectAttributes.addFlashAttribute("msg", "Exception! Ingredient wasn't updated.");
+                return "redirect:/admin/getWarehouseBalance";
+            }
         }
         return "redirect:/admin/getWarehouseBalance";
     }

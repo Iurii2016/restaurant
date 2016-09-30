@@ -8,9 +8,9 @@ public interface IOrderDao {
 
     void addOrder(Order order);
 
-    void deleteOpenedOrder(int id);
+    void deleteOrder(Order order);
 
-    void setClosedStatus(int id);
+    void update(Order order);
 
     List<Order> getAllOrders();
 
@@ -20,5 +20,5 @@ public interface IOrderDao {
 
     Order getOrderById(int id);
 
-    public List<Order> orderBy(String orderBy);
+    List<Order> orderBy(String orderBy);
 }

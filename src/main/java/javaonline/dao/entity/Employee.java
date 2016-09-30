@@ -12,7 +12,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "employees")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorOptions(force=true)
+@DiscriminatorOptions(force = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee {
 
@@ -22,10 +22,10 @@ public class Employee {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "birthday")

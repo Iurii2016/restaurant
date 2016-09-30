@@ -15,7 +15,7 @@
 </script>
 <div class="container">
     <h2>Add new order</h2>
-    <form:form action="/admin/addNewOrder" commandName="newOrder" method="POST" class="form-horizontal">
+    <form:form action="/admin/addOrUpdateOrder" modelAttribute="Order" method="POST" class="form-horizontal">
 
         <spring:bind path="employeeId">
             <div class="form-group">
@@ -31,7 +31,7 @@
 
         <spring:bind path="dishes">
             <div class="form-group">
-                <label class="col-sm-2 control-label">Waiter ID:</label>
+                <label class="col-sm-2 control-label">Dishes:</label>
                 <div class="col-sm-10">
                     <form:select  path="dishes">
                         <form:option value="NONE"> --SELECT--</form:option>

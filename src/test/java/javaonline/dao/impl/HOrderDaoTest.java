@@ -60,11 +60,11 @@ public class HOrderDaoTest {
     @Test
     @Transactional
     @Rollback
-    public void testDeleteOpenedOrder() throws Exception {
+    public void testDeleteOrder() throws Exception {
         Order order = addOrder();
         List<Order> orders = orderDao.getAllOrders();
         assertEquals(1, orders.size());
-        orderDao.deleteOpenedOrder(order.getId());
+        orderDao.deleteOrder(order);
         List<Order> afterDeleteOrders = orderDao.getAllOrders();
         assertEquals(0, afterDeleteOrders.size());
     }
@@ -76,7 +76,8 @@ public class HOrderDaoTest {
         Order order = addOrder();
         List<Order> orders = orderDao.getAllOrders();
         assertEquals(OrderStatus.opened, orders.get(0).getStatus());
-        orderDao.setClosedStatus(order.getId());
+        order.setStatus(OrderStatus.closed);
+        orderDao.update(order);
         List<Order> afterSetClosedStatusOrders = orderDao.getAllOrders();
         assertEquals(OrderStatus.closed, afterSetClosedStatusOrders.get(0).getStatus());
     }

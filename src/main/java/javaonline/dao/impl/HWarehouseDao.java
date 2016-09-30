@@ -98,9 +98,9 @@ public class HWarehouseDao implements IWarehouseDao {
         CriteriaQuery<Warehouse> criteriaQuery = criteriaBuilder.createQuery(Warehouse.class);
         Root<Warehouse> root = criteriaQuery.from(Warehouse.class);
         criteriaQuery.select(root);
-        if(orderBy.equals("ingredientId")){
+        if (orderBy.equals("ingredientId")) {
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy).get("ingredient")));
-        }else {
+        } else {
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
         }
         session.createQuery(criteriaQuery).getResultList();

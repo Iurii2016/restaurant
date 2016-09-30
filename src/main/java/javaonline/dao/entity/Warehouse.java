@@ -18,7 +18,7 @@ public class Warehouse {
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_id", unique = true)
     private Ingredient ingredientId;
 
     @Column(name = "quantity")

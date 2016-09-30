@@ -36,7 +36,7 @@
 			<li><a href="/admin/allEmployees">Employees</a></li>
 			<li><a href="/admin/getAllDishes">Dishes</a></li>
 			<li><a href="/admin/getAllMenu">Menu</a></li>
-			<li><a href="/admin/ordersStructure">Orders</a></li>
+			<li><a href="/admin/getAllOrders">Orders</a></li>
 			<li><a href="/admin/getCookedDishes">Kitchen</a></li>
 			<li><a href="/admin/getWarehouseBalance">Warehouse</a></li>
 		</ul>

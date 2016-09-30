@@ -30,22 +30,14 @@ public class HOrderDao implements IOrderDao {
 
     @Override
     @Transactional
-    public void deleteOpenedOrder(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete Order o where o.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void deleteOrder(Order order) {
+       sessionFactory.getCurrentSession().remove(order);
     }
 
     @Override
     @Transactional
-    public void setClosedStatus(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Order o where o.id = :id");
-        query.setParameter("id", id);
-        Order order = (Order) query.uniqueResult();
-        order.setStatus(OrderStatus.closed);
-        session.update(order);
+    public void update(Order order) {
+        sessionFactory.getCurrentSession().update(order);
     }
 
     @Override

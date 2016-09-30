@@ -6,19 +6,19 @@ import javaonline.dao.IOrderDao;
 import javaonline.dao.entity.Dish;
 import javaonline.dao.entity.Employee;
 import javaonline.dao.entity.Order;
+import javaonline.dao.entity.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -61,15 +61,47 @@ public class OrderController {
         binder.registerCustomEditor(Date.class, "date", new CustomDateEditor(sdf, true));
     }
 
-    @RequestMapping(value = "/admin/ordersStructure", method = RequestMethod.GET)
-    public String ordersStructure() {
-        return "redirect:getAllOrders";
-    }
-
     @RequestMapping(value = "/admin/getAllOrders", method = RequestMethod.GET)
     public String getAllOrders(Model model) {
         model.addAttribute("ListOfOrders", ordersDaoService.getAllOrders());
         return "admin/order/allOrders";
+    }
+
+    @RequestMapping(value = "/admin/addOrder", method = RequestMethod.GET)
+    public String addOrder(Model model) {
+        model.addAttribute("Order", new Order());
+        model.addAttribute("listOfEmployee", IEmployeeDao.getAllEmployees());
+        model.addAttribute("listOfDishes", IDishDao.getAllDishes());
+        return "/admin/order/addOrder";
+    }
+
+    @RequestMapping(value = "/admin/addOrUpdateOrder", method = RequestMethod.POST)
+    public String addNewDish(@ModelAttribute Order order, final RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Order with id " + order.getId() + " was added!");
+        ordersDaoService.addOrder(order);
+        return "redirect:/admin/getAllOrders";
+    }
+
+    @RequestMapping(value = "/admin/order/{id}/closed", method = RequestMethod.GET)
+    public String setClosedStatus(@PathVariable int id, final RedirectAttributes redirectAttributes) {
+        Order order = ordersDaoService.getOrderById(id);
+        order.setStatus(OrderStatus.closed);
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Order with id " + id + " was closed!");
+        ordersDaoService.update(order);
+        return "redirect:/admin/getAllOrders";
+    }
+
+    @RequestMapping(value = "/admin/order/{id}/delete", method = RequestMethod.GET)
+    public String delete(@PathVariable int id, final RedirectAttributes redirectAttributes) {
+        Order order = ordersDaoService.getOrderById(id);
+        if (order.getStatus()==OrderStatus.opened){
+            redirectAttributes.addFlashAttribute("css", "success");
+            redirectAttributes.addFlashAttribute("msg", "Order was deleted!");
+            ordersDaoService.deleteOrder(order);
+        }
+        return "redirect:/admin/getAllOrders";
     }
 
     @RequestMapping(value = "/admin/order/orderBy/{field}", method = RequestMethod.GET)
@@ -78,6 +110,10 @@ public class OrderController {
         return "admin/order/allOrders";
     }
 
+//    @RequestMapping(value = "/admin/ordersStructure", method = RequestMethod.GET)
+//    public String ordersStructure() {
+//        return "redirect:getAllOrders";
+//    }
 //    @RequestMapping(value = "/getOpenedOrders", method = RequestMethod.GET)
 //    public String getOpenedOrders(Map<String, Object> model) {
 //        model.put("ListOfOrders", ordersDaoService.getOpenedOrders());
@@ -90,41 +126,17 @@ public class OrderController {
 //        return "admin/order/allOrders";
 //    }
 //
-//    @RequestMapping(value = "/addOrder", method = RequestMethod.GET)
-//    public ModelAndView addOrder() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/order/addOrder");
-//        modelAndView.addObject("newOrder", new Order());
-//        modelAndView.addObject("listOfEmployee", IEmployeeDao.getAllEmployees());
-//        modelAndView.addObject("listOfDishes", IDishDao.getAllDishes());
-//        return modelAndView;
-//    }
 //
-//    @RequestMapping(value = "/addNewOrder", method = RequestMethod.POST)
-//    public ModelAndView addNewDish(@ModelAttribute("newOrder") Order newOrder) {
+//
+//    @RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
+//    public ModelAndView getDishByName(@RequestParam("deleteOrder") int deleteOrder) {
 //        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("admin/successfulOperation");
-//        modelAndView.addObject("message", "Order " + newOrder.getId() + " was added");
-//        ordersDaoService.addOrder(newOrder);
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/deleteOpenedOrder", method = RequestMethod.GET)
-//    public ModelAndView getDishByName(@RequestParam("deleteOpenedOrder") int deleteOpenedOrder) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/successfulOperation");
-//        modelAndView.addObject("message", "Order " + deleteOpenedOrder + " was deleted");
-//        ordersDaoService.deleteOpenedOrder(deleteOpenedOrder);
+//        modelAndView.addObject("message", "Order " + deleteOrder + " was deleted");
+//        ordersDaoService.deleteOrder(deleteOrder);
 //        return modelAndView;
 //    }
 //
 //
-//    @RequestMapping(value = "/setClosedStatus", method = RequestMethod.GET)
-//    public ModelAndView setClosedStatus(@RequestParam("setClosedStatus") int setClosedStatus) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/successfulOperation");
-//        modelAndView.addObject("message", "Order " + setClosedStatus + " was closed");
-//        ordersDaoService.setClosedStatus(setClosedStatus);
-//        return modelAndView;
-//    }
+
 }

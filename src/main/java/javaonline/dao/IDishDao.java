@@ -17,5 +17,5 @@ public interface IDishDao {
 
     List<Dish> getAllDishes();
 
-    public List<Dish> orderBy(String orderBy);
+    List<Dish> orderBy(String orderBy);
 }

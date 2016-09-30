@@ -47,7 +47,7 @@
             <th>Ingredient <button onclick="location.href='/admin/warehouse/orderBy/${"ingredientId"}'"><i class="fa fa-caret-down"/></button></th>
             <th>Quantity <button onclick="location.href='/admin/warehouse/orderBy/${"quantity"}'"><i class="fa fa-caret-down"/></button></th>
             <th>Unit <button onclick="location.href='/admin/warehouse/orderBy/${"unit"}'"><i class="fa fa-caret-down"/></button></th>
-            <th>Action</th>
+            <th colspan="2">Action</th>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>
