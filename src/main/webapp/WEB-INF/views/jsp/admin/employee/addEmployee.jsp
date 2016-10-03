@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/employeeStructure"
+        window.location = "/admin/allEmployees"
     }
 </script>
 <div class="container">

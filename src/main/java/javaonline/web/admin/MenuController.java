@@ -55,11 +55,6 @@ public class MenuController {
         });
     }
 
-    @RequestMapping(value = "/admin/menuStructure", method = RequestMethod.GET)
-    public String menuStructure() {
-        return "admin/menu/menuStructure";
-    }
-
     @RequestMapping(value = "/admin/getAllMenu", method = RequestMethod.GET)
     public String getAllMenu(Model model) {
         model.addAttribute("ListOfMenu", menuService.getAllMenu());
@@ -141,6 +136,10 @@ public class MenuController {
         return "admin/menu/allMenu";
     }
 
+//    @RequestMapping(value = "/admin/menuStructure", method = RequestMethod.GET)
+//    public String menuStructure() {
+//        return "admin/menu/menuStructure";
+//    }
 //    @RequestMapping(value = "/deleteDishFromMenuByName", method = RequestMethod.GET)
 //    public String deleteDishFromMenuByName(@RequestParam("deleteDishFromMenuByName") String deleteDishFromMenuByName) {
 //        menuService.deleteDishFromMenu(deleteDishFromMenuByName);

@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/menuStructure"
+        window.location = "/admin/getAllMenu"
     }
 </script>
 <div class="container">

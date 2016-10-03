@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/warehouseStructure"
+        window.location = "/admin/getWarehouseBalance"
     }
 </script>
 <div class="container">

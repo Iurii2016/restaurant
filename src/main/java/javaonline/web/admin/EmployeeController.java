@@ -151,7 +151,7 @@ public class EmployeeController {
             redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Exception! Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
+            redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
             return "redirect:/admin/allEmployees";
         }
         return "redirect:/admin/allEmployees";

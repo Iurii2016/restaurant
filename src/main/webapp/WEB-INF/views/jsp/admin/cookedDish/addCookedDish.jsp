@@ -10,7 +10,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/cookedDishStructure"
+        window.location = "/admin/getCookedDishes"
     }
 </script>
 <div class="container">

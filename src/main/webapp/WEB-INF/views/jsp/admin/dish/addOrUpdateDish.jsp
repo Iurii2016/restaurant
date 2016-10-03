@@ -16,7 +16,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/dishStructure"
+        window.location = "/admin/getAllDishes"
     }
 </script>
 <div class="container">

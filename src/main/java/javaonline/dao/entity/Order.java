@@ -42,6 +42,10 @@ public class Order {
     @Column(name ="status")
     private OrderStatus status;
 
+    public boolean isNew() {
+        return (this.id == 0);
+    }
+
     public int getId() {
         return id;
     }

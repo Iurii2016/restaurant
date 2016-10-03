@@ -45,7 +45,7 @@
             <strong>${msg}</strong>
         </div>
     </c:if>
-    <h2>Orders information <c:if test="${position=='waiter'}">of ${waiter.name} ${waiter.surname}</c:if></h2></h2>
+    <h2>Orders information</h2>
     <table id="myTable" class="table table-striped" style="align-items: center">
         <thead>
         <tr>
@@ -55,7 +55,7 @@
             <th>Table number <button onclick="location.href='/admin/order/orderBy/${"tableNumber"}'"><i class="fa fa-caret-down"/></th>
             <th>Date <button onclick="location.href='/admin/order/orderBy/${"date"}'"><i class="fa fa-caret-down"/></th>
             <th>Status <button onclick="location.href='/admin/order/orderBy/${"status"}'"><i class="fa fa-caret-down"/></th>
-            <th colspan="2">Action</th>
+            <th colspan="3">Action</th>
         </tr>
         <tr>
             <th><input type="text" id="inputID" onkeyup="myFunction('inputID', 0)" placeholder="Search.." title="Type in a name"></th>
@@ -63,25 +63,31 @@
             <th><input type="text" id="inputTable" onkeyup="myFunction('inputTable', 2)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputData" onkeyup="myFunction('inputData', 3)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputStatus" onkeyup="myFunction('inputStatus', 4)" placeholder="Search.." title="Type in a name"></th>
-            <th colspan="2"><button id="newOrder"class="btn btn-success" onclick="location.href='/admin/addOrder'">Add new order</button></th>
+            <th colspan="3"><button id="newOrder"class="btn btn-success" onclick="location.href='/admin/addOrder'">Add new order</button></th>
         </tr>
         </thead>
         <tbody>
             <c:forEach items="${ListOfOrders}" var="order">
                 <tr>
-                    <td>${order.id}</td>
+                    <td><a href="/admin/order/${order.id}/information"/>${order.id}</td>
                     <td>${order.employeeId.name}</td>
                     <td>${order.tableNumber}</td>
                     <td>${order.date}</td>
                     <td>${order.status}</td>
                     <td>
+                        <spring:url value="/admin/order/${order.id}/update" var="updateUrl" />
+                        <button class="btn btn-info" onclick="location.href='${updateUrl}'"
+                                <c:if test="${order.status == 'closed'}">disabled="disabled" title="You can't update closed order"</c:if>>Update</button>
+                    </td>
+                    <td>
                         <spring:url value="/admin/order/${order.id}/closed" var="closedUrl" />
-                        <button class="btn btn-info" onclick="location.href='${closedUrl}'">Close</button>
+                        <button class="btn btn-warning" onclick="location.href='${closedUrl}'"
+                                <c:if test="${order.status == 'closed'}">disabled="disabled" title="The order has already closed"</c:if>>Close</button>
                     </td>
                     <td>
                         <spring:url value="/admin/order/${order.id}/delete" var="deleteUrl" />
-                        <button class="btn btn-danger" onclick="location.href='${deleteUrl}'">Delete</button>
-                                <%--<c:if test="${order.status == 'closed'}">disabled="disabled"</c:if>>Delete</button>--%>
+                        <button class="btn btn-danger" onclick="location.href='${deleteUrl}'"
+                                <c:if test="${order.status == 'closed'}">disabled="disabled" title="You ca't delete closed order" </c:if> >Delete</button>
                     </td>
                 </tr>
             </c:forEach>

@@ -40,6 +40,7 @@
             </td>
         </tr>
     </table>
+    <button class="btn btn-info" onclick="location.href='/client/index'">Back</button>
 </div>
 </body>
 </html>

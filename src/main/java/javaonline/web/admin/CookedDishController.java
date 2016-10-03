@@ -85,11 +85,6 @@ public class CookedDishController {
         binder.registerCustomEditor(Date.class, "date", new CustomDateEditor(sdf, true));
     }
 
-    @RequestMapping(value = "/admin/cookedDishStructure", method = RequestMethod.GET)
-    public String cookedDishStructure() {
-        return "admin/cookedDish/cookedDishStructure";
-    }
-
     @RequestMapping(value = "/admin/getCookedDishes", method = RequestMethod.GET)
     public String getCookedDishes(Model model) {
         model.addAttribute("ListOfCookedDishes", cookedDishService.getCookedDishes());
@@ -102,6 +97,12 @@ public class CookedDishController {
         return "admin/cookedDish/allCookedDishes";
     }
 
+
+//    @RequestMapping(value = "/admin/cookedDishStructure", method = RequestMethod.GET)
+//    public String cookedDishStructure() {
+//        return "admin/cookedDish/cookedDishStructure";
+//    }
+//
 //    @RequestMapping(value = "/admin/addCookedDish", method = RequestMethod.GET)
 //    public String addCookedDish(Model model) {
 //        model.addAttribute("newCookedDish", new CookedDish());

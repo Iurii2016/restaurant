@@ -96,7 +96,7 @@ public class DishController {
             redirectAttributes.addFlashAttribute("msg", "Dish was deleted!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Exception! Dish " + name + " can not be deleted. There is one or more references on it");
+            redirectAttributes.addFlashAttribute("msg", "Dish '" + name + "' can not be deleted. There is one or more references on it");
             return "redirect:/admin/getAllDishes";
         }
         return "redirect:/admin/getAllDishes";

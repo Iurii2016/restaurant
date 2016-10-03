@@ -57,11 +57,6 @@ public class WarehouseController {
         });
     }
 
-    @RequestMapping(value = "/admin/warehouseStructure", method = RequestMethod.GET)
-    public String warehouseStructure() {
-        return "admin/warehouse/warehouseStructure";
-    }
-
     @RequestMapping(value = "/admin/getWarehouseBalance", method = RequestMethod.GET)
     public String getWarehouseBalance(Model model) {
         model.addAttribute("warehouseBalance", warehouseService.getWarehouseBalance());
@@ -106,7 +101,7 @@ public class WarehouseController {
                 redirectAttributes.addFlashAttribute("msg", "Ingredient added successfully!");
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Exception! Ingredient wasn't added.");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient wasn't added.");
                 return "redirect:/admin/getWarehouseBalance";
             }
         } else {
@@ -115,7 +110,7 @@ public class WarehouseController {
                 warehouseService.updateWarehouseBalance(warehouse);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Exception! Ingredient wasn't updated.");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient wasn't updated.");
                 return "redirect:/admin/getWarehouseBalance";
             }
         }
@@ -145,6 +140,11 @@ public class WarehouseController {
         return "admin/warehouse/warehouseBalance";
     }
 
+//    @RequestMapping(value = "/admin/warehouseStructure", method = RequestMethod.GET)
+//    public String warehouseStructure() {
+//        return "admin/warehouse/warehouseStructure";
+//    }
+//
 //    @RequestMapping(value = "/getIngredients", method = RequestMethod.GET)
 //    public String getIngredients(Model model) {
 //        model.addAttribute("listOfIngredients", IIngredientDao.getAllIngredients());
