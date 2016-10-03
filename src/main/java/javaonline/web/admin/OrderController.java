@@ -75,7 +75,6 @@ public class OrderController {
         return "admin/order/orderInformation";
     }
 
-
     @RequestMapping(value = "/admin/addOrder", method = RequestMethod.GET)
     public String addOrder(Model model) {
         model.addAttribute("order", new Order());
@@ -100,7 +99,7 @@ public class OrderController {
     @RequestMapping(value = "/admin/order/{id}/update", method = RequestMethod.GET)
     public String updateOrder(@PathVariable int id,Model model) {
         Order order = ordersDaoService.getOrderById(id);
-        model.addAttribute("Order", order);
+        model.addAttribute("order", order);
         model.addAttribute("listOfEmployee", IEmployeeDao.getAllEmployees());
         model.addAttribute("listOfDishes", IDishDao.getAllDishes());
         return "admin/order/addOrUpdateOrder";

@@ -87,4 +87,13 @@ public class HOrderDao implements IOrderDao {
         session.createQuery(criteriaQuery).getResultList();
         return session.createQuery(criteriaQuery).getResultList();
     }
+
+    @Override
+    @Transactional
+    public List<Order> getOrderByWaiterID(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Order o where o.employeeId = :id");
+        query.setParameter("id", id);
+        return query.list();
+    }
 }

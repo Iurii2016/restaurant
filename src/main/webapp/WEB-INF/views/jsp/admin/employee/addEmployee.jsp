@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Birthday:</label>
                 <div class="col-sm-10">
-                    <form:input path="birthday" type="text" class="form-control " id="birthday" placeholder="Birthday"/>
+                    <form:input path="birthday" type="text" class="form-control " id="birthday" placeholder="yyyy-mm-dd"/>
                     <form:errors path="birthday" cssClass="error" />
                 </div>
             </div>

@@ -4,6 +4,7 @@ import javaonline.dao.ICookedDishDao;
 import javaonline.dao.entity.CookedDish;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -48,5 +49,14 @@ public class HCookedDishDao implements ICookedDishDao {
         }
         session.createQuery(criteriaQuery).getResultList();
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public List<CookedDish> getCookedDishesByCookId(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from CookedDish c where c.employeeId = :id");
+        query.setParameter("id", id);
+        return query.list();
     }
 }

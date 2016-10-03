@@ -20,21 +20,20 @@ public class Dish {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category categoryId;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private float price;
 
-    @Column(name = "weight")
+    @Column(name = "weight", nullable = false)
     private float weight;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "dish_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "dishId")
     @Fetch(FetchMode.SELECT)
     private List<DishIngredient> dishIngredients;
 

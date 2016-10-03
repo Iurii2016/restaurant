@@ -21,4 +21,6 @@ public interface IOrderDao {
     Order getOrderById(int id);
 
     List<Order> orderBy(String orderBy);
+
+    List<Order> getOrderByWaiterID(int id);
 }

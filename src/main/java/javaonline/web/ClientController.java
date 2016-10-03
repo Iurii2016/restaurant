@@ -4,6 +4,7 @@ import javaonline.dao.IDishDao;
 import javaonline.dao.IDishIngredientDao;
 import javaonline.dao.IEmployeeDao;
 import javaonline.dao.IPositionDao;
+import javaonline.dao.entity.Dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,8 +58,9 @@ public class ClientController {
 
     @RequestMapping(value = "/client/dishInfo", method = RequestMethod.GET)
     public String dishInfo(@RequestParam String dish, Model model) {
-        model.addAttribute("dish", dishService.getDishByName(dish));
-        model.addAttribute("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(dish));
+        Dish dishByName = dishService.getDishByName(dish);
+        model.addAttribute("dish", dishByName);
+        model.addAttribute("listOfDishIngredients", dishByName.getDishIngredients());
         return "/client/dishes";
     }
 

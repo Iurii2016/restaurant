@@ -7,16 +7,17 @@
 </head>
 <body>
 <div class="container">
-    <h1>Grill'age</h1>
-    <br>
-    <p>Select table:</p>
-
-    <p><a href="/admin/allEmployees">Employees</a></p>
-    <p><a href="/admin/getAllDishes">Dishes</a></p>
-    <p><a href="/admin/getAllMenu">Menu</a></p>
-    <p><a href="/admin/getAllOrders">Orders</a></p>
-    <p><a href="/admin/getCookedDishes">Kitchen</a></p>
-    <p><a href="/admin/getWarehouseBalance">Warehouse</a></p>
+    <div class="container">
+        <h1>Grill'age</h1>
+        <div class="list-group">
+            <a href="/admin/allEmployees" class="list-group-item">Employees</a>
+            <a href="/admin/getAllDishes" class="list-group-item">Dishes</a>
+            <a href="/admin/getAllMenu" class="list-group-item">Menu</a>
+            <a href="/admin/getAllOrders" class="list-group-item">Orders</a>
+            <a href="/admin/getCookedDishes" class="list-group-item">Kitchen</a>
+            <a href="/admin/getWarehouseBalance" class="list-group-item">Warehouse</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -20,7 +20,7 @@ public class Order {
     @Column(name ="id")
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="waiter_id")
     private Employee employeeId;
 

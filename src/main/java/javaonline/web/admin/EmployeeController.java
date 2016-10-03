@@ -1,6 +1,8 @@
 package javaonline.web.admin;
 
+import javaonline.dao.ICookedDishDao;
 import javaonline.dao.IEmployeeDao;
+import javaonline.dao.IOrderDao;
 import javaonline.dao.IPositionDao;
 import javaonline.dao.entity.Cook;
 import javaonline.dao.entity.Employee;
@@ -25,6 +27,9 @@ public class EmployeeController {
 
     private IEmployeeDao employeeService;
     private IPositionDao IPositionDao;
+    private IOrderDao orderDao;
+    private ICookedDishDao cookedDishDao;
+
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
@@ -47,6 +52,16 @@ public class EmployeeController {
     @Autowired
     public void setIPositionDao(IPositionDao IPositionDao) {
         this.IPositionDao = IPositionDao;
+    }
+
+    @Autowired
+    public void setOrderDao(IOrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    @Autowired
+    public void setCookedDishDao(ICookedDishDao cookedDishDao) {
+        this.cookedDishDao = cookedDishDao;
     }
 
     @RequestMapping(value = "/admin/allEmployees", method = RequestMethod.GET)
@@ -145,15 +160,21 @@ public class EmployeeController {
     @RequestMapping(value = "/admin/employee/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
         Employee employee = employeeService.getEmployeeById(id);
-        try {
-            employeeService.deleteEmployee(employee);
-            redirectAttributes.addFlashAttribute("css", "success");
-            redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
-            return "redirect:/admin/allEmployees";
-        }
+//        if ((orderDao.getOrderByWaiterID(id)==null) &&
+//                (cookedDishDao.getCookedDishesByCookId(id)==null)){
+            try {
+                employeeService.deleteEmployee(employee);
+                redirectAttributes.addFlashAttribute("css", "success");
+                redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("css", "danger");
+                redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
+                return "redirect:/admin/allEmployees";
+            }
+//        }else {
+//            redirectAttributes.addFlashAttribute("css", "danger");
+//            redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
+//        }
         return "redirect:/admin/allEmployees";
     }
 

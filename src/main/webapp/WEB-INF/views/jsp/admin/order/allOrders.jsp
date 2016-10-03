@@ -82,7 +82,7 @@
                     <td>
                         <spring:url value="/admin/order/${order.id}/closed" var="closedUrl" />
                         <button class="btn btn-warning" onclick="location.href='${closedUrl}'"
-                                <c:if test="${order.status == 'closed'}">disabled="disabled" title="The order has already closed"</c:if>>Close</button>
+                                <c:if test="${order.status == 'closed'}">disabled="disabled" title="The order is closed"</c:if>>Close</button>
                     </td>
                     <td>
                         <spring:url value="/admin/order/${order.id}/delete" var="deleteUrl" />

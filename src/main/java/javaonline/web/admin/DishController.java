@@ -154,5 +154,12 @@ public class DishController {
         model.addAttribute("ListOfDishes", dishService.orderBy(field));
         return "admin/dish/allDishes";
     }
+    @RequestMapping(value = "/admin/dish/{name}", method = RequestMethod.GET)
+    public String dishIngredients(@PathVariable String name, Model model) {
+        Dish dish = dishService.getDishByName(name);
+        model.addAttribute("dish", dish);
+        model.addAttribute("listOfDishIngredients", dish.getDishIngredients());
+        return "admin/dish/dishIngredients";
+    }
 
 }
