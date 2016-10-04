@@ -82,7 +82,7 @@ public class WarehouseController {
             error = true;
         }
 
-        if ((warehouse.getQuantity() == 0) || (warehouse.getQuantity() < 0)) {
+        if (warehouse.getQuantity() <= 0) {
             result.rejectValue("quantity", "error.Quantity");
             error = true;
         }
