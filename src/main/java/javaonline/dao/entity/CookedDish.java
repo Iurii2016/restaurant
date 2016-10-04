@@ -16,14 +16,14 @@ public class CookedDish {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private int id;
 
     @ManyToOne
     @JoinColumn(name = "cook_id")
     private Employee employeeId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dish_id")
     private Dish dishId;
 

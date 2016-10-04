@@ -11,6 +11,12 @@
             color: #ff0000;
             font-weight: bold;
         }
+        #positionSelect{
+            width: 100%;
+            padding: 7px 0px 7px 0px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -87,9 +93,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Position:</label>
                 <div class="col-sm-10">
-                    <form:select  path="position">
+                    <form:select  path="position" id="positionSelect">
                         <form:option value="NONE">--SELECT--</form:option>
-                        <form:options items="${ListOfEmployee}" itemLabel="name" itemValue="name"></form:options>
+                        <form:options citems="${ListOfEmployee}" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
                     <form:errors path="position" cssClass="error" />
                     <br>

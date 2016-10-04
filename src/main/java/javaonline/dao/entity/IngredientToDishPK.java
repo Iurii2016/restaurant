@@ -1,7 +1,4 @@
-package javaonline.dao.impl;
-
-import javaonline.dao.entity.Dish;
-import javaonline.dao.entity.Ingredient;
+package javaonline.dao.entity;
 
 import java.io.Serializable;
 

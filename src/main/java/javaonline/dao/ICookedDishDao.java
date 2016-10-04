@@ -13,4 +13,6 @@ public interface ICookedDishDao {
 
     List<CookedDish> getCookedDishesByCookId(int id);
 
+    List<CookedDish> getCookedDishesByOrderId(int id);
+
 }

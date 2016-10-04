@@ -6,6 +6,18 @@
 <head>
     <jsp:include page="../fragments/header.jsp"/>
     <title>Add new order</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        #waiterSelect, #dishSelect{
+            width: 100%;
+            padding: 7px 0px 7px 0px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -32,10 +44,11 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Waiter ID:</label>
                 <div class="col-sm-10">
-                    <form:select  path="employeeId">
-                        <form:option value="11"> --SELECT--</form:option>
+                    <form:select  path="employeeId" id="waiterSelect">
+                        <form:option value="0"> --SELECT--</form:option>
                         <form:options items="${listOfEmployee}" multiple="false" itemLabel="id" itemValue="id"></form:options>
                     </form:select>
+                    <form:errors path="employeeId" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -44,10 +57,11 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Dishes:</label>
                 <div class="col-sm-10">
-                    <form:select  path="dishes">
-                        <form:option value="22"> --SELECT--</form:option>
+                    <form:select  path="dishes" id="dishSelect">
+                        <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfDishes}" multiple="true" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
+                    <form:errors path="dishes" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -57,6 +71,7 @@
                 <label class="col-sm-2 control-label">Table number:</label>
                 <div class="col-sm-10">
                     <form:input path="tableNumber" type="text" class="form-control " id="tableNumber"/>
+                    <form:errors path="tableNumber" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -65,7 +80,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Date:</label>
                 <div class="col-sm-10">
-                    <form:input path="date" type="text" class="form-control " id="date" placeholder="Date"/>
+                    <form:input path="date" type="text" class="form-control " id="date" placeholder="yyyy-mm-dd"/>
+                    <form:errors path="date" cssClass="error" />
                     <br>
                 </div>
             </div>
@@ -73,7 +89,7 @@
 
         <form:hidden path="status" />
 
-        < <div class="form-group">
+        <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <c:choose>
                 <c:when test="${order['new']}">

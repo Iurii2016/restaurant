@@ -17,11 +17,11 @@ public class Order {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name ="id")
+    @Column(name ="id", unique = true)
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="waiter_id")
+    @JoinColumn(name ="waiter_id", nullable = false)
     private Employee employeeId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

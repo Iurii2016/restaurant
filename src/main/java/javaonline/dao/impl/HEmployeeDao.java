@@ -5,6 +5,7 @@ import javaonline.dao.entity.Employee;
 import javaonline.dao.entity.Position;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -74,6 +75,14 @@ public class HEmployeeDao implements IEmployeeDao {
         criteriaQuery.select(employeeRoot);
         List<Employee> employees = session.createQuery(criteriaQuery).getResultList();
         return employees;
+    }
+
+    @Override
+    @Transactional
+    public List<Employee> getWaiters() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Employee e where e.position = (from Position p where p.name = 'waiter')");
+        return query.list();
     }
 
     @Override

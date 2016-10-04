@@ -20,9 +20,9 @@
     </bean>
 
     <bean id="messageSource"
-    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages" />
-        <property name="defaultEncoding" value="UTF-8" />
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
 
@@ -34,13 +34,13 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="javaonline.dao.entity"/>
         <property name="hibernateProperties">
-               <props>
-                   <prop key="hibernate.hbm2ddl.auto">update</prop>
-                   <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
-                   <prop key="hibernate.cache.use_second_level_cache">true</prop>
-                   <prop key="hibernate.cache.use_query_cache">true</prop>
-                   <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
-               </props>
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+            </props>
         </property>
     </bean>
 

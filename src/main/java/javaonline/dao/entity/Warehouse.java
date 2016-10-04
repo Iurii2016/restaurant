@@ -14,18 +14,18 @@ public class Warehouse {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "ingredient_id", unique = true)
+    @JoinColumn(name = "ingredient_id", unique = true, nullable = false)
     private Ingredient ingredientId;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private float quantity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "unit")
+    @Column(name = "unit", nullable = false)
     private Unit unit;
 
     public boolean isNew() {

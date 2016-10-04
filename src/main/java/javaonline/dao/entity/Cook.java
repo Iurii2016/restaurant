@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Cook extends Employee{
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "employeeId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "employeeId")
     @Fetch(FetchMode.SELECT)
     private List<CookedDish> cookedDishes;
 

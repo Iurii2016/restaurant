@@ -11,6 +11,12 @@
             color: #ff0000;
             font-weight: bold;
         }
+        #menuSelect, #dishSelect{
+            width: 100%;
+            padding: 7px 0px 7px 0px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -37,7 +43,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Menu name:</label>
                 <div class="col-sm-10">
-                    <form:select  path="menuNameId">
+                    <form:select  path="menuNameId"  id="menuSelect">
                         <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfMenuNames}" multiple="false" itemLabel="name" itemValue="name"></form:options>
                     </form:select>
@@ -50,7 +56,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Dish:</label>
                 <div class="col-sm-10">
-                    <form:select  path="dishId">
+                    <form:select  path="dishId" id="dishSelect">
                         <form:option value="NONE"> --SELECT--</form:option>
                         <form:options items="${listOfDishes}" multiple="false" itemLabel="name" itemValue="name"></form:options>
                     </form:select>

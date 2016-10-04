@@ -1,6 +1,5 @@
 package javaonline.dao.entity;
 
-import javaonline.dao.impl.IngredientToDishPK;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,20 +13,20 @@ public class DishIngredient {
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dish_id")
+    @JoinColumn(name = "dish_id", nullable = false)
     private Dish dishId;
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_id", nullable = false)
     private Ingredient ingredientId;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private float quantity;
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "unit")
+    @Column(name = "unit", nullable = false)
     private Unit unit;
 
     public Dish getDishId() {

@@ -23,4 +23,6 @@ public interface IEmployeeDao {
     List<Employee> getEmployeesByPosition(Position position);
 
     List<Employee> orderBy(String orderBy);
+
+    List<Employee> getWaiters();
 }

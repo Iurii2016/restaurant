@@ -15,15 +15,15 @@ public class Menu {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "menuname_id")
+    @JoinColumn(name = "menuname_id", nullable = false)
     private MenuName menuNameId;
 
     @ManyToOne
-    @JoinColumn(name = "dish_id")
+    @JoinColumn(name = "dish_id", nullable = false)
     private Dish dishId;
 
     public boolean isNew() {

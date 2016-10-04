@@ -14,13 +14,13 @@ public class DishToOrder {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private int id;
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private int orderId;
 
-    @Column(name = "dish_id")
+    @Column(name = "dish_id", nullable = false)
     private int dishId;
 
     public int getId() {

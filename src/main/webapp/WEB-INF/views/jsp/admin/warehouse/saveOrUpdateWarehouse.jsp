@@ -11,6 +11,12 @@
             color: #ff0000;
             font-weight: bold;
         }
+        #ingredientSelect, #unitSelect{
+            width: 100%;
+            padding: 7px 0px 7px 0px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -37,8 +43,8 @@
         <spring:bind path="ingredientId">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Ingredient:</label>
-                    <div class="col-sm-5">
-                        <form:select path="ingredientId">
+                    <div class="col-sm-10">
+                        <form:select path="ingredientId" id="ingredientSelect">
                             <form:option value="NONE">--SELECT--</form:option>
                             <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient" itemValue="ingredient"></form:options>
                         </form:select>
@@ -60,8 +66,8 @@
         <spring:bind path="unit">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Unit:</label>
-                <div class="col-sm-5">
-                    <form:select  path="unit" multiple="false">
+                <div class="col-sm-10">
+                    <form:select  path="unit" id="unitSelect">
                         <form:options items="${listOfUnits}"></form:options>
                     </form:select>
                 </div>

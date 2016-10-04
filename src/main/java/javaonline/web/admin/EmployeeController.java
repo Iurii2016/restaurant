@@ -159,22 +159,30 @@ public class EmployeeController {
 
     @RequestMapping(value = "/admin/employee/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
-        Employee employee = employeeService.getEmployeeById(id);
-//        if ((orderDao.getOrderByWaiterID(id)==null) &&
-//                (cookedDishDao.getCookedDishesByCookId(id)==null)){
-            try {
-                employeeService.deleteEmployee(employee);
-                redirectAttributes.addFlashAttribute("css", "success");
-                redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
-            } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("css", "success");
+        if (employeeService.getEmployeeById(id).getPosition().getName() == "waiter") {
+            Waiter waiter = (Waiter) employeeService.getEmployeeById(id);
+            if (waiter.getOrders().size()>0){
+                employeeService.deleteEmployee(waiter);
+                redirectAttributes.addFlashAttribute("msg", "Waiter was deleted!");
+            }else{
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
-                return "redirect:/admin/allEmployees";
+                redirectAttributes.addFlashAttribute("msg", "Waiter with id " + waiter.getId() + " can not be deleted. There is one or more references on it");
             }
-//        }else {
-//            redirectAttributes.addFlashAttribute("css", "danger");
-//            redirectAttributes.addFlashAttribute("msg", "Employee with id " + employee.getId() + " can not be deleted. There is one or more references on it");
-//        }
+        } else if (employeeService.getEmployeeById(id).getPosition().getName() == "cook") {
+            Cook cook = (Cook) employeeService.getEmployeeById(id);
+            if (cook.getCookedDishes().size()>0){
+                employeeService.deleteEmployee(cook);
+                redirectAttributes.addFlashAttribute("msg", "Cook was deleted!");
+            } else {
+                redirectAttributes.addFlashAttribute("css", "danger");
+                redirectAttributes.addFlashAttribute("msg", "Cook with id " + cook.getId() + " can not be deleted. There is one or more references on it");
+            }
+        } else {
+            Employee employee = employeeService.getEmployeeById(id);
+            employeeService.deleteEmployee(employee);
+            redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
+        }
         return "redirect:/admin/allEmployees";
     }
 
