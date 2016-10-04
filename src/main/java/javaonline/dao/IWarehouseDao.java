@@ -9,13 +9,7 @@ public interface IWarehouseDao {
 
     void updateWarehouseBalance(Warehouse warehouse);
 
-    void changeIngredientQuantity(String ingredient, float quantity);
-
-    List getEndingIngredients(float quantity);
-
     List<Warehouse> getWarehouseBalance();
-
-    Warehouse getBalanceByName(String name);
 
     Warehouse getBalanceByID(int id);
 

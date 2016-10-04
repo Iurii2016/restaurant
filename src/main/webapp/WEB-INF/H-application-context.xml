@@ -31,8 +31,4 @@
 
     <bean class="javaonline.dao.impl.HWarehouseDao" id="warehouseDao"/>
 
-    <bean class="javaonline.dao.impl.HUserDao" id="userDao"/>
-
-    <bean class="javaonline.dao.impl.HUserRoleDao" id="userRoleDao"/>
-
 </beans>

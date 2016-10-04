@@ -36,33 +36,8 @@ public class HEmployeeDao implements IEmployeeDao {
 
     @Override
     @Transactional
-    public void deleteEmployeeByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
-        Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
-        Predicate condition = criteriaBuilder.equal(employeeRoot.get("name"), name);
-        criteriaQuery.where(condition);
-        List<Employee> employees = session.createQuery(criteriaQuery).getResultList();
-        employees.forEach(session::delete);
-    }
-
-    @Override
-    @Transactional
     public void deleteEmployee(Employee employee) {
         sessionFactory.getCurrentSession().remove(employee);
-    }
-
-    @Override
-    @Transactional
-    public List<Employee> getEmployeeByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
-        Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
-        Predicate condition = criteriaBuilder.equal(employeeRoot.get("name"), name);
-        criteriaQuery.where(condition);
-        return session.createQuery(criteriaQuery).getResultList();
     }
 
     @Override
@@ -96,19 +71,6 @@ public class HEmployeeDao implements IEmployeeDao {
         criteriaQuery.where(condition);
         Employee employee = session.createQuery(criteriaQuery).uniqueResult();
         return employee;
-    }
-
-    @Override
-    @Transactional
-    public List<Employee> getEmployeesByPosition(Position position) {
-        Session session = sessionFactory.getCurrentSession();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
-        Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
-        Predicate condition = criteriaBuilder.equal(employeeRoot.get("position"), position);
-        criteriaQuery.where(condition);
-        session.createQuery(criteriaQuery).getResultList();
-        return session.createQuery(criteriaQuery).getResultList();
     }
 
     @Override

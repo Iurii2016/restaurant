@@ -10,8 +10,4 @@ public interface IDishIngredientDao {
     void addIngredientToDish(DishIngredient dishIngredient);
 
     void deleteIngredientByIngredientNameAndDishName(String ingredientName, String dishName);
-
-    List<DishIngredient> getAllDishIngredients();
-
-    List<Ingredient> getIngredientsByDishName(String dishName);
 }

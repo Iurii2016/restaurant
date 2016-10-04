@@ -14,13 +14,7 @@ public interface IOrderDao {
 
     List<Order> getAllOrders();
 
-    List<Order> getOpenedOrders();
-
-    List<Order> getClosedOrders();
-
     Order getOrderById(int id);
 
     List<Order> orderBy(String orderBy);
-
-    List<Order> getOrderByWaiterID(int id);
 }

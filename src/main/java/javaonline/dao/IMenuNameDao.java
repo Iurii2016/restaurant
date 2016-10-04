@@ -12,6 +12,4 @@ public interface IMenuNameDao {
     List<MenuName> getAllMenuName();
 
     MenuName getMenuNameByName(String name);
-
-    MenuName getMenuNameById(long id);
 }

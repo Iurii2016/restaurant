@@ -44,12 +44,4 @@ public class HMenuNameDao implements IMenuNameDao {
         Query query = session.createQuery("from MenuName m where m.name = :name");
         return (MenuName) query.setParameter("name", name).uniqueResult();
     }
-
-    @Override
-    @Transactional
-    public MenuName getMenuNameById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from MenuName m where m.id = :id");
-        return (MenuName) query.setParameter("id", id).uniqueResult();
-    }
 }

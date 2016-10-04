@@ -49,22 +49,6 @@ public class HOrderDao implements IOrderDao {
 
     @Override
     @Transactional
-    public List<Order> getOpenedOrders() {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Order o where o.status = javaonline.model.OrderStatus.opened");
-        return query.getResultList();
-    }
-
-    @Override
-    @Transactional
-    public List<Order> getClosedOrders() {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Order o where o.status = javaonline.model.OrderStatus.closed");
-        return query.getResultList();
-    }
-
-    @Override
-    @Transactional
     public Order getOrderById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Order o where o.id = :id");
@@ -87,14 +71,5 @@ public class HOrderDao implements IOrderDao {
         }
         session.createQuery(criteriaQuery).getResultList();
         return session.createQuery(criteriaQuery).getResultList();
-    }
-
-    @Override
-    @Transactional
-    public List<Order> getOrderByWaiterID(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Order o where o.employeeId = :id");
-        query.setParameter("id", id);
-        return query.list();
     }
 }

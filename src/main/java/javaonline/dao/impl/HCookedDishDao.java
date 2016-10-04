@@ -53,15 +53,6 @@ public class HCookedDishDao implements ICookedDishDao {
 
     @Override
     @Transactional
-    public List<CookedDish> getCookedDishesByCookId(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from CookedDish c where c.employeeId = :id");
-        query.setParameter("id", id);
-        return query.list();
-    }
-
-    @Override
-    @Transactional
     public List<CookedDish> getCookedDishesByOrderId(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from CookedDish c where c.orderId = (from Order o where o.id =:id)");

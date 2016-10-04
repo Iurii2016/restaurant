@@ -10,17 +10,11 @@ public interface IEmployeeDao {
 
     void updateEmployee(Employee employee);
 
-    void deleteEmployeeByName(String name);
-
     void deleteEmployee(Employee employee);
-
-    List<Employee> getEmployeeByName(String name);
 
     List<Employee> getAllEmployees();
 
     Employee getEmployeeById(int id);
-
-    List<Employee> getEmployeesByPosition(Position position);
 
     List<Employee> orderBy(String orderBy);
 

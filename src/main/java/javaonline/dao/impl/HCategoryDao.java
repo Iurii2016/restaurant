@@ -45,12 +45,4 @@ public class HCategoryDao implements ICategoryDao {
         Query query = session.createQuery("from Category c where c.name = :name");
         return (Category) query.setParameter("name", name).uniqueResult();
     }
-
-    @Override
-    @Transactional
-    public Category getCategoryById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Category c where c.id = :id");
-        return (Category) query.setParameter("id", id).uniqueResult();
-    }
 }

@@ -11,8 +11,5 @@ public interface ICookedDishDao {
 
     List<CookedDish> orderBy(String orderBy);
 
-    List<CookedDish> getCookedDishesByCookId(int id);
-
     List<CookedDish> getCookedDishesByOrderId(int id);
-
 }

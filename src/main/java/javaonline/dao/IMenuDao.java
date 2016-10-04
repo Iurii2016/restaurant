@@ -12,11 +12,7 @@ public interface IMenuDao {
 
     void deleteDishesByMenuName(String name);
 
-    void deleteDishFromMenu(String name);
-
     void deleteMenuByID(int id);
-
-    List<Menu> getMenuByName(String name);
 
     Menu getMenuById(int id);
 

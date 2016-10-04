@@ -43,29 +43,11 @@ public class HMenuDao implements IMenuDao {
 
     @Override
     @Transactional
-    public void deleteDishFromMenu(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete Menu where dishId = (SELECT d.id FROM Dish d WHERE d.name = :name)");
-        query.setParameter("name", name);
-        query.executeUpdate();
-    }
-
-    @Override
-    @Transactional
     public void deleteMenuByID(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete Menu m where m.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
-    }
-
-    @Override
-    @Transactional
-    public List<Menu> getMenuByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Menu m where m.menuNameId = (select mn from MenuName mn where mn.name = :name)");
-        query.setParameter("name", name);
-        return query.getResultList();
     }
 
     @Override

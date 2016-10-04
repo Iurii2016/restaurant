@@ -46,11 +46,4 @@ public class HPositionDao implements IPositionDao {
         return (Position) query.setParameter("name", name).uniqueResult();
     }
 
-    @Override
-    @Transactional
-    public Position gerPositionById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Position p where p.id = :id");
-        return (Position) query.setParameter("id", id).uniqueResult();
-    }
 }

@@ -14,6 +14,4 @@ public interface ICategoryDao {
     List<Category> getAllCategories();
 
     Category getCategoryByName(String name);
-
-    Category getCategoryById(long id);
 }

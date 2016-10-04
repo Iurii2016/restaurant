@@ -13,6 +13,4 @@ public interface IPositionDao {
     List<Position> getAllPosition();
 
     Position getPositionByName(String name);
-
-    Position gerPositionById(Long id);
 }
