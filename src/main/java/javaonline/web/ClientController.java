@@ -81,15 +81,4 @@ public class ClientController {
         return "/client/contact";
     }
 
-//    @RequestMapping(value = "/getDishByName", method = RequestMethod.GET)
-//    public String getDishByName(@RequestParam("getDishByName") String getDishByName, Model model) {
-//        model.addAttribute("dish", dishService.getDishByName(getDishByName));
-//        model.addAttribute("listOfDishIngredients", IDishIngredientDao.getIngredientsByDishName(getDishByName));
-//        return "/client/dishes";
-//    }
-//
-//    @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
-//    public String adminIndex() {
-//        return "/admin/index";
-//    }
 }
