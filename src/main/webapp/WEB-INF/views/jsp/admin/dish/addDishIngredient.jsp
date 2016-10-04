@@ -5,7 +5,19 @@
 <html>
 <head>
     <jsp:include page="../fragments/header.jsp"/>
-    <title>Add dish ingredient</title>
+    <title>Add ingredient to dish</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        #ingredientSelect, #dishSelect, #unitSelect{
+            width: 100%;
+            padding: 7px 0px 7px 0px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
 <script>
@@ -14,17 +26,18 @@
     }
 </script>
 <div class="container">
-    <h2>Add new dish ingredient</h2>
-    <form:form action="/addNewDishIngredient" commandName="newDishIngredient" method="POST" class="form-horizontal">
+    <h2>Add new ingredient to dish</h2>
+    <form:form action="/admin/saveOrUpdateDishIngredient" modelAttribute="dishIngredient" method="POST" class="form-horizontal">
 
         <spring:bind path="dishId">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Dish:</label>
                 <div class="col-sm-10">
-                    <form:select  path="dishId">
+                    <form:select  path="dishId" id="dishSelect">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfDishes}" itemLabel="name" itemValue="name"></form:options>
+                        <form:options items="${listOfDishes}" itemLabel="name" itemValue="name"/>
                     </form:select>
+                    <form:errors path="dishId" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -33,10 +46,11 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Ingredient:</label>
                 <div class="col-sm-10">
-                    <form:select  path="ingredientId">
+                    <form:select  path="ingredientId" id="ingredientSelect">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfIngredients}" itemLabel="ingredient" itemValue="ingredient"></form:options>
+                        <form:options items="${listOfIngredients}" itemLabel="ingredient" itemValue="ingredient"/>
                     </form:select>
+                    <form:errors path="ingredientId" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -46,6 +60,7 @@
                 <label class="col-sm-2 control-label">Quantity:</label>
                 <div class="col-sm-10">
                     <form:input path="quantity" type="text" class="form-control " id="quantity"/>
+                    <form:errors path="quantity" cssClass="error" />
                 </div>
             </div>
         </spring:bind>
@@ -54,10 +69,10 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Unit:</label>
                 <div class="col-sm-5">
-                    <form:select  path="unit" multiple="false">
-                        <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfUnits}"></form:options>
+                    <form:select  path="unit" id="unitSelect">
+                        <form:options items="${listOfUnits}"/>
                     </form:select>
+                    <form:errors path="unit" cssClass="error" />
                 </div>
                 <div class="col-sm-5"></div>
             </div>

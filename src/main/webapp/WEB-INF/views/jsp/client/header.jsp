@@ -39,7 +39,7 @@
 			<li><a href="/client/contact">Contact</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='/login'">Log in</button>
+			<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 		</ul>
 
 	</div>

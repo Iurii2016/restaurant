@@ -26,7 +26,7 @@ public class HDishIngredientDao implements IDishIngredientDao {
 
     @Override
     @Transactional
-    public void deleteIngredientFromDishByName(String ingredientName, String dishName) {
+    public void deleteIngredientByIngredientNameAndDishName(String ingredientName, String dishName) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete DishIngredient i where i.dishId = " +
                 "(select d.id from Dish d where d.name = :dishName) and i.ingredientId = " +

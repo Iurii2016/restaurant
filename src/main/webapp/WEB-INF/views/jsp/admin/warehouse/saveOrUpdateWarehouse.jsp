@@ -46,7 +46,7 @@
                     <div class="col-sm-10">
                         <form:select path="ingredientId" id="ingredientSelect">
                             <form:option value="NONE">--SELECT--</form:option>
-                            <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient" itemValue="ingredient"></form:options>
+                            <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient" itemValue="ingredient"/>
                         </form:select>
                         <form:errors path="ingredientId" cssClass="error" />
                     </div>
@@ -68,7 +68,7 @@
                 <label class="col-sm-2 control-label">Unit:</label>
                 <div class="col-sm-10">
                     <form:select  path="unit" id="unitSelect">
-                        <form:options items="${listOfUnits}"></form:options>
+                        <form:options items="${listOfUnits}"/>
                     </form:select>
                 </div>
                 <div class="col-sm-5"></div>

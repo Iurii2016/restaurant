@@ -54,7 +54,7 @@
                 <div class="col-sm-10">
                     <form:select  path="categoryId" id="categorySelect">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfCategories}" itemLabel="name" itemValue="name"></form:options>
+                        <form:options items="${listOfCategories}" itemLabel="name" itemValue="name"/>
                     </form:select>
                     <form:errors path="categoryId" cssClass="error" />
                 </div>

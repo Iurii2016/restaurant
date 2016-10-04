@@ -9,7 +9,7 @@ public interface IDishIngredientDao {
 
     void addIngredientToDish(DishIngredient dishIngredient);
 
-    void deleteIngredientFromDishByName(String ingredientName, String dishName);
+    void deleteIngredientByIngredientNameAndDishName(String ingredientName, String dishName);
 
     List<DishIngredient> getAllDishIngredients();
 

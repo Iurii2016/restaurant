@@ -101,7 +101,8 @@ public class WarehouseController {
                 redirectAttributes.addFlashAttribute("msg", "Ingredient was added successfully!");
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Ingredient '" + warehouse.getIngredientId() + "' has already exist.");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient '" +
+                        warehouse.getIngredientId().getIngredient() + "' has already exist.");
                 return "redirect:/admin/getWarehouseBalance";
             }
         } else {
@@ -110,7 +111,7 @@ public class WarehouseController {
                 warehouseService.updateWarehouseBalance(warehouse);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "You can't change ingredient name during update!");
+                redirectAttributes.addFlashAttribute("msg", "Change ingredient name is forbidden!");
                 return "redirect:/admin/getWarehouseBalance";
             }
         }

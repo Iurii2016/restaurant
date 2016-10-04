@@ -23,7 +23,7 @@
                 <div class="col-sm-10">
                     <form:select  path="dishId">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfDishes}" multiple="false" itemLabel="name" itemValue="name"></form:options>
+                        <form:options items="${listOfDishes}" multiple="false" itemLabel="name" itemValue="name"/>
                     </form:select>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="col-sm-10">
                     <form:select  path="employeeId">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfEmployees}" multiple="false" itemLabel="id" itemValue="id"></form:options>
+                        <form:options items="${listOfEmployees}" multiple="false" itemLabel="id" itemValue="id"/>
                     </form:select>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="col-sm-10">
                     <form:select  path="orderId">
                         <form:option value="NONE"> --SELECT--</form:option>
-                        <form:options items="${listOfOrders}" multiple="false" itemLabel="id" itemValue="id"></form:options>
+                        <form:options items="${listOfOrders}" multiple="false" itemLabel="id" itemValue="id"/>
                     </form:select>
                 </div>
             </div>

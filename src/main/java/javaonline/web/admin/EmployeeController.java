@@ -117,8 +117,14 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
         Employee employee = employeeService.getEmployeeById(id);
-        employeeService.deleteEmployee(employee);
-        redirectAttributes.addFlashAttribute("msg", "Employee was deleted successfully!");
+        try {
+            employeeService.deleteEmployee(employee);
+            redirectAttributes.addFlashAttribute("msg", "Employee was deleted successfully!");
+        }catch (Exception e){
+
+            redirectAttributes.addFlashAttribute("msg", "Employee with id#" + employee.getId()+ " can't be deleted! " +
+                    "There is one or more references on it");
+        }
         return "redirect:/admin/allEmployees";
     }
 

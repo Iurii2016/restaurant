@@ -31,7 +31,8 @@ public class HOrderDao implements IOrderDao {
     @Override
     @Transactional
     public void deleteOrder(Order order) {
-       sessionFactory.getCurrentSession().remove(order);
+        order.getDishes().clear();
+        sessionFactory.getCurrentSession().remove(order);
     }
 
     @Override

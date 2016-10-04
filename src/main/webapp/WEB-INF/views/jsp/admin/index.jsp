@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <div class="container">
-        <h1>Grill'age</h1>
+        <h1>Grill'age database administration</h1>
         <div class="list-group">
             <a href="/admin/allEmployees" class="list-group-item">Employees</a>
             <a href="/admin/getAllDishes" class="list-group-item">Dishes</a>

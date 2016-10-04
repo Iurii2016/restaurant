@@ -155,15 +155,14 @@ public class OrderController {
     public String delete(@PathVariable int id, final RedirectAttributes redirectAttributes) {
         Order order = ordersDaoService.getOrderById(id);
         List<CookedDish> cookedDishes = cookedDishDao.getCookedDishesByOrderId(order.getId());
-        if (cookedDishes==null){
-            order.getDishes().clear();
-            ordersDaoService.deleteOrder(order);
-            redirectAttributes.addFlashAttribute("css", "success");
-            redirectAttributes.addFlashAttribute("msg", "Order was deleted successfully!");
-        }else{
-            redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Order can't be deleted! Some dishes has already cooked");
-        }
+           try {
+               ordersDaoService.deleteOrder(order);
+               redirectAttributes.addFlashAttribute("css", "success");
+               redirectAttributes.addFlashAttribute("msg", "Order was deleted successfully!");
+           }catch (Exception e){
+               redirectAttributes.addFlashAttribute("css", "danger");
+               redirectAttributes.addFlashAttribute("msg", "Order #" + order.getId() + " can't be deleted! Some dishes has already cooked");
+           }
         return "redirect:/admin/getAllOrders";
     }
 

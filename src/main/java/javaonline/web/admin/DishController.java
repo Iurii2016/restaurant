@@ -4,9 +4,7 @@ import javaonline.dao.ICategoryDao;
 import javaonline.dao.IDishDao;
 import javaonline.dao.IDishIngredientDao;
 import javaonline.dao.IIngredientDao;
-import javaonline.dao.entity.Category;
-import javaonline.dao.entity.Dish;
-import javaonline.dao.entity.Ingredient;
+import javaonline.dao.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,28 +15,29 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
+import java.util.Arrays;
 
 @Controller
 public class DishController {
 
     private IDishDao dishService;
-    private ICategoryDao ICategoryDao;
-    private IIngredientDao IIngredientDao;
-    private IDishIngredientDao IDishIngredientDao;
+    private ICategoryDao categoryDao;
+    private IIngredientDao ingredientDao;
+    private IDishIngredientDao dishIngredientDao;
 
     @Autowired
-    public void setIDishIngredientDao(IDishIngredientDao IDishIngredientDao) {
-        this.IDishIngredientDao = IDishIngredientDao;
+    public void setDishIngredientDao(IDishIngredientDao dishIngredientDao) {
+        this.dishIngredientDao = dishIngredientDao;
     }
 
     @Autowired
-    public void setIIngredientDao(IIngredientDao IIngredientDao) {
-        this.IIngredientDao = IIngredientDao;
+    public void setIngredientDao(IIngredientDao ingredientDao) {
+        this.ingredientDao = ingredientDao;
     }
 
     @Autowired
-    public void setICategoryDao(ICategoryDao ICategoryDao) {
-        this.ICategoryDao = ICategoryDao;
+    public void setCategoryDao(ICategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
     }
 
     @Autowired
@@ -51,7 +50,7 @@ public class DishController {
         binder.registerCustomEditor(Category.class, "categoryId", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                setValue(ICategoryDao.getCategoryByName(text));
+                setValue(categoryDao.getCategoryByName(text));
             }
         });
         binder.registerCustomEditor(Dish.class, "dishId", new PropertyEditorSupport() {
@@ -63,7 +62,7 @@ public class DishController {
         binder.registerCustomEditor(Ingredient.class, "ingredientId", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                setValue(IIngredientDao.getIngredientByName(text));
+                setValue(ingredientDao.getIngredientByName(text));
             }
         });
     }
@@ -77,14 +76,14 @@ public class DishController {
     @RequestMapping(value = "/admin/addDish", method = RequestMethod.GET)
     public String addDish(Model model) {
         model.addAttribute("dish", new Dish());
-        model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+        model.addAttribute("listOfCategories", categoryDao.getAllCategories());
         return "admin/dish/addOrUpdateDish";
     }
 
     @RequestMapping(value = "/admin/dish/{id}/update", method = RequestMethod.GET)
     public String updateDish(@PathVariable int id, Model model) {
         model.addAttribute("dish", dishService.getDishById(id));
-        model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+        model.addAttribute("listOfCategories", categoryDao.getAllCategories());
         return "admin/dish/addOrUpdateDish";
     }
 
@@ -118,18 +117,18 @@ public class DishController {
             error = true;
         }
 
-        if (dish.getPrice() == 0) {
+        if (dish.getPrice() <= 0) {
             result.rejectValue("price", "error.Price");
             error = true;
         }
 
-        if (dish.getWeight() == 0) {
+        if (dish.getWeight() <= 0) {
             result.rejectValue("weight", "error.Weight");
             error = true;
         }
 
         if (error) {
-            model.addAttribute("listOfCategories", ICategoryDao.getAllCategories());
+            model.addAttribute("listOfCategories", categoryDao.getAllCategories());
             return "admin/dish/addOrUpdateDish";
         }
 
@@ -164,6 +163,74 @@ public class DishController {
         model.addAttribute("dish", dish);
         model.addAttribute("listOfDishIngredients", dish.getDishIngredients());
         return "admin/dish/dishIngredients";
+    }
+
+    @RequestMapping(value = "/admin/dish/{id}/addIngredient", method = RequestMethod.GET)
+    public String addIngredient(@PathVariable int id, Model model) {
+        Dish dish = dishService.getDishById(id);
+        DishIngredient dishIngredient = new DishIngredient();
+        dishIngredient.setDishId(dish);
+        model.addAttribute("dishIngredient", dishIngredient);
+        model.addAttribute("listOfDishes", dishService.getAllDishes());
+        model.addAttribute("listOfIngredients", ingredientDao.getAllIngredients());
+        model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
+        return "admin/dish/addDishIngredient";
+    }
+
+    @RequestMapping(value = "/admin/saveOrUpdateDishIngredient", method = RequestMethod.POST)
+    public String saveOrUpdateDishIngredient(@ModelAttribute DishIngredient dishIngredient, Model model, BindingResult result,
+                                   final RedirectAttributes redirectAttributes) {
+
+        boolean error = false;
+
+        if (dishIngredient.getDishId()==null) {
+            result.rejectValue("dishId", "error.Dishes");
+            error = true;
+        }
+
+        if (dishIngredient.getIngredientId() == null) {
+            result.rejectValue("ingredientId", "error.IngredientId");
+            error = true;
+        }
+
+        if (dishIngredient.getQuantity() <= 0) {
+            result.rejectValue("quantity", "error.Quantity");
+            error = true;
+        }
+
+        if (error) {
+            model.addAttribute("listOfDishes", dishService.getAllDishes());
+            model.addAttribute("listOfIngredients", ingredientDao.getAllIngredients());
+            model.addAttribute("listOfUnits", Arrays.asList(Unit.values()));
+            return "admin/dish/addDishIngredient";
+        }
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Ingredient was added successfully!");
+
+        try {
+            dishIngredientDao.addIngredientToDish(dishIngredient);
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("css", "danger");
+            redirectAttributes.addFlashAttribute("msg", "There is such ingredient in dish!");
+        }
+        return "redirect:/admin/dish/"+dishIngredient.getDishId().getName();
+    }
+
+    @RequestMapping(value = "/admin/dish/{dishName}/dishIngredient/{ingredientName}/delete", method = RequestMethod.GET)
+    public String deleteDish(@PathVariable("dishName") String dishName,
+                             @PathVariable("ingredientName") String ingredientName,
+                             final RedirectAttributes redirectAttributes) {
+        try {
+            dishIngredientDao.deleteIngredientByIngredientNameAndDishName(ingredientName, dishName);
+            redirectAttributes.addFlashAttribute("css", "success");
+            redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("css", "danger");
+            redirectAttributes.addFlashAttribute("msg", "Ingredient can not be deleted from dish!");
+            return "redirect:/admin/getAllDishes";
+        }
+        return "redirect:/admin/dish/"+dishName;
     }
 
 }
