@@ -54,7 +54,7 @@
             <th><input type="text" id="inputCategory" onkeyup="myFunction('inputCategory', 2)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputPrice" onkeyup="myFunction('inputPrice', 3)" placeholder="Search.." title="Type in a name"></th>
             <th><input type="text" id="inputWeight" onkeyup="myFunction('inputWeight', 4)" placeholder="Search.." title="Type in a name"></th>
-            <th colspan="2"><button id="newDish" class="btn btn-success" onclick="location.href='/admin/addDish'">Add new menu</button></th>
+            <th colspan="2"><button id="newDish" class="btn btn-success" onclick="location.href='/admin/addDish'">Add new dish</button></th>
         </tr>
         </thead>
         <tbody>

@@ -98,19 +98,19 @@ public class WarehouseController {
         if (warehouseService.getBalanceByID(warehouse.getId()) == null) {
             try {
                 warehouseService.addIngredientIntoWarehouse(warehouse);
-                redirectAttributes.addFlashAttribute("msg", "Ingredient added successfully!");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient was added successfully!");
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Ingredient wasn't added.");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient '" + warehouse.getIngredientId() + "' has already exist.");
                 return "redirect:/admin/getWarehouseBalance";
             }
         } else {
             try {
-                redirectAttributes.addFlashAttribute("msg", "Ingredient updated successfully!");
+                redirectAttributes.addFlashAttribute("msg", "Ingredient was updated successfully!");
                 warehouseService.updateWarehouseBalance(warehouse);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Ingredient wasn't updated.");
+                redirectAttributes.addFlashAttribute("msg", "You can't change ingredient name during update!");
                 return "redirect:/admin/getWarehouseBalance";
             }
         }
@@ -129,7 +129,7 @@ public class WarehouseController {
     @RequestMapping(value = "/admin/warehouse/{ingredientName}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("ingredientName") String ingredientName, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted!");
+        redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
         warehouseService.deleteIngredientFromWarehouse(ingredientName);
         return "redirect:/admin/getWarehouseBalance";
     }

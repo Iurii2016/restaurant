@@ -93,7 +93,7 @@ public class DishController {
         try {
             dishService.deleteDishByName(name);
             redirectAttributes.addFlashAttribute("css", "success");
-            redirectAttributes.addFlashAttribute("msg", "Dish was deleted!");
+            redirectAttributes.addFlashAttribute("msg", "Dish was deleted successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("css", "danger");
             redirectAttributes.addFlashAttribute("msg", "Dish '" + name + "' can not be deleted. There is one or more references on it");
@@ -135,16 +135,20 @@ public class DishController {
 
         redirectAttributes.addFlashAttribute("css", "success");
         if (dish.isNew()) {
-            redirectAttributes.addFlashAttribute("msg", "Dish added successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Dish was added successfully!");
         } else {
-            redirectAttributes.addFlashAttribute("msg", "Dish updated successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Dish was updated successfully!");
         }
 
-
-        if (dishService.getDishById(dish.getId()) == null) {
-            dishService.addDish(dish);
-        } else {
-            dishService.updateDish(dish);
+        try {
+            if (dishService.getDishById(dish.getId()) == null) {
+                dishService.addDish(dish);
+            } else {
+                dishService.updateDish(dish);
+            }
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("css", "danger");
+            redirectAttributes.addFlashAttribute("msg", "Dish '" + dish.getName() + "' has already exist!");
         }
         return "redirect:/admin/getAllDishes";
     }

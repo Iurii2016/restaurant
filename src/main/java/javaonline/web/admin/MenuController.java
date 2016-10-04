@@ -93,9 +93,9 @@ public class MenuController {
 
         redirectAttributes.addFlashAttribute("css", "success");
         if (menu.isNew()) {
-            redirectAttributes.addFlashAttribute("msg", "Menu added successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Menu was added successfully!");
         } else {
-            redirectAttributes.addFlashAttribute("msg", "Menu updated successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Menu was updated successfully!");
         }
 
 
@@ -126,7 +126,7 @@ public class MenuController {
     public String deleteMenu(@PathVariable int id, final RedirectAttributes redirectAttributes) {
         menuService.deleteMenuByID(id);
         redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "Menu was deleted!");
+        redirectAttributes.addFlashAttribute("msg", "Menu was deleted successfully!");
         return "redirect:/admin/getAllMenu";
     }
 

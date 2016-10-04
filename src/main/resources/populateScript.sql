@@ -4,16 +4,16 @@ insert into positions (id, name) values(3, 'waiter');
 insert into positions (id, name) values(4, 'cook');
 insert into positions (id, name) values(5, 'security guard');
 
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(1, 'Ostapenko', 'Olga', '1988-07-27', '+380660000101', 10000.0, 2, 'Employee');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(2, 'Bondarenko', 'Dima', '1986-05-20', '+380670000101', 5000.0, 5, 'Employee');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(3, 'Kondratenko', 'Igor', '1982-06-12', '+380670010101', 5000.0, 5, 'Employee');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(4, 'Novikova', 'Tania', '1990-02-02', '+380970110101', 5000.0, 3, 'Waiter');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(5, 'Ivanenko', 'Irina', '1992-01-02', '+380971110101', 5000.0, 3, 'Waiter');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(6, 'Igorenko', 'Oleg', '1993-08-18', '+380660010101', 5000.0, 3, 'Waiter');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(7, 'Ivanova', 'Elena', '1980-01-19', '+380661010101', 11000.0, 1, 'Employee');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(8, 'Bondar', 'Oleg', '1986-01-10', '+380661010102', 15000.0, 4, 'Cook');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(9, 'Golubeva', 'Olga', '1989-01-19', '+380661010103', 8000.0, 4, 'Cook');
-insert into employees (id, surname, name, birthday, phone_number, salary, position_id, dtype) values(10, 'Bilous', 'Artem', '1992-03-06', '+380661010104', 6000.0, 4, 'Cook');
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(1, 'Ostapenko', 'Olga', '1988-07-27', '+380660000101', 10000.0, 2);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(2, 'Bondarenko', 'Dima', '1986-05-20', '+380670000101', 5000.0, 5);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(3, 'Kondratenko', 'Igor', '1982-06-12', '+380670010101', 5000.0, 5);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(4, 'Novikova', 'Tania', '1990-02-02', '+380970110101', 5000.0, 3);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(5, 'Ivanenko', 'Irina', '1992-01-02', '+380971110101', 5000.0, 3);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(6, 'Igorenko', 'Oleg', '1993-08-18', '+380660010101', 5000.0, 3);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(7, 'Ivanova', 'Elena', '1980-01-19', '+380661010101', 11000.0, 1);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(8, 'Bondar', 'Oleg', '1986-01-10', '+380661010102', 15000.0, 4);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(9, 'Golubeva', 'Olga', '1989-01-19', '+380661010103', 8000.0, 4);
+insert into employees (id, surname, name, birthday, phone_number, salary, position_id) values(10, 'Bilous', 'Artem', '1992-03-06', '+380661010104', 6000.0, 4);
 
 insert into ingredients (id, ingredient) values(1, 'salt');
 insert into ingredients (id, ingredient) values(2, 'pepper');

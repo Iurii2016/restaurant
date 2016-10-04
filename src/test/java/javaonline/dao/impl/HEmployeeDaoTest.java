@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class HEmployeeDaoTest {
 
     private IEmployeeDao employeeService;
-    private IPositionDao IPositionDao;
+    private IPositionDao positionDao;
     private CreateEntity createEntity;
 
     @Autowired
@@ -35,8 +35,8 @@ public class HEmployeeDaoTest {
     }
 
     @Autowired
-    public void setIPositionDao(IPositionDao IPositionDao) {
-        this.IPositionDao = IPositionDao;
+    public void setPositionDao(IPositionDao positionDao) {
+        this.positionDao = positionDao;
     }
 
     @Test
@@ -44,8 +44,8 @@ public class HEmployeeDaoTest {
     @Rollback
     public void testAddAdnGetPosition() throws Exception {
         Position position = createEntity.createPosition();
-        IPositionDao.addPosition(position);
-        List<Position> positions = IPositionDao.getAllPosition();
+        positionDao.addPosition(position);
+        List<Position> positions = positionDao.getAllPosition();
         assertEquals(position.getName(), positions.get(0).getName());
     }
 
@@ -54,8 +54,8 @@ public class HEmployeeDaoTest {
     @Rollback
     public void testGetPositionByName() throws Exception {
         Position position = createEntity.createPosition();
-        IPositionDao.addPosition(position);
-        Position getPosition = IPositionDao.getPositionByName(position.getName());
+        positionDao.addPosition(position);
+        Position getPosition = positionDao.getPositionByName(position.getName());
         assertEquals(position.getName(), getPosition.getName());
     }
 
@@ -64,11 +64,11 @@ public class HEmployeeDaoTest {
     @Rollback
     public void testDeletePosition() throws Exception {
         Position position = createEntity.createPosition();
-        IPositionDao.addPosition(position);
-        List<Position> positions = IPositionDao.getAllPosition();
+        positionDao.addPosition(position);
+        List<Position> positions = positionDao.getAllPosition();
         assertEquals(1, positions.size());
-        IPositionDao.deletePosition(position.getName());
-        List<Position> positionAfterDelete = IPositionDao.getAllPosition();
+        positionDao.deletePosition(position.getName());
+        List<Position> positionAfterDelete = positionDao.getAllPosition();
         assertEquals(0, positionAfterDelete.size());
     }
 
@@ -78,7 +78,7 @@ public class HEmployeeDaoTest {
     public void testAddAndGetEmployee() throws Exception {
         Position position = createEntity.createPosition();
         Employee employee = addEmployeeToDB(position);
-        List<Position> positions = IPositionDao.getAllPosition();
+        List<Position> positions = positionDao.getAllPosition();
         List<Employee> employees = employeeService.getAllEmployees();
         assertEquals(1, positions.size());
         assertEquals(1, employees.size());
@@ -125,7 +125,7 @@ public class HEmployeeDaoTest {
     }
 
     private Employee addEmployeeToDB(Position position) {
-        IPositionDao.addPosition(position);
+        positionDao.addPosition(position);
         Employee employee = createEntity.createEmployee(position);
         employeeService.addEmployee(employee);
         return employee;

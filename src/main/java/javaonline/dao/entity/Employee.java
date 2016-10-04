@@ -11,8 +11,8 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "employees")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorOptions(force = true)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorOptions(force = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee {
 

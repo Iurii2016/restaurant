@@ -4,10 +4,8 @@ import javaonline.dao.ICookedDishDao;
 import javaonline.dao.IEmployeeDao;
 import javaonline.dao.IOrderDao;
 import javaonline.dao.IPositionDao;
-import javaonline.dao.entity.Cook;
 import javaonline.dao.entity.Employee;
 import javaonline.dao.entity.Position;
-import javaonline.dao.entity.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -21,14 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class EmployeeController {
 
     private IEmployeeDao employeeService;
-    private IPositionDao IPositionDao;
-    private IOrderDao orderDao;
-    private ICookedDishDao cookedDishDao;
+    private IPositionDao positionDao;
 
 
     @InitBinder
@@ -36,7 +33,7 @@ public class EmployeeController {
         binder.registerCustomEditor(Position.class, "position", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                setValue(IPositionDao.getPositionByName(text));
+                setValue(positionDao.getPositionByName(text));
             }
         });
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,31 +47,20 @@ public class EmployeeController {
     }
 
     @Autowired
-    public void setIPositionDao(IPositionDao IPositionDao) {
-        this.IPositionDao = IPositionDao;
-    }
-
-    @Autowired
-    public void setOrderDao(IOrderDao orderDao) {
-        this.orderDao = orderDao;
-    }
-
-    @Autowired
-    public void setCookedDishDao(ICookedDishDao cookedDishDao) {
-        this.cookedDishDao = cookedDishDao;
+    public void setPositionDao(IPositionDao positionDao) {
+        this.positionDao = positionDao;
     }
 
     @RequestMapping(value = "/admin/allEmployees", method = RequestMethod.GET)
     public String allEmployees(Model model) {
-        model.addAttribute("ListOfEmployee", employeeService.getAllEmployees());
-        model.addAttribute("position", "all");
+        model.addAttribute("listOfEmployee", employeeService.getAllEmployees());
         return "admin/employee/allEmployees";
     }
 
     @RequestMapping(value = "/admin/addEmployee", method = RequestMethod.GET)
     public String addEmployee(Model model) {
         model.addAttribute("employee", new Employee());
-        model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+        model.addAttribute("listOfPositions", positionDao.getAllPosition());
         return "admin/employee/addEmployee";
     }
 
@@ -100,51 +86,21 @@ public class EmployeeController {
         }
 
         if (error) {
-            model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+            model.addAttribute("listOfPositions", positionDao.getAllPosition());
             return "admin/employee/addEmployee";
         }
 
         redirectAttributes.addFlashAttribute("css", "success");
         if (employee.isNew()) {
-            redirectAttributes.addFlashAttribute("msg", "Employee added successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Employee was added successfully!");
         } else {
-            redirectAttributes.addFlashAttribute("msg", "Employee updated successfully!");
+            redirectAttributes.addFlashAttribute("msg", "Employee was updated successfully!");
         }
 
-        if (employee.getPosition().getName().equals("cook")) {
-            Cook cook = new Cook();
-            cook.setSurname(employee.getSurname());
-            cook.setName(employee.getName());
-            cook.setBirthday(employee.getBirthday());
-            cook.setPhoneNumber(employee.getPhoneNumber());
-            cook.setSalary(employee.getSalary());
-            cook.setPosition(employee.getPosition());
-            if (employeeService.getEmployeeById(employee.getId()) == null) {
-                employeeService.addEmployee(cook);
-            } else {
-                cook.setId(employee.getId());
-                employeeService.updateEmployee(cook);
-            }
-        } else if (employee.getPosition().getName().equals("waiter")) {
-            Waiter waiter = new Waiter();
-            waiter.setSurname(employee.getSurname());
-            waiter.setName(employee.getName());
-            waiter.setBirthday(employee.getBirthday());
-            waiter.setPhoneNumber(employee.getPhoneNumber());
-            waiter.setSalary(employee.getSalary());
-            waiter.setPosition(employee.getPosition());
-            if (employeeService.getEmployeeById(employee.getId()) == null) {
-                employeeService.addEmployee(waiter);
-            } else {
-                waiter.setId(employee.getId());
-                employeeService.updateEmployee(waiter);
-            }
+        if (employeeService.getEmployeeById(employee.getId()) == null) {
+            employeeService.addEmployee(employee);
         } else {
-            if (employeeService.getEmployeeById(employee.getId()) == null) {
-                employeeService.addEmployee(employee);
-            } else {
-                employeeService.updateEmployee(employee);
-            }
+            employeeService.updateEmployee(employee);
         }
         return "redirect:/admin/allEmployees";
     }
@@ -153,42 +109,22 @@ public class EmployeeController {
     public String showUpdateUserForm(@PathVariable("id") int id, Model model) {
         Employee employee = employeeService.getEmployeeById(id);
         model.addAttribute("employee", employee);
-        model.addAttribute("ListOfEmployee", IPositionDao.getAllPosition());
+        model.addAttribute("listOfPositions", positionDao.getAllPosition());
         return "admin/employee/addEmployee";
     }
 
     @RequestMapping(value = "/admin/employee/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("css", "success");
-        if (employeeService.getEmployeeById(id).getPosition().getName() == "waiter") {
-            Waiter waiter = (Waiter) employeeService.getEmployeeById(id);
-            if (waiter.getOrders().size()>0){
-                employeeService.deleteEmployee(waiter);
-                redirectAttributes.addFlashAttribute("msg", "Waiter was deleted!");
-            }else{
-                redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Waiter with id " + waiter.getId() + " can not be deleted. There is one or more references on it");
-            }
-        } else if (employeeService.getEmployeeById(id).getPosition().getName() == "cook") {
-            Cook cook = (Cook) employeeService.getEmployeeById(id);
-            if (cook.getCookedDishes().size()>0){
-                employeeService.deleteEmployee(cook);
-                redirectAttributes.addFlashAttribute("msg", "Cook was deleted!");
-            } else {
-                redirectAttributes.addFlashAttribute("css", "danger");
-                redirectAttributes.addFlashAttribute("msg", "Cook with id " + cook.getId() + " can not be deleted. There is one or more references on it");
-            }
-        } else {
-            Employee employee = employeeService.getEmployeeById(id);
-            employeeService.deleteEmployee(employee);
-            redirectAttributes.addFlashAttribute("msg", "Employee was deleted!");
-        }
+        Employee employee = employeeService.getEmployeeById(id);
+        employeeService.deleteEmployee(employee);
+        redirectAttributes.addFlashAttribute("msg", "Employee was deleted successfully!");
         return "redirect:/admin/allEmployees";
     }
 
     @RequestMapping(value = "/admin/employee/orderBy/{field}", method = RequestMethod.GET)
     public String orderBy(@PathVariable String field, Model model) {
-        model.addAttribute("ListOfEmployee", employeeService.orderBy(field));
+        model.addAttribute("listOfEmployee", employeeService.orderBy(field));
         return "admin/employee/allEmployees";
     }
 

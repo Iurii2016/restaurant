@@ -123,10 +123,10 @@ public class OrderController {
 
         redirectAttributes.addFlashAttribute("css", "success");
         if (ordersDaoService.getOrderById(order.getId())==null){
-            redirectAttributes.addFlashAttribute("msg", "Order was added!");
+            redirectAttributes.addFlashAttribute("msg", "Order was added successfully!");
             ordersDaoService.addOrder(order);
         }else {
-            redirectAttributes.addFlashAttribute("msg", "Order was updated!");
+            redirectAttributes.addFlashAttribute("msg", "Order was updated successfully!");
             ordersDaoService.update(order);
         }
         return "redirect:/admin/getAllOrders";
@@ -159,7 +159,7 @@ public class OrderController {
             order.getDishes().clear();
             ordersDaoService.deleteOrder(order);
             redirectAttributes.addFlashAttribute("css", "success");
-            redirectAttributes.addFlashAttribute("msg", "Order was deleted!");
+            redirectAttributes.addFlashAttribute("msg", "Order was deleted successfully!");
         }else{
             redirectAttributes.addFlashAttribute("css", "danger");
             redirectAttributes.addFlashAttribute("msg", "Order can't be deleted! Some dishes has already cooked");
