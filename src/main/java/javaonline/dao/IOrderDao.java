@@ -12,7 +12,7 @@ public interface IOrderDao {
 
     void update(Order order);
 
-    List<Order> getAllOrders();
+    List getAllOrders();
 
     Order getOrderById(int id);
 

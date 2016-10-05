@@ -31,4 +31,5 @@
 
     <bean class="javaonline.dao.impl.HWarehouseDao" id="warehouseDao"/>
 
+    <bean class="javaonline.dao.impl.CreateEntity" id="createEntity"/>
 </beans>
