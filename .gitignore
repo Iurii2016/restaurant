@@ -1,4 +1,5 @@
 *.exe
 *.jar
 *.log
+.idea/
 *.iml
