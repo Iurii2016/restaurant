@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/dishStructure"
+        window.location = "/admin/getAllDishes"
     }
 </script>
 <div class="container">
