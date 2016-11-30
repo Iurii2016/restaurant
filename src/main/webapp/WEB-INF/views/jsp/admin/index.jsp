@@ -10,12 +10,12 @@
     <div class="container">
         <h1>Grill'age database administration</h1>
         <div class="list-group">
-            <a href="/admin/allEmployees" class="list-group-item">Employees</a>
-            <a href="/admin/getAllDishes" class="list-group-item">Dishes</a>
-            <a href="/admin/getAllMenu" class="list-group-item">Menu</a>
-            <a href="/admin/getAllOrders" class="list-group-item">Orders</a>
-            <a href="/admin/getCookedDishes" class="list-group-item">Kitchen</a>
-            <a href="/admin/getWarehouseBalance" class="list-group-item">Warehouse</a>
+            <a href="/admin/employee/orderBy/id" class="list-group-item">Employees</a>
+            <a href="/admin/dish/orderBy/id" class="list-group-item">Dishes</a>
+            <a href="/admin/menu/orderBy/id" class="list-group-item">Menu</a>
+            <a href="/admin/order/orderBy/id" class="list-group-item">Orders</a>
+            <a href="/admin/cookedDish/orderBy/id" class="list-group-item">Kitchen</a>
+            <a href="/admin/warehouse/orderBy/id" class="list-group-item">Warehouse</a>
         </div>
     </div>
 </div>

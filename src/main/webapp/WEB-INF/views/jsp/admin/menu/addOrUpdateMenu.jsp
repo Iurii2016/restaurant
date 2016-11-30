@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/getAllMenu"
+        window.location = "/admin/menu/orderBy/id"
     }
 </script>
 <div class="container">

@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/allEmployees"
+        window.location = "/admin/employee/orderBy/id"
     }
 </script>
 <div class="container">
@@ -83,7 +83,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Salary:</label>
                 <div class="col-sm-10">
-                    <form:input path="salary" class="form-control " id="salary"/>
+                    <form:input path="salary" class="form-control " id="salary" type="number"/>
                     <form:errors path="salary" cssClass="error" />
                 </div>
             </div>

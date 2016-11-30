@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/getWarehouseBalance"
+        window.location = "/admin/warehouse/orderBy/id"
     }
 </script>
 <div class="container">
@@ -57,7 +57,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Quantity:</label>
                 <div class="col-sm-10">
-                    <form:input path="quantity" type="text" class="form-control " id="quantity"/>
+                    <form:input path="quantity" type="number" class="form-control " id="quantity"/>
                     <form:errors path="quantity" cssClass="error" />
                 </div>
             </div>

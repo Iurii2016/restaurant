@@ -42,7 +42,7 @@
             </td>
         </tr>
     </table>
-    <button class="btn btn-info" onclick="location.href='/admin/getAllOrders'">Back</button>
+    <button class="btn btn-info" onclick="location.href='/admin/order/orderBy/id'">Back</button>
 </div>
 </body>
 </html>

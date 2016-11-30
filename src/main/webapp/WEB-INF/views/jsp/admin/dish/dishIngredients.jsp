@@ -57,7 +57,7 @@
             </td>
         </tr>
     </table>
-    <button class="btn btn-info pull-left" onclick="location.href='/admin/getAllDishes'">Back</button>
+    <button class="btn btn-info pull-left" onclick="location.href='/admin/dish/orderBy/id'">Back</button>
     <button class="btn btn-success pull-right" onclick="location.href='/admin/dish/${dish.id}/addIngredient'">Add ingredient</button>
 </div>
 </body>

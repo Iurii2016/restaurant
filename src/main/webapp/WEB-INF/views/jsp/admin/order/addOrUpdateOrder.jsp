@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/getAllOrders"
+        window.location = "/admin/order/orderBy/id"
     }
 </script>
 <div class="container">
@@ -70,7 +70,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Table number:</label>
                 <div class="col-sm-10">
-                    <form:input path="tableNumber" type="text" class="form-control " id="tableNumber"/>
+                    <form:input path="tableNumber" type="number" class="form-control " id="tableNumber"/>
                     <form:errors path="tableNumber" cssClass="error" />
                 </div>
             </div>

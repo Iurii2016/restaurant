@@ -33,12 +33,12 @@
 			<a href="/admin/index" class="navbar-brand"><i class="fa fa-home"></i></a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="/admin/allEmployees">Employees</a></li>
-			<li><a href="/admin/getAllDishes">Dishes</a></li>
-			<li><a href="/admin/getAllMenu">Menu</a></li>
-			<li><a href="/admin/getAllOrders">Orders</a></li>
-			<li><a href="/admin/getCookedDishes">Kitchen</a></li>
-			<li><a href="/admin/getWarehouseBalance">Warehouse</a></li>
+			<li><a href="/admin/employee/orderBy/id">Employees</a></li>
+			<li><a href="/admin/dish/orderBy/id">Dishes</a></li>
+			<li><a href="/admin/menu/orderBy/id">Menu</a></li>
+			<li><a href="/admin/order/orderBy/id">Orders</a></li>
+			<li><a href="/admin/cookedDish/orderBy/id">Kitchen</a></li>
+			<li><a href="/admin/warehouse/orderBy/id">Warehouse</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

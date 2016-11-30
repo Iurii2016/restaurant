@@ -22,7 +22,7 @@
 <body>
 <script>
     function onClick() {
-        window.location = "/admin/getAllDishes"
+        window.location = "/admin/dish/orderBy/id"
     }
 </script>
 <div class="container">
@@ -65,7 +65,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Price:</label>
                 <div class="col-sm-10">
-                    <form:input path="price" type="text" class="form-control " id="price"/>
+                    <form:input path="price" type="number" class="form-control " id="price"/>
                     <form:errors path="price" cssClass="error" />
                 </div>
             </div>
@@ -75,7 +75,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Weight:</label>
                 <div class="col-sm-10">
-                    <form:input path="weight" type="text" class="form-control " id="weight"/>
+                    <form:input path="weight" type="number" class="form-control " id="weight"/>
                     <form:errors path="weight" cssClass="error" />
                     <br>
                 </div>

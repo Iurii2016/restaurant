@@ -164,7 +164,6 @@ public class AdminController {
         return "admin/dish/allDishes";
     }
 
-
     @RequestMapping(value = "/admin/addDish", method = RequestMethod.GET)
     public String addDish(Model model) {
         model.addAttribute("dish", new Dish());
@@ -188,9 +187,9 @@ public class AdminController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("css", "danger");
             redirectAttributes.addFlashAttribute("msg", "Dish '" + name + "' can not be deleted. There is one or more references on it");
-            return "redirect:/admin/getAllDishes";
+            return "redirect:/admin/dish/orderBy/id";
         }
-        return "redirect:/admin/getAllDishes";
+        return "redirect:/admin/dish/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/addOrUpdateDish", method = RequestMethod.POST)
@@ -241,7 +240,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("css", "danger");
             redirectAttributes.addFlashAttribute("msg", "Dish '" + dish.getName() + "' has already exist!");
         }
-        return "redirect:/admin/getAllDishes";
+        return "redirect:/admin/dish/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/dish/{name}", method = RequestMethod.GET)
@@ -371,7 +370,7 @@ public class AdminController {
         } else {
             employeeDao.updateEmployee(employee);
         }
-        return "redirect:/admin/allEmployees";
+        return "redirect:/admin/employee/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/employee/{id}/update", method = RequestMethod.GET)
@@ -394,7 +393,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("msg", "Employee with id#" + employee.getId() + " can't be deleted! " +
                     "There is one or more references on it");
         }
-        return "redirect:/admin/allEmployees";
+        return "redirect:/admin/employee/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/menu/orderBy/{field}", method = RequestMethod.GET)
@@ -447,7 +446,7 @@ public class AdminController {
         } else {
             menuDao.updateMenu(menu);
         }
-        return "redirect:/admin/getAllMenu";
+        return "redirect:/admin/menu/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/deleteDishesByMenuName", method = RequestMethod.GET)
@@ -469,7 +468,7 @@ public class AdminController {
         menuDao.deleteMenuByID(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Menu was deleted successfully!");
-        return "redirect:/admin/getAllMenu";
+        return "redirect:/admin/menu/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/order/orderBy/{field}", method = RequestMethod.GET)
@@ -534,7 +533,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("msg", "Order was updated successfully!");
             orderDao.update(order);
         }
-        return "redirect:/admin/getAllOrders";
+        return "redirect:/admin/order/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/order/{id}/update", method = RequestMethod.GET)
@@ -553,7 +552,7 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Order with id " + id + " was closed!");
         orderDao.update(order);
-        return "redirect:/admin/getAllOrders";
+        return "redirect:/admin/order/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/order/{id}/delete", method = RequestMethod.GET)
@@ -568,7 +567,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("css", "danger");
             redirectAttributes.addFlashAttribute("msg", "Order #" + order.getId() + " can't be deleted! Some dishes has already cooked");
         }
-        return "redirect:/admin/getAllOrders";
+        return "redirect:/admin/order/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/warehouse/orderBy/{field}", method = RequestMethod.GET)
@@ -617,7 +616,7 @@ public class AdminController {
                 redirectAttributes.addFlashAttribute("css", "danger");
                 redirectAttributes.addFlashAttribute("msg", "Ingredient '" +
                         warehouse.getIngredientId().getIngredient() + "' has already exist.");
-                return "redirect:/admin/getWarehouseBalance";
+                return "redirect:/admin/warehouse/orderBy/id";
             }
         } else {
             try {
@@ -626,10 +625,10 @@ public class AdminController {
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("css", "danger");
                 redirectAttributes.addFlashAttribute("msg", "Change ingredient name is forbidden!");
-                return "redirect:/admin/getWarehouseBalance";
+                return "redirect:/admin/warehouse/orderBy/id";
             }
         }
-        return "redirect:/admin/getWarehouseBalance";
+        return "redirect:/admin/warehouse/orderBy/id";
     }
 
     @RequestMapping(value = "/admin/warehouse/{id}/update", method = RequestMethod.GET)
@@ -646,8 +645,7 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Ingredient was deleted successfully!");
         warehouseDao.deleteIngredientFromWarehouse(ingredientName);
-        return "redirect:/admin/getWarehouseBalance";
+        return "redirect:/admin/warehouse/orderBy/id";
     }
-
 
 }
