@@ -21,9 +21,26 @@
 </head>
 <body>
 <script>
-    function onClick() {
+    function backToMenu() {
         window.location = "/admin/menu/orderBy/id"
-    }
+    };
+    function validateForm() {
+        $("span").html("");
+        var valid = true;
+        var menu = $("#menuSelect").val();
+        var dish = $("#dishSelect").val();
+        if(menu == "NONE"){
+            $('#menuErr').html("Menu name must be selected");
+            valid = false;
+        }
+        if (dish == "NONE" ){
+            $('#dishErr').html("Dish must be selected");
+            valid = false;
+        }
+        if (valid===true){
+            document.forms["myForm"].submit();
+        }
+    };
 </script>
 <div class="container">
     <c:choose>
@@ -35,7 +52,7 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/admin/addOrUpdateMenu" commandName="menu" method="POST" class="form-horizontal">
+    <form:form onsubmit="validateForm();return false;" action="/admin/addOrUpdateMenu" commandName="menu" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -48,6 +65,7 @@
                         <form:options items="${listOfMenuNames}" multiple="false" itemLabel="name" itemValue="name"/>
                     </form:select>
                     <form:errors path="menuNameId" cssClass="error" />
+                    <span class="error" id="menuErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -61,6 +79,7 @@
                         <form:options items="${listOfDishes}" multiple="false" itemLabel="name" itemValue="name"/>
                     </form:select>
                     <form:errors path="dishId" cssClass="error" />
+                    <span class="error" id="dishErr"></span>
                     <br>
                 </div>
             </div>
@@ -77,7 +96,7 @@
                         <input type="submit" class="btn btn-success" value="Update">
                     </c:otherwise>
                 </c:choose>
-                <input type="button" class="btn btn-danger" value="Cancel" onclick="onClick()">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="backToMenu()">
             </div>
         </div>
     </form:form>

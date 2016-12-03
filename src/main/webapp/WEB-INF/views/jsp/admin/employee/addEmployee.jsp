@@ -21,9 +21,31 @@
 </head>
 <body>
 <script>
-    function onClick() {
+    function backToEmployees() {
         window.location = "/admin/employee/orderBy/id"
-    }
+    };
+    function validateForm() {
+        $("span").html("");
+        var valid = true;
+        var surname = $("#surname").val();
+        var name = $("#name").val();
+        var position = $("#positionSelect").val();
+        if (surname == "") {
+            $('#surnameErr').html("Surname must be filled out");
+            valid = false;
+        }
+        if(name == ""){
+            $('#nameErr').html("Name must be filled out");
+            valid = false;
+        }
+        if (position == "NONE" ){
+            $('#positionErr').html("Position must be selected");
+            valid = false;
+        }
+        if (valid===true){
+            document.forms["myForm"].submit();
+        }
+    };
 </script>
 <div class="container">
     <c:choose>
@@ -34,7 +56,7 @@
             <h2>Update Employee</h2>
         </c:otherwise>
     </c:choose>
-    <form:form action="/admin/addOrUpdateEmployee" modelAttribute="employee" method="POST" class="form-horizontal">
+    <form:form name="myForm" onsubmit="validateForm();return false;" action="/admin/addOrUpdateEmployee" modelAttribute="employee" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -43,7 +65,8 @@
                 <label class="col-sm-2 control-label">Surname:</label>
                 <div class="col-sm-10">
                     <form:input path="surname" type="text" class="form-control " id="surname" placeholder="Surname"/>
-                    <form:errors path="surname" cssClass="error" />
+                    <form:errors path="surname" cssClass="error"/>
+                    <span class="error" id="surnameErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -54,6 +77,7 @@
                 <div class="col-sm-10">
                     <form:input path="name" type="text" class="form-control " id="name" placeholder="Name"/>
                     <form:errors path="name" cssClass="error" />
+                    <span class="error" id="nameErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -83,7 +107,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Salary:</label>
                 <div class="col-sm-10">
-                    <form:input path="salary" class="form-control " id="salary" type="number"/>
+                    <form:input path="salary" class="form-control " id="salary" type="number" value="0"/>
                     <form:errors path="salary" cssClass="error" />
                 </div>
             </div>
@@ -98,6 +122,7 @@
                         <form:options items="${listOfPositions}" itemLabel="name" itemValue="name"/>
                     </form:select>
                     <form:errors path="position" cssClass="error" />
+                    <span class="error" id="positionErr"></span>
                     <br>
                 </div>
             </div>
@@ -114,7 +139,7 @@
                         <input type="submit" class="btn btn-success" value="Update">
                     </c:otherwise>
                 </c:choose>
-                <input type="button" class="btn btn-danger" value="Cancel" onclick="onClick()">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="backToEmployees()">
             </div>
         </div>
     </form:form>

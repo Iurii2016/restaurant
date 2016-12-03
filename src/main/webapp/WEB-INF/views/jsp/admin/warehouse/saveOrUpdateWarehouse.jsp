@@ -21,9 +21,26 @@
 </head>
 <body>
 <script>
-    function onClick() {
+    function backToWarehouse() {
         window.location = "/admin/warehouse/orderBy/id"
-    }
+    };
+    function validateForm() {
+        $("span").html("");
+        var valid = true;
+        var ingredient = $("#ingredientSelect").val();
+        var quantity = $("#quantity").val();
+        if (ingredient == "NONE") {
+            $('#ingredientErr').html("Ingredient must be selected");
+            valid = false;
+        }
+        if (quantity == 0 ){
+            $('#quantityErr').html("Quantity can't be zero");
+            valid = false;
+        }
+        if (valid===true){
+            document.forms["myForm"].submit();
+        }
+    };
 </script>
 <div class="container">
 
@@ -36,7 +53,8 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/admin/saveOrUpdateWarehouse" modelAttribute="warehouse" method="POST" class="form-horizontal">
+    <form:form onsubmit="validateForm();return false;" action="/admin/saveOrUpdateWarehouse"
+               modelAttribute="warehouse" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -46,9 +64,11 @@
                     <div class="col-sm-10">
                         <form:select path="ingredientId" id="ingredientSelect">
                             <form:option value="NONE">--SELECT--</form:option>
-                            <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient" itemValue="ingredient"/>
+                            <form:options items="${listOfIngredients}" multiple="false" itemLabel="ingredient"
+                                          itemValue="ingredient"/>
                         </form:select>
                         <form:errors path="ingredientId" cssClass="error" />
+                        <span class="error" id="ingredientErr"></span>
                     </div>
             </div>
         </spring:bind>
@@ -57,8 +77,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Quantity:</label>
                 <div class="col-sm-10">
-                    <form:input path="quantity" type="number" class="form-control " id="quantity"/>
+                    <form:input path="quantity" type="number" class="form-control " id="quantity" value="0"/>
                     <form:errors path="quantity" cssClass="error" />
+                    <span class="error" id="quantityErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -86,7 +107,7 @@
                         <input type="submit" class="btn btn-success" value="Update">
                     </c:otherwise>
                 </c:choose>
-                <input type="button" class="btn btn-danger" value="Cancel" onclick="onClick()">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="backToWarehouse()">
             </div>
         </div>
 

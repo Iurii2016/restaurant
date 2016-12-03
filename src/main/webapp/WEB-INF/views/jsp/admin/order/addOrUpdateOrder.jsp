@@ -21,9 +21,36 @@
 </head>
 <body>
 <script>
-    function onClick() {
+    function backToOrders() {
         window.location = "/admin/order/orderBy/id"
-    }
+    };
+    function validateForm() {
+        $("span").html("");
+        var valid = true;
+        var waiter = $("#waiterSelect").val();
+        var dish = $("#dishSelect").val();
+        var table = $("#tableNumber").val();
+        var date = $("#date").val();
+        if(waiter == 0){
+            $('#employeeErr').html("Waiter must be selected");
+            valid = false;
+        }
+        if (dish == null ){
+            $('#dishesErr').html("Dish must be selected");
+            valid = false;
+        }
+        if (table == 0 ){
+            $('#tableErr').html("Table can't be zero");
+            valid = false;
+        }
+        if (date == "" ){
+            $('#dateErr').html("Date must be filled out");
+            valid = false;
+        }
+        if (valid===true){
+            document.forms["myForm"].submit();
+        }
+    };
 </script>
 <div class="container">
 
@@ -36,7 +63,7 @@
         </c:otherwise>
     </c:choose>
 
-    <form:form action="/admin/addOrUpdateOrder" modelAttribute="order" method="POST" class="form-horizontal">
+    <form:form onsubmit="validateForm(); return false;" action="/admin/addOrUpdateOrder" modelAttribute="order" method="POST" class="form-horizontal">
 
         <form:hidden path="id" />
 
@@ -49,6 +76,7 @@
                         <form:options items="${listOfEmployee}" multiple="false" itemLabel="id" itemValue="id"/>
                     </form:select>
                     <form:errors path="employeeId" cssClass="error" />
+                    <span class="error" id="employeeErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -62,6 +90,7 @@
                         <form:options items="${listOfDishes}" multiple="true" itemLabel="name" itemValue="name"/>
                     </form:select>
                     <form:errors path="dishes" cssClass="error" />
+                    <span class="error" id="dishesErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -70,8 +99,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Table number:</label>
                 <div class="col-sm-10">
-                    <form:input path="tableNumber" type="number" class="form-control " id="tableNumber"/>
+                    <form:input path="tableNumber" type="number" class="form-control " id="tableNumber" value="0"/>
                     <form:errors path="tableNumber" cssClass="error" />
+                    <span class="error" id="tableErr"></span>
                 </div>
             </div>
         </spring:bind>
@@ -82,6 +112,7 @@
                 <div class="col-sm-10">
                     <form:input path="date" type="text" class="form-control " id="date" placeholder="yyyy-mm-dd"/>
                     <form:errors path="date" cssClass="error" />
+                    <span class="error" id="dateErr"></span>
                     <br>
                 </div>
             </div>
@@ -100,7 +131,7 @@
                     <input type="submit" class="btn btn-success" value="Update"/>
                 </c:otherwise>
             </c:choose>
-            <input type="button" class="btn btn-danger" value="Cancel" onclick="onClick()">
+            <input type="button" class="btn btn-danger" value="Cancel" onclick="backToOrders()">
         </div>
     </div>
     </form:form>
